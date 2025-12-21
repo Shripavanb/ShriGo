@@ -54,8 +54,8 @@
                     </div>
                     <div class="row">
                         <h5 class="col-4"> @rideModel.RideDesti</h5>
-                        <h5 class="col-4">@rideModel.RideSeats</h5>
-                        <h5 class="col-4 underline-style"> @rideModel.RideContact</h5>
+                        <h5 class="col-2">@rideModel.RideSeats</h5>
+                        <h5 class="col-6 underline-style">@rideModel.RideContact</h5>
                     </div>
             </a>
            </div>
@@ -136,22 +136,7 @@
              });
            });
          })
-         /*-------Google Map---------------------------------*/
-         function myMap() {
-         var mapProp= {
-           center:new google.maps.LatLng(17.512,78.47628),
-           zoom:5,
-         };
-         var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-         }
-         /*-------Landing video row 2---------------------------------*/
-        var video=getElementsByTagName('video');
-         function removeControls(video){
-           video.removeAttribute('controls');
-         }
-         window.onload=removeControls(video);
-          window.onload=onloadstart(video);
-    /*---------------------------------------------*/
+     
     /*------------------------*/
 </script>
 <script src="https://smtpjs.com/v3/smtp.js"></script>
