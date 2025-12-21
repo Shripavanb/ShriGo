@@ -46,6 +46,12 @@
         <input type="text" id="myRideTime" name="RideTime" />
         <br><br>
 
+         <label for="Seats">Seats:</label>
+            <input type="text" id="myRideSeats" name="RideSeats" />
+            <br><br>
+            <label for="Contact">Contact:</label>
+            <input type="text" id="myRideContact" name="RideContact" />
+            <br><br>
     
     <button type="submit">Upload Ride</button>
         </div>
@@ -65,6 +71,8 @@
         <th>Via</th>
  
         <th>Time</th>
+        <th>Seats</th>
+        <th>Contact</th>
       
         </thead>
 
@@ -92,6 +100,13 @@
                     </td>
                     <td>
                         @rideModel.RideTime
+                    </td>
+                    <td>
+                        @rideModel.RideSeats
+                    </td>
+
+                    <td>
+                        @rideModel.RideContact
                     </td>
                 
                 </tr>

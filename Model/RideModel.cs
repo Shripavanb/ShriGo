@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.VisualBasic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,5 +18,7 @@ namespace TesingProject.Model
         public string? RideDesti { get; set; }
         public string? RideVia { get; set; }
         public string? RideTime { get; set; }
+        public int? RideSeats { get; set; }
+        public string? RideContact { get; set; }
     }
 }
