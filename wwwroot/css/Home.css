@@ -1,0 +1,6 @@
+﻿body h2 {
+    backface-visibility: hidden;
+    color: #194866;
+    font-family: 'DM Serif Display', sans-serif;
+    font-weight: normal;
+}

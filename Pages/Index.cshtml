@@ -1,0 +1,159 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "ShriGo";
+
+}
+
+<link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
+<link href="cdn.jsdelivr.net" rel="stylesheet">
+<div>
+    <!-----------------Row1-Top --------------------------------->
+
+    <div class="container-fluid">
+        <div class="row" style="padding-left:6px; padding-right:6px">
+            <img src="~/img/ShriGo_Landing_pg2.png" />
+        </div>
+
+        <div class="row" style="text-align:center">
+            <h1 class="display-5">Welcome to ShriGo</h1>
+            <h3 class="display-8">Make your Journey</h3>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+    <div class="container-fluid">
+        <h3>List of Rides available </h3>
+        <div id="data-container">
+            <!-- Dynamic content will be inserted here -->
+        </div>
+
+    </div>
+    <div class="container-fluid">
+        <br />
+   
+          @foreach (Model.RideModel rideModel in Model.listRideModel)
+        {
+            <div class="list-group">
+             <a href="#" class="list-group-item list-group-item-action">
+               
+                        <div class="row"> 
+                            <h5 class="col-4"> @rideModel.RideSource</h5>
+                            <h5 class="col-4">@rideModel.RideDate</h5>
+                            <h5 class="col-4"> @rideModel.RideTime</h5>
+                        </div>             
+                       <div class="row">
+                        <h6 class="col-4"> via:@rideModel.RideVia</h6>
+                        <h5 class="col-4"></h5>
+                        <h5 class="col-4"></h5>
+                    </div>
+                    <div class="row">
+                        <h5 class="col-4"> @rideModel.RideDesti</h5>
+                        <h5 class="col-4"> seats</h5>
+                        <h5 class="col-4"> Contact</h5>
+                    </div>
+            </a>
+           </div>
+        }
+    </div>
+</div>
+<!---------------Script------------------------------------------------->
+<script>
+                document.addEventListener('DOMContentLoaded', () => {
+                const dataContainer = document.getElementById('data-container');
+
+                // Fetch JSON data (if from a file)
+                fetch('data.json') // Replace 'data.json' with your file path
+                    .then(response => response.json())
+                    .then(data => {
+                        // Create an unordered list element
+                        const ul = document.createElement('ul');
+
+
+                        // Loop through the JSON data and create list items
+                        data.forEach(item => {
+                                const li = document.createElement('li');
+                                const contactButton  = document.createElement('button');
+                            //    const div1  = document.createElement('Div');
+    /
+                                    li.innerHTML = `<strong><h1>${item.Source}</h1>
+                                                </strong>: ${item.Desti}
+                                                </strong>: ${item.Via}
+                                                </strong>: ${item.Time}
+                                                </strong>: ${item.Date}`;
+                                // div1.classList.add('modal');
+                                // div1.tabIndex.add('-1')
+                            contactButton.classList.add('btn', 'btn-info', 'btn-sm', 'ms-2'); // ms-2 for margin-start
+                            contactButton.textContent = 'Details';
+                            contactButton.addEventListener('click', () => {
+                                    alert('Details for: ' + item.textContent.replace('Details', '').trim());
+
+                        });
+                        //li.appendChild(div1);
+                                 li.appendChild(contactButton);
+                            ul.appendChild(li);
+
+                        });
+
+                        // Append the created list to the container
+                        dataContainer.appendChild(ul);
+
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
+
+                // If JSON data is embedded directly in JavaScript:
+                // const embeddedData = [
+                //     { "name": "Embedded Item 1", "description": "Description for embedded item 1" },
+                //     { "name": "Embedded Item 2", "description": "Description for embedded item 2" }
+                // ];
+                //
+                // const embeddedUl = document.createElement('ul');
+                // embeddedData.forEach(item => {
+                //     const li = document.createElement('li');
+                //     li.innerHTML = `<strong>${item.name}</strong>: ${item.description}`;
+                //     embeddedUl.appendChild(li);
+                // });
+                // dataContainer.appendChild(embeddedUl);
+            });
+           /*-------Slide Show---------------------------------*/
+         $(document).ready(
+
+             function(){
+
+           $(window).scroll(function() {
+             $(".slideanim").each(function(){
+               var pos = $(this).offset().top;
+
+               var winTop = $(window).scrollTop();
+                 if (pos < winTop + 600) {
+                   $(this).addClass("slide");
+                 }
+             });
+           });
+         })
+         /*-------Google Map---------------------------------*/
+         function myMap() {
+         var mapProp= {
+           center:new google.maps.LatLng(17.512,78.47628),
+           zoom:5,
+         };
+         var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+         }
+         /*-------Landing video row 2---------------------------------*/
+        var video=getElementsByTagName('video');
+         function removeControls(video){
+           video.removeAttribute('controls');
+         }
+         window.onload=removeControls(video);
+          window.onload=onloadstart(video);
+    /*---------------------------------------------*/
+    /*------------------------*/
+</script>
+<script src="https://smtpjs.com/v3/smtp.js"></script>
+<script src="cdn.jsdelivr.net"></script><link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
+<link href="cdn.jsdelivr.net" rel="stylesheet">

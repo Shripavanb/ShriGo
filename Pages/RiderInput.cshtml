@@ -1,0 +1,104 @@
+﻿@page
+@model TesingProject.Pages.RiderInputModel
+@{
+    <form method="post">
+
+        <label for="Date">Date:</label>
+
+        <input type="date" id="last-start-date" name="RideDate" min="01-01-2025"
+               max="31-12-2026" placeholder="dd-mm-yyyy" value="@string.Format("{0:dd-MM-yyyy}", Model.LastStartDate)" />
+
+        <br><br>
+
+        <label for="From">From:</label>
+        <select name="RideSource" id="country">
+            <option hidden>--</option>
+            <option value="Hyd">Hyd</option>           
+            <option value="JBS">JBS</option>
+            <option value="Airport">Airport</option>
+            <option value="Arm">Arm</option>
+            <option value="Nzb">Nzb</option>
+            <option value="MTPL">MTPL</option>
+            <option value="KRTL">KRTL</option>
+        </select>
+ 
+        <br><br>
+
+        <label for="To">To:</label>
+        <select name="RideDesti" id="country">
+            <option hidden >--</option>
+            <option value="Hyd">Hyd</option>
+            <option value="JBS">JBS</option>
+            <option value="Airport">Airport</option>
+            <option value="Arm">Arm</option>
+            <option value="Nzb">Nzb</option>
+            <option value="MTPL">MTPL</option>
+            <option value="KRTL">KRTL</option>
+        </select>
+        <br><br>
+
+        <label for="Via">Via:</label>
+        <input type="text" id="myRideVia" name="RideVia" />
+        <br><br>
+
+
+        <label for="Time">Time:</label>
+        <input type="text" id="myRideTime" name="RideTime" />
+        <br><br>
+
+    
+    <button type="submit"></button>
+    
+    </form>
+
+    <br />
+    <table>
+        <thead>
+            <th>Id</th>
+    
+        <th>Date</th>
+    
+        <th>Source</th>
+        
+        <th>Destination</th>
+    
+        <th>Via</th>
+ 
+        <th>Time</th>
+      
+        </thead>
+
+
+        <tbody>
+            @foreach (Model.RideModel rideModel in Model.listRideModel)
+            {
+                <tr>
+                
+                <td>
+                @rideModel.RideId
+                </td>
+                    <td>
+                        @rideModel.RideDate
+                    </td>
+                    <br />
+                    <td>
+                        @rideModel.RideSource
+                    </td>
+                    <td>
+                        @rideModel.RideDesti
+                    </td>
+                    <td>
+                        @rideModel.RideVia
+                    </td>
+                    <td>
+                        @rideModel.RideTime
+                    </td>
+                
+                </tr>
+
+            }
+    
+    </tbody>
+
+    </table>
+}
