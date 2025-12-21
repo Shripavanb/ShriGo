@@ -4,3 +4,7 @@
     font-family: 'DM Serif Display', sans-serif;
     font-weight: normal;
 }
+.underline-style {
+    text-decoration: underline;
+    color: blue; /* You can even color the text/underline */
+}
