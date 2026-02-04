@@ -21,7 +21,7 @@ namespace TesingProject.Pages
 
         public void OnGet()
         {
-            listRideModel = _dbContext.DbRides.ToList();
+            listRideModel = _dbContext.RideDBTable.ToList();
         }
     }
 }

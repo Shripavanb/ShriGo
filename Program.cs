@@ -1,3 +1,5 @@
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using ShriGo.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,7 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddDbContext<RideDBContext>();
+//builder.Services.AddDbContext<RideDBContext>();
+
+builder.Services.AddDbContext<RideDBContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")) );
 
 var app = builder.Build();
 
@@ -18,6 +23,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();

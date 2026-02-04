@@ -26,7 +26,7 @@ namespace TesingProject.Pages
         public void OnGet()
         {
 
-            listRideModel = _dbContext.DbRides.ToList();
+            listRideModel = _dbContext.RideDBTable.ToList();
         }
 
         public IActionResult OnPost()
@@ -36,12 +36,12 @@ namespace TesingProject.Pages
           
 
             // Finds the entities to remove
-            var oldRides = _dbContext.DbRides.Where(r => r.RideDate < cutoffDate).ToList();
+            var oldRides = _dbContext.RideDBTable.Where(r => r.RideDate < cutoffDate).ToList();
 
             // Remove the entities from the DbSet
-            _dbContext.DbRides.RemoveRange(oldRides);
+            _dbContext.RideDBTable.RemoveRange(oldRides);
 
-            _dbContext.DbRides.Add(NewRideModel);
+            _dbContext.RideDBTable.Add(NewRideModel);
 
             _dbContext.SaveChanges();
 
