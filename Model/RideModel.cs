@@ -13,12 +13,12 @@ namespace TesingProject.Model
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateOnly? RideDate { get; set; }
+        public DateTime? RideDate { get; set; }
         public string? RideSource { get; set; }
         public string? RideDesti { get; set; }
         public string? RideVia { get; set; }
         public string? RideTime { get; set; }
-        public int? RideSeats { get; set; }
+        public string? RideSeats { get; set; }
         public string? RideContact { get; set; }
     }
 }
