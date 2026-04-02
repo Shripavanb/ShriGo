@@ -32,7 +32,7 @@ namespace TesingProject.Pages
         public IActionResult OnPost()
         {
             // Define the cutoff date
-            var cutoffDate = DateOnly.FromDateTime(DateTime.Today); ;
+            var cutoffDate = DateTime.Today ;
           
 
             // Finds the entities to remove
