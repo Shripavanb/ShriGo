@@ -21,7 +21,8 @@ namespace ShriGo.Pages
 
         public void OnGet()
         {
-            listRideModel = _dbContext.RideDBTable.ToList();
+            //Arrange list as per date and time 
+            listRideModel = _dbContext.RideDBTable.OrderBy(x => x.RideDate).ThenBy(x => x.RideTime).ToList();
         }
     }
 }
