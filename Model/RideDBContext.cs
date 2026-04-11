@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
-using TesingProject.Model;
 
-namespace ShriGo.Models
+
+namespace ShriGo.Model
 {
     public class RideDBContext : DbContext
     {

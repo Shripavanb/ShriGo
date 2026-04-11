@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace TesingProject.Pages
+namespace ShriGo.Pages
 {
     public class PrivacyModel : PageModel
     {
