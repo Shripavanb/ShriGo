@@ -13,7 +13,7 @@ namespace ShriGo.Model
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime? RideDate { get; set; }
+        public DateOnly? RideDate { get; set; }
         public string? RideSource { get; set; }
         public string? RideDesti { get; set; }
         public string? RideVia { get; set; }

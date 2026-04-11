@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShriGo.Model;
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -29,15 +30,18 @@ namespace ShriGo.Pages
         
         public void OnGet()
         {
-            listRideModel = _dbContext.RideDBTable.ToList();
+
+            listRideModel = _dbContext.RideDBTable.OrderBy(x => x.RideDate).ThenBy(x => x.RideTime).ToList();
+            //listRideModel = _dbContext.RideDBTable.ToList();
         }
 
         public IActionResult OnPost()
         {
      
-            // Define the cutoff date
-            var cutoffDate = DateTime.Today ;
-          
+            // Define the cutoff date, date only 
+            var cutoffDate = DateOnly.FromDateTime(DateTime.Today) ;
+
+            //DateOnly date = DateOnly.FromDateTime((DateTime)NewRideModel.RideDate);
 
             // Finds the entities to remove
             var oldRides = _dbContext.RideDBTable.Where(r => r.RideDate < cutoffDate).ToList();
@@ -48,7 +52,9 @@ namespace ShriGo.Pages
             // Remove the entities from the DbSet
             _dbContext.RideDBTable.RemoveRange(oldRides);
 
+            // Finds the max Id number and adds +1 to it 
             NewRideModel.RideId = newRideId+1;
+
             _dbContext.RideDBTable.Add(NewRideModel);
 
             _dbContext.SaveChanges();
