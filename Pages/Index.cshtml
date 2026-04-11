@@ -1,5 +1,5 @@
 ﻿@page
-@model IndexModel
+@model ShriGo.Pages.IndexModel
 @{
     ViewData["Title"] = "ShriGo";
 
@@ -7,12 +7,15 @@
 
 <link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
 <link href="cdn.jsdelivr.net" rel="stylesheet">
+<script src="https://smtpjs.com/v3/smtp.js"></script>
+<script src="cdn.jsdelivr.net"></script>
+<link href="cdn.jsdelivr.net" rel="stylesheet">
 <div>
     <!-----------------Row1-Top --------------------------------->
 
     <div class="container-fluid">
         <div class="row" style="padding-left:6px; padding-right:6px">
-            <img src="~/img/ShriGo_Landing_pg2.png" />
+            <img src="~/img/ShriGo_Landing_pg3.png" />
         </div>
 
         <div class="row" style="text-align:center">
@@ -37,7 +40,7 @@
     <div class="container-fluid">
         <br />
    
-          @foreach (Model.RideModel rideModel in Model.listRideModel)
+        @foreach (ShriGo.Model.RideModel rideModel in Model.listRideModel)
         {
             <div class="list-group">
              <a href="#" class="list-group-item list-group-item-action">
@@ -139,6 +142,4 @@
      
     /*------------------------*/
 </script>
-<script src="https://smtpjs.com/v3/smtp.js"></script>
-<script src="cdn.jsdelivr.net"></script><link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
-<link href="cdn.jsdelivr.net" rel="stylesheet">
+

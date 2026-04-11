@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using ShriGo.Models;
-using TesingProject.Model;
+using ShriGo.Model;
 
-namespace TesingProject.Pages
+
+namespace ShriGo.Pages
 {
     public class IndexModel : PageModel
     {
