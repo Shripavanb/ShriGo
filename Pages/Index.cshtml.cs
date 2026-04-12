@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShriGo.Model;
-
 
 namespace ShriGo.Pages
 {
@@ -21,6 +19,10 @@ namespace ShriGo.Pages
 
         public void OnGet()
         {
+            //Creating a session variable 
+            string userValue = HttpContext.Session.GetString("UserName");
+            //HttpContext.Session.SetString("UserSession", "Active");
+
             // Define the cutoff date, date only 
             var cutoffDate = DateOnly.FromDateTime(DateTime.Today);
 

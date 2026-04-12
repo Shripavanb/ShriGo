@@ -13,7 +13,7 @@ namespace ShriGo.Pages
         public List<UserModel> listUserModel = new List<UserModel>();
 
         [BindProperty]
-        public UserModel NewDriverModel { get; set; }
+        public UserModel NewUserModel { get; set; }
 
 
         public SignInModel(RideDBContext context)
@@ -28,6 +28,21 @@ namespace ShriGo.Pages
         {
             //List<DriverModel> databaseList = _dBContext.DriversTb.ToList();
             listUserModel = _dbContext.UserTb.ToList();
+
+            foreach (var user in listUserModel)
+            {
+                if(NewUserModel.UserEmail==user.UserEmail && NewUserModel.UserPswd == user.UserPswd)
+                {
+                    //Creating a session variable 
+                    HttpContext.Session.SetString("UserName", user.UserFirstName);
+                    //Signin Validated
+                    return RedirectToPage("/RiderProfile");
+                }
+                else
+                {
+                    //Signin Not Validated
+                }
+            }
             //if (NewDriverModel.DriverEmail == listDriverM)
             //{
 

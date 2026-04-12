@@ -7,6 +7,7 @@ namespace ShriGo.Pages
     {
         public void OnGet()
         {
+            string userValue = HttpContext.Session.GetString("UserName");
         }
     }
 }
