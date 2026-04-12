@@ -14,7 +14,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnecti
 
 builder.Services.AddSession(options =>
 { 
- options.IdleTimeout = TimeSpan.FromSeconds(30);//Set Session timeout 
+ options.IdleTimeout = TimeSpan.FromSeconds(90);//Set Session timeout 
 });
 var app = builder.Build();
 

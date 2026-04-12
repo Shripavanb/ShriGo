@@ -33,8 +33,9 @@ namespace ShriGo.Pages
             {
                 if(NewUserModel.UserEmail==user.UserEmail && NewUserModel.UserPswd == user.UserPswd)
                 {
-                    //Creating a session variable 
+                    //Creating a session variables 
                     HttpContext.Session.SetString("UserName", user.UserFirstName);
+                    HttpContext.Session.SetString("UserUniqueId", user.UserUniqueId);
                     //Signin Validated
                     return RedirectToPage("/RiderProfile");
                 }

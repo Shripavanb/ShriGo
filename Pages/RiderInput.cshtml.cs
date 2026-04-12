@@ -35,7 +35,12 @@ namespace ShriGo.Pages
 
         public IActionResult OnPost()
         {
-     
+            string session_userName = HttpContext.Session.GetString("UserName");
+            string session_UserUniqueId = HttpContext.Session.GetString("UserUniqueId");
+
+            //Add user session UniqueId into Ride table to know whats he added 
+            NewRideModel.UserUniqueId = session_UserUniqueId;
+            
             // Define the cutoff date, date only 
             var cutoffDate = DateOnly.FromDateTime(DateTime.Today) ;
 
