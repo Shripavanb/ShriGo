@@ -1,11 +1,13 @@
 ﻿@page
 @model ShriGo.Pages.Admin.AdminDashboardModel
 @{
-    <div>
-        <link href="~/css/admin.css" rel="stylesheet" />
-    <table>
- 
-        <thead>
+    <link href="~/css/admin.css" rel="stylesheet" />
+
+    <!--------------Rider Info-------------------------->
+    <div class="container-fluid">
+        <h3>Ride Table</h3>
+        <table>
+         <thead>
             <th>Id</th>
     
             <th>Date</th>
@@ -18,11 +20,8 @@
             <th>Time</th>
             <th>Seats</th>
             <th>Contact</th>
-      
-        </thead>
-
-
-        <tbody>
+       </thead>
+       <tbody>
     
             @foreach (Model.RideModel rideModel in Model.listRideModel)
             {
@@ -62,5 +61,64 @@
         </tbody>
 
     </table>
+
+    <br />
+    <!--------------User Info-------------------------->
+    <div class="container-fluid">
+    <h3>User Table</h3>
+            <table>
+                 <thead>
+                    <th>UserId</th>
+    
+                    <th>UserUniqueId</th>
+                    <th>UserRegDate</th>
+   
+                    <th>UserFirstName</th>
+    
+                    <th>UserLastName</th>
+ 
+                    <th>UserAge</th>
+                    <th>UserEmail</th>
+                    <th>UserContact</th>
+                    <th>UserRole</th>
+                  </thead>
+              <tbody>
+                    @foreach (Model.UserModel userModel in Model.listUserModel)
+                    {
+                        <tr>
+                            <td>
+                                @userModel.UserId
+                            </td>
+                            <td>
+                                @userModel.UserUniqueId
+                            </td>                         
+                            <td>
+                                @userModel.UserRegDate
+                            </td>
+                            <td>
+                                @userModel.UserFirstName
+                            </td>
+                            <td>
+                                @userModel.UserLastName
+                            </td>
+                            <td>
+                                @userModel.UserAge
+                            </td>
+                            <td>
+                                @userModel.UserEmail
+                            </td>
+                            <td>
+                                @userModel.UserContact
+                            </td>
+                            <td>
+                                @userModel.UserRole
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+    </table>
+    </div>
     </div>
 }

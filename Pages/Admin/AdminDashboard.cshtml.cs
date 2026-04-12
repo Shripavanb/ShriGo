@@ -8,6 +8,7 @@ namespace ShriGo.Pages.Admin
     public class AdminDashboardModel : PageModel
     {
         public List<RideModel> listRideModel = new List<RideModel>();
+        public List<UserModel> listUserModel = new List<UserModel>();
 
         private readonly RideDBContext _dbContext;
         //Constructor 
@@ -21,6 +22,9 @@ namespace ShriGo.Pages.Admin
             //Arrange list as per date and time 
             listRideModel = _dbContext.RideDBTable.OrderBy(x => x.RideDate).ThenBy(x => x.RideTime).ToList();
             //listRideModel = _dbContext.RideDBTable.ToList();
+
+            //User List display table 
+            listUserModel = _dbContext.UserTb.ToList();
         }
     }
 }

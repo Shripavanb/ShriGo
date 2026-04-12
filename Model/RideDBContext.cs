@@ -11,7 +11,7 @@ namespace ShriGo.Model
         { }
         public DbSet<RideModel> RideDBTable { get; set; }
 
-        public DbSet<DriverModel> DriversTb { get; set; }
+        public DbSet<UserModel> UserTb { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{

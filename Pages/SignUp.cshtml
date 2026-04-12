@@ -12,33 +12,42 @@
                             <h2 class="text-center mb-4">Sign Up</h2>
                             <form method="post">
                                 <div class="mb-3">
+                                    <label for="firstName" class="form-label">Are you a </label>
+                                    <select class="form-control" id="Role" name="UserRole">
+                                        <option hidden>--</option>
+                                        <option value="Driver">Driver</option>
+                                        <option value="Passenger">Passenger</option>
+                                        </select>
+                                </div>
+                                <div class="mb-3">
                                     <label for="firstName" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" name="DriverFirstName" required>
+                                    <input type="text" class="form-control" id="firstName" name="UserFirstName" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="lastName" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" name="DriverLastName" required>
+                                    <input type="text" class="form-control" id="lastName" name="UserLastName" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="age" class="form-label">Age</label>
-                                    <input type="text" class="form-control" id="Age" name="DriverAge" aria-describedby="age" required>
+                                    <input type="text" class="form-control" id="Age" name="UserAge" aria-describedby="age" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email address</label>
-                                    <input type="email" class="form-control" id="email" name="DriverEmail" aria-describedby="emailHelp" >
+                                    <input type="email" class="form-control" id="email" name="UserEmail" aria-describedby="emailHelp">
                                     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="contact" class="form-label">Contact</label>
-                                    <input type="text" class="form-control" id="contact" name="DriverContact" aria-describedby="contact" required>
+                                    <input type="text" class="form-control" id="contact" name="UserContact" aria-describedby="contact" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="password" required>
+                                    <input type="password" class="form-control" name="UserPswd" id="password" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                    <input type="password" class="form-control" id="confirmPassword" required>
+                                    <input type="password" class="form-control" id="confirm_password" onkeyup="checkMatches()" required>
+                                    <span id="message"></span>
                                 </div>
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn btn-primary">Sign Up</button>
@@ -52,7 +61,19 @@
 
     </div>
 <script>
+          function checkMatches() {
+              const password = document.getElementById('password').value;
+              const confirm = document.getElementById('confirm_password').value;
+              const message = document.getElementById('message');
 
+              if (password === confirm) {
+                message.innerHTML = 'Matching';
+                message.style.color = 'green';
+              } else {
+                message.innerHTML = 'Not Matching';
+                message.style.color = 'red';
+              }
+            }
 
 </script>
 </div>
