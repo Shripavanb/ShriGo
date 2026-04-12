@@ -7,9 +7,13 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link href="~/css/riderprofile.css" rel="stylesheet" />
 <div>
+   
 
     <div class="container">
         <div class="container emp-profile">
+
+            @foreach (var user in Model.activeUser)
+            {
             <form method="post">
                 <div class="row">
                     <div class="col-md-4">
@@ -25,7 +29,7 @@
 
                         <div class="profile-head">
                             <h5>
-                                Ravi Shankar
+                                <p>Welcome, @user.UserFirstName</p>
                             </h5>
                             <h6>
                                 Cab driver /Cab Owner
@@ -76,7 +80,7 @@
                                         <label>Name</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>Kshiti Ghelani</p>
+                                        <p>@user.UserFirstName</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -84,7 +88,7 @@
                                         <label>Email</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>kshitighelani@gmail.com</p>
+                                            <p>@user.UserEmail</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -92,15 +96,15 @@
                                         <label>Phone</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>123 456 7890</p>
+                                            <p>@user.UserContact</p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label>Profession</label>
+                                        <label>Profession/Role</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>Web Developer and Designer</p>
+                                            <p>@user.UserRole</p>
                                     </div>
                                 </div>
                             </div>
@@ -123,7 +127,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <label>Total Projects</label>
+                                        <label>Total Rides</label>
                                     </div>
                                     <div class="col-md-6">
                                         <p>230</p>
@@ -156,6 +160,7 @@
                     </div>
                 </div>
             </form>
+            }
         </div>
     </div>
 </div>
