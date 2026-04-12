@@ -81,6 +81,7 @@
                     <th>UserEmail</th>
                     <th>UserContact</th>
                     <th>UserRole</th>
+                    <th>Subscription</th>
                   </thead>
               <tbody>
                     @foreach (Model.UserModel userModel in Model.listUserModel)
@@ -112,6 +113,9 @@
                             </td>
                             <td>
                                 @userModel.UserRole
+                            </td>
+                            <td>
+                                @userModel.Subscription
                             </td>
                         </tr>
                     }

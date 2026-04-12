@@ -81,7 +81,7 @@ namespace ShriGo.Pages
             _dBContext.SaveChanges();
 
             //Twilo(NewDriverModel.DriverContact.ToString());
-            return RedirectToPage();
+            return RedirectToPage("/Index");
         }
     }
 }
