@@ -11,8 +11,6 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<RideDBContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")) );
-//builder.Services.AddDbContext<DriverDBContext>(options =>
-//options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")));
 
 var app = builder.Build();
 
