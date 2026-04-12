@@ -7,13 +7,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-//builder.Services.AddDbContext<RideDBContext>();
+builder.Services.AddDistributedMemoryCache();//Required for Sesssion timeout
 
 builder.Services.AddDbContext<RideDBContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")) );
-//builder.Services.AddDbContext<DriverDBContext>(options =>
-//options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")));
 
+builder.Services.AddSession(options =>
+{ 
+ options.IdleTimeout = TimeSpan.FromSeconds(30);//Set Session timeout 
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,6 +25,8 @@ if (!app.Environment.IsProduction())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+// Configure the HTTP request pipeline
+app.UseSession(); // Enable session middleware
 
 app.UseHttpsRedirection();
 
