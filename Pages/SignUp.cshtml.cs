@@ -14,10 +14,11 @@ namespace ShriGo.Pages
         private const string smsSent = "Success";
         private readonly RideDBContext _dBContext;
 
-        public List<DriverModel> listDriverModel = new List<DriverModel>();
+
+        public List<UserModel> listUserModel = new List<UserModel>();
 
         [BindProperty]
-        public DriverModel NewDriverModel { get; set; }
+        public UserModel NewUserModel { get; set; }
 
         private static readonly Random _random = new Random();
         public int UniqueNumber {  get; set; }
@@ -56,8 +57,10 @@ namespace ShriGo.Pages
 
         public IActionResult OnPost()
         {
+
+          
             //DriverId
-            NewDriverModel.DriverId = (_dBContext.DriversTb.Max(r => r.DriverId))+1;
+            NewUserModel.UserId = (_dBContext.UserTb.Max(r => r.UserId))+1;
 
             //DriverUniqueId
             //string driverLastName = _dBContext.DriversTb.Where(x=>x.DriverId == NewDriverModel.DriverId).Select(u => u.DriverLastName).FirstOrDefault();
@@ -68,12 +71,12 @@ namespace ShriGo.Pages
             //string uniqueId = Guid.NewGuid().ToString("N");
 
 
-            NewDriverModel.DriverUniqueId = UniqueNumber.ToString();
+            NewUserModel.UserUniqueId = UniqueNumber.ToString();
 
             // DriverReg Date only 
-            NewDriverModel.DriverRegDate = DateOnly.FromDateTime(DateTime.Today);
+            NewUserModel.UserRegDate = DateOnly.FromDateTime(DateTime.Today);
 
-            _dBContext.DriversTb.Add(NewDriverModel);
+            _dBContext.UserTb.Add(NewUserModel);
 
             _dBContext.SaveChanges();
 

@@ -8,7 +8,7 @@ namespace ShriGo.Model
         {
         }
 
-        public DbSet<DriverModel> DriversTb { get; set; }
+        public DbSet<UserModel> DriversTb { get; set; }
 
 
     }
