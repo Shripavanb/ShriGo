@@ -23,5 +23,7 @@ namespace ShriGo.Model
         
         //will be adding value while uploading ride
         public string? UserUniqueId { get; set; }
+
+        public string? RidePrice { get; set; }
     }
 }

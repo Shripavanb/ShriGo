@@ -26,5 +26,6 @@ namespace ShriGo.Model
 
         public string? UserPswd {  get; set; }
         public string? UserRole { get; set; }
+        public string? Subscription { get; set; }
     }
 }

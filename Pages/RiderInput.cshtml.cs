@@ -30,7 +30,8 @@ namespace ShriGo.Pages
         
         public void OnGet()
         {
-                 
+            string session_userName = HttpContext.Session.GetString("UserName");
+            string session_UserUniqueId = HttpContext.Session.GetString("UserUniqueId");
         }
 
         public IActionResult OnPost()
