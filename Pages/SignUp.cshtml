@@ -10,23 +10,27 @@
                     <div class="col-md-6 col-lg-5">
                         <div class="card p-4 shadow-sm">
                             <h2 class="text-center mb-4">Sign Up</h2>
-                            <form>
+                            <form method="post">
                                 <div class="mb-3">
                                     <label for="firstName" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" required>
+                                    <input type="text" class="form-control" id="firstName" name="DriverFirstName" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="lastName" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" required>
+                                    <input type="text" class="form-control" id="lastName" name="DriverLastName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="age" class="form-label">Age</label>
+                                    <input type="text" class="form-control" id="Age" name="DriverAge" aria-describedby="age" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email address</label>
-                                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" required>
+                                    <input type="email" class="form-control" id="email" name="DriverEmail" aria-describedby="emailHelp" >
                                     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="contact" class="form-label">Contact</label>
-                                    <input type="email" class="form-control" id="contact" aria-describedby="contact" required>
+                                    <input type="text" class="form-control" id="contact" name="DriverContact" aria-describedby="contact" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
@@ -47,7 +51,8 @@
         </div>
 
     </div>
+<script>
 
 
-
+</script>
 </div>
