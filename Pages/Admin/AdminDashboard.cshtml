@@ -1,0 +1,66 @@
+﻿@page
+@model ShriGo.Pages.Admin.AdminDashboardModel
+@{
+    <div>
+        <link href="~/css/admin.css" rel="stylesheet" />
+    <table>
+ 
+        <thead>
+            <th>Id</th>
+    
+            <th>Date</th>
+            <th>Source</th>
+   
+            <th>Destination</th>
+    
+            <th>Via</th>
+ 
+            <th>Time</th>
+            <th>Seats</th>
+            <th>Contact</th>
+      
+        </thead>
+
+
+        <tbody>
+    
+            @foreach (Model.RideModel rideModel in Model.listRideModel)
+            {
+                <tr>
+                
+                    <td>
+                        @rideModel.RideId
+                    </td>
+                    <td>
+                        @rideModel.RideDate
+                    </td>
+                    <br />
+                    <td>
+                        @rideModel.RideSource
+                    </td>
+                    <td>
+                        @rideModel.RideDesti
+                    </td>
+                    <td>
+                        @rideModel.RideVia
+                    </td>
+                    <td>
+                        @rideModel.RideTime
+                    </td>
+                    <td>
+                        @rideModel.RideSeats
+                    </td>
+
+                    <td>
+                        @rideModel.RideContact
+                    </td>
+                
+                </tr>
+
+            }
+    
+        </tbody>
+
+    </table>
+    </div>
+}

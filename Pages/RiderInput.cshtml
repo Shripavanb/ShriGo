@@ -43,38 +43,42 @@
 
                                     </div>
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Via:</label>
-                                    <input type="text" class="form-control" id="myRideVia" name="RideVia" />
-
+                                    <label for="via" class="form-label">Via:</label>
+                                  <select class="form-control" id="myRideVia" name="RideVia">
+                                    <option hidden>--</option>
+                                    <option value="Vemulawada,Siddipet">Vemulawada,Siddipet</option>
+                                    <option value="Armoor,Kamareddy">Armoor,Kamareddy</option>
+                                    </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="contact" class="form-label">Time:</label>
                                    <select class="form-control" id="myRideTime" name="RideTime">
                                     <option hidden>--</option>
-                                    <option value="01:00">01:00</option>
-                                    <option value="02:00">02:00</option>
-                                    <option value="03:00">03:00</option>
-                                    <option value="04:00">04:00</option>
-                                    <option value="05:00">05:00</option>
-                                    <option value="06:00">06:00</option>
-                                    <option value="07:00">07:00</option>
-                                    <option value="08:00">08:00</option>
-                                    <option value="09:00">09:00</option>
-                                    <option value="10:00">10:00</option>
-                                    <option value="11:00">11:00</option>
-                                    <option value="12:00">12:00</option>
-                                    <option value="13:00">13:00</option>
-                                    <option value="14:00">14:00</option>
-                                    <option value="15:00">15:00</option>
-                                    <option value="16:00">16:00</option>
-                                    <option value="17:00">17:00</option>
-                                    <option value="18:00">18:00</option>
-                                    <option value="19:00">1900</option>
-                                    <option value="20:00">20:00</option>
-                                    <option value="21:00">21:00</option>
-                                    <option value="22:00">22:00</option>
-                                    <option value="23:00">23:00</option>
-                                    <option value="24:00">24:00</option>
+                                    <option value="01:00 am">01:00 am</option>
+                                    <option value="02:00 am">02:00 am</option>
+                                    <option value="03:00 am">03:00 am</option>
+                                    <option value="04:00 am">04:00 am</option>
+                                    <option value="05:00 am">05:00 am</option>
+                                    <option value="06:00 am">06:00 am</option>
+                                    <option value="07:00 am">07:00 am</option>
+                                    <option value="08:00 am">08:00 am</option>
+                                    <option value="09:00 am">09:00 am</option>
+                                    <option value="10:00 am">10:00 am</option>
+                                    <option value="11:00 am">11:00 am</option>
+                                    <option value="12:00 am">12:00 am</option>
+
+                                    <option value="01:00 pm">01:00 pm</option>
+                                    <option value="02:00 pm">02:00 pm</option>
+                                    <option value="03:00 pm">03:00 pm</option>
+                                    <option value="04:00 pm">04:00 pm</option>
+                                    <option value="05:00 pm">05:00 pm</option>
+                                    <option value="06:00 pm">06:00 pm</option>
+                                    <option value="07:00 pm">07:00 pm</option>
+                                    <option value="08:00 pm">08:00 pm</option>
+                                    <option value="09:00 pm">09:00 pm</option>
+                                    <option value="10:00 pm">10:00 pm</option>
+                                    <option value="11:00 pm">11:00 pm</option>
+                                    <option value="12:00 pm">12:00 pm</option>
                                </select>
                                      </div>
                                 <div class="mb-3">
@@ -106,63 +110,6 @@
 </div>
 
     <br />
-    <table>
-        <thead>
-        <th>Id</th>
     
-        <th>Date</th>
-    
-        <th>Source</th>
-   
-        <th>Destination</th>
-    
-        <th>Via</th>
- 
-        <th>Time</th>
-        <th>Seats</th>
-        <th>Contact</th>
-      
-        </thead>
-
-
-        <tbody>
-            @foreach (Model.RideModel rideModel in Model.listRideModel)
-            {
-                <tr>
-                
-                <td>
-                @rideModel.RideId
-                </td>
-                    <td>
-                        @rideModel.RideDate
-                    </td>
-                    <br />
-                    <td>
-                        @rideModel.RideSource
-                    </td>
-                    <td>
-                        @rideModel.RideDesti
-                    </td>
-                    <td>
-                        @rideModel.RideVia
-                    </td>
-                    <td>
-                        @rideModel.RideTime
-                    </td>
-                    <td>
-                        @rideModel.RideSeats
-                    </td>
-
-                    <td>
-                        @rideModel.RideContact
-                    </td>
-                
-                </tr>
-
-            }
-    
-    </tbody>
-
-    </table>
   
 }
