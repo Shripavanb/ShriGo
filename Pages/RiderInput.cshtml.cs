@@ -30,9 +30,7 @@ namespace ShriGo.Pages
         
         public void OnGet()
         {
-            //Arrange list as per date and time 
-            listRideModel = _dbContext.RideDBTable.OrderBy(x => x.RideDate).ThenBy(x => x.RideTime).ToList();
-            //listRideModel = _dbContext.RideDBTable.ToList();
+                 
         }
 
         public IActionResult OnPost()
