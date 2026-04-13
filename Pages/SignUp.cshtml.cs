@@ -76,7 +76,7 @@ namespace ShriGo.Pages
 
             _dBContext.UserTb.Add(NewUserModel);
 
-            if(_dBContext.SaveChanges()!=0)
+            if(_dBContext.SaveChanges() ==1 )
             {
                
                 return RedirectToPage("/SignIn");
