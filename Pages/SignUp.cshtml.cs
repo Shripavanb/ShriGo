@@ -56,9 +56,7 @@ namespace ShriGo.Pages
         }
 
         public IActionResult OnPost()
-        {
-
-          
+        {          
             //DriverId
             NewUserModel.UserId = (_dBContext.UserTb.Max(r => r.UserId))+1;
 
@@ -78,10 +76,18 @@ namespace ShriGo.Pages
 
             _dBContext.UserTb.Add(NewUserModel);
 
-            _dBContext.SaveChanges();
+            if(_dBContext.SaveChanges()!=0)
+            {
+               
+                return RedirectToPage("/SignIn");
+            }
+            else
+            {
+                return RedirectToPage("/Index");
+            }
 
             //Twilo(NewDriverModel.DriverContact.ToString());
-            return RedirectToPage("/Index");
+         
         }
     }
 }
