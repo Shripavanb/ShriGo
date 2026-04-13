@@ -45,16 +45,26 @@ namespace ShriGo.Pages
             // Define the cutoff date, date only 
             var cutoffDate = DateOnly.FromDateTime(DateTime.Today) ;
 
+            TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
+            string time24 = time.ToString();
+            DateTime parsedTime = DateTime.Parse(time24);
+            string amPmTime = parsedTime.ToString("hh:mm tt");
+            // Define the cutoff date, date only 
+            string cutoffTime = amPmTime;
+
             //DateOnly date = DateOnly.FromDateTime((DateTime)NewRideModel.RideDate);
 
-            // Finds the entities to remove
-            var oldRides = _dbContext.RideDBTable.Where(r => r.RideDate < cutoffDate).ToList();
+            // Finds the old entities(as per date) to remove, 
+            var oldRidesAsPerDate = _dbContext.RideDBTable.Where(r => r.RideDate < cutoffDate).ToList();
+            // Finds the old entities(as per date) to remove,
+            var oldRidesAsPerTime = _dbContext.RideDBTable.Where(r => r.RideTime.CompareTo(cutoffTime)<0).ToList();
 
             // Finds the max Id number and adds +1 to it 
             var newRideId = _dbContext.RideDBTable.Max(r => r.RideId);
 
             // Remove the entities from the DbSet
-            _dbContext.RideDBTable.RemoveRange(oldRides);
+            _dbContext.RideDBTable.RemoveRange(oldRidesAsPerDate);
+            _dbContext.RideDBTable.RemoveRange(oldRidesAsPerTime);
 
             // Finds the max Id number and adds +1 to it 
             NewRideModel.RideId = newRideId+1;
