@@ -41,7 +41,7 @@ namespace ShriGo.Pages
 
             // Make sure every time it Removes the old entities from the DbSet
             _dbContext.RideDBTable.RemoveRange(oldRidesAsPerDate);
-            _dbContext.RideDBTable.RemoveRange(oldRidesAsPerTime);
+            //_dbContext.RideDBTable.RemoveRange(oldRidesAsPerTime);
 
             _dbContext.SaveChanges();
             //string time24 = "14:30";
