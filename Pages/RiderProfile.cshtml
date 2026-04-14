@@ -12,7 +12,7 @@
     <div class="container">
         <div class="container emp-profile">
 
-            @foreach (var user in Model.activeUser)
+            @foreach (var activeuser in Model.activeUser)
             {
             <form method="post">
                 <div class="row">
@@ -29,7 +29,7 @@
 
                         <div class="profile-head">
                             <h5>
-                                <p>Welcome, @user.UserFirstName</p>
+                                <p>Welcome, @activeuser.UserFirstName</p>
                             </h5>
                             <h6>
                                 Cab driver /Cab Owner
@@ -83,7 +83,7 @@
                                         <label>Name</label>
                                     </div>
                                     <div class="col-md-6">
-                                        <p>@user.UserFirstName</p>
+                                        <p>@activeuser.UserFirstName</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -91,7 +91,7 @@
                                         <label>Email</label>
                                     </div>
                                     <div class="col-md-6">
-                                            <p>@user.UserEmail</p>
+                                            <p>@activeuser.UserEmail</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -99,7 +99,7 @@
                                         <label>Phone</label>
                                     </div>
                                     <div class="col-md-6">
-                                            <p>@user.UserContact</p>
+                                            <p>@activeuser.UserContact</p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -107,7 +107,7 @@
                                         <label>Profession/Role</label>
                                     </div>
                                     <div class="col-md-6">
-                                            <p>@user.UserRole</p>
+                                            <p>@activeuser.UserRole</p>
                                     </div>
                                 </div>
                             </div>
@@ -164,6 +164,40 @@
                 </div>
             </form>
             }
+        </div>
+
+        <div class="container">
+            <h3>Your Rides</h3>
+
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">From</th>
+                        <th scope="col">To</th>
+                        <th scope="col">Via</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Seats</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var userRides in Model.UserRides)
+                    {
+                    <tr>
+                        <td>@userRides.RideId</td>               
+                        <td>@userRides.RideSource</td>                
+                        <td>@userRides.RideDesti</td>    
+                        <td>@userRides.RideVia</td>    
+                        <td>@userRides.RideTime</td>  
+                        <td>@userRides.RideSeats</td>
+                        <td>@userRides.RidePrice</td>
+                    </tr>
+                    }
+                </tbody>
+                </table>
+          
+
         </div>
     </div>
 </div>
