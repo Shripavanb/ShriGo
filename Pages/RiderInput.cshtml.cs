@@ -73,7 +73,7 @@ namespace ShriGo.Pages
 
             _dbContext.SaveChanges();
 
-            return RedirectToPage();
+            return RedirectToPage("/Index");
         }
 
         [DataType(DataType.Date)]

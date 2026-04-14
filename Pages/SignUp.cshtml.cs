@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using Twilio;
 using Twilio.Rest.Verify.V2.Service;
+using System.Windows;
 
 namespace ShriGo.Pages
 {
@@ -78,7 +79,7 @@ namespace ShriGo.Pages
 
             if(_dBContext.SaveChanges() ==1 )
             {
-               
+                ViewData["Message"]= "Your details have been saved successfully!";
                 return RedirectToPage("/SignIn");
             }
             else
