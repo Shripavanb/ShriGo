@@ -64,7 +64,7 @@ namespace ShriGo.Pages
 
             // Remove the entities from the DbSet
             _dbContext.RideDBTable.RemoveRange(oldRidesAsPerDate);
-            _dbContext.RideDBTable.RemoveRange(oldRidesAsPerTime);
+            //_dbContext.RideDBTable.RemoveRange(oldRidesAsPerTime);
 
             // Finds the max Id number and adds +1 to it 
             NewRideModel.RideId = newRideId+1;
