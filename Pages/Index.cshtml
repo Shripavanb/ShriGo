@@ -4,8 +4,8 @@
     ViewData["Title"] = "ShriGo";
 
 }
+<link href="~/css/home.css" rel="stylesheet" />
 
-<link rel="stylesheet" href="~/css/Home.css" asp-append-version="true" />
 <link href="cdn.jsdelivr.net" rel="stylesheet">
 <script src="https://smtpjs.com/v3/smtp.js"></script>
 <script src="cdn.jsdelivr.net"></script>
@@ -41,28 +41,36 @@
    
         @foreach (ShriGo.Model.RideModel rideModel in Model.listRideModel)
         {
-            <div class="list-group" style="margin:0,5px,0,5px">
-             <a href="#" class="list-group-item list-group-item-action">
-               
-                        <div class="row"> 
-                            <h5 class="col-4">@rideModel.RideSource</h5>
-                            <h5 class="col-4">@rideModel.RideDate</h5>
-                            <h5 class="col-4"> @rideModel.RideTime</h5>
-                        </div>             
-                       <div class="row">
-                        <h6 class="col-4"> via:@rideModel.RideVia</h6>
-                        <h5 class="col-2"></h5>
-                        <h5 class="col-2"></h5>
-                        <h5 class="col-4">₹@rideModel.RidePrice/seat</h5>
-                    </div>
-                    <div class="row">
-                        <h5 class="col-4"> @rideModel.RideDesti</h5>
-                        <h5 class="col-4">@rideModel.RideSeats</h5>
-                        <h5 class="col-4 underline-style">@rideModel.RideContact</h5>
+            <!--------------------------->
+            <br />
+            <div class="card">
+                <div class="ride-row ride-card-header">
+                    <h5 class="col-4">@rideModel.RideSource</h5>
+                    <h5 class="col-4">@rideModel.RideDate</h5>
+                    <h5 class="col-4"> @rideModel.RideTime</h5>
+                </div>
+                <div class="row card-body">
+                   <h7 class="col-5"> via:@rideModel.RideVia</h7>
+                   <h5 class="col-3"></h5>
+                   <h5 class="col-4">₹@rideModel.RidePrice/seat</h5>
+               </div>
+                <div class="ride-row ride-card-header">
+                    <h5 class="col-4"> @rideModel.RideDesti</h5>
+                    <h5 class="col-4">@rideModel.RideSeats</h5>
+                    <h5 class="col-4 ">
+                    <a href="@rideModel.RideContact" class="btn-light">@rideModel.RideContact</a>
+                    </h5>
                     
-                    </div>
+                </div>
+            </div>
+            <!--------------------------->
+@*             <div class="list-group" style="margin:0,5px,0,5px">
+             <a href="#" class="list-group-item list-group-item-action">
+   
+        
+
             </a>
-           </div>
+           </div> *@
         }
     </div>
 </div>
