@@ -58,7 +58,20 @@
                          <span >@rideModel.RideSource</span>
                         }
                      </h5>
-                    <h5 class="col-4">@rideModel.RideDate</h5>
+                    <h5 class="col-4">
+                       @if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.Now))
+                        {
+                            <span style="color:maroon">Today</span>
+                        }
+                        else if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.Now).AddDays(1))
+                        {
+                            @:Tomorrow
+                        }
+                        else
+                        {
+                        <span>@rideModel.RideSource</span>
+                        }
+                    </h5>
                     <h5 class="col-4"> @rideModel.RideTime</h5>
                 </div>
                 <div class="row card-body">
@@ -67,10 +80,22 @@
                    <h5 class="col-4">₹@rideModel.RidePrice/seat</h5>
                </div>
                 <div class="ride-row ride-card-header">
-                    <h5 class="col-4"> @rideModel.RideDesti</h5>
+                    <h5 class="col-4"> 
+                        @if (@rideModel.RideDesti == "Airport")
+                        {
+                            <div>
+                                <img src="~/img/flightimg1.png" alt="@rideModel.RideDesti" width="43" "   />
+                                <span>@rideModel.RideDesti</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <span>@rideModel.RideDesti</span>
+                        }
+                    </h5>
                     <h5 class="col-4">@rideModel.RideSeats</h5>
-                    <h5 class="col-4 ">
-                    <a href="@rideModel.RideContact" class="btn-light">@rideModel.RideContact</a>
+                    <h5 class="col-4 ">                 
+                        <a href="tel:@rideModel.RideContact" class="btn btn-success">@rideModel.RideContact</a>
                     </h5>
                     
                 </div>
