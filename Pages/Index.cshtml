@@ -45,13 +45,25 @@
             <br />
             <div class="card">
                 <div class="ride-row ride-card-header">
-                    <h5 class="col-4">@rideModel.RideSource</h5>
+                    <h5 class="col-4">
+                       @if (@rideModel.RideSource == "Airport")
+                        {
+                        <div>
+                            <img src="~/img/flightimg1.png" alt="@rideModel.RideSource" width="43"" />
+                                <span>@rideModel.RideSource</span>
+                        </div>
+                        }
+                        else
+                        {
+                         <span >@rideModel.RideSource</span>
+                        }
+                     </h5>
                     <h5 class="col-4">@rideModel.RideDate</h5>
                     <h5 class="col-4"> @rideModel.RideTime</h5>
                 </div>
                 <div class="row card-body">
-                   <h7 class="col-5"> via:@rideModel.RideVia</h7>
-                   <h5 class="col-3"></h5>
+                   <h7 class="col-7"> via:@rideModel.RideVia</h7>
+                   <h5 class="col-1"></h5>
                    <h5 class="col-4">₹@rideModel.RidePrice/seat</h5>
                </div>
                 <div class="ride-row ride-card-header">
@@ -63,14 +75,6 @@
                     
                 </div>
             </div>
-            <!--------------------------->
-@*             <div class="list-group" style="margin:0,5px,0,5px">
-             <a href="#" class="list-group-item list-group-item-action">
-   
-        
-
-            </a>
-           </div> *@
         }
     </div>
 </div>
