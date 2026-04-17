@@ -197,6 +197,15 @@ font-weight:bold">
                         <td>@userRides.RideTime</td>  
                         <td>@userRides.RideSeats</td>
                         <td>@userRides.RidePrice</td>
+                            <td>
+                                <!-- Delete form targeting the 'OnPostDelete' handler -->
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@userRides.RideId">
+                                    <button type="submit" class="btn btn-danger"
+                                            onclick="return confirm('Are you sure you want to delete this?')">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
                     </tr>
                     }
                 </tbody>
