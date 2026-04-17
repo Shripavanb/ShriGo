@@ -1,6 +1,8 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ShriGo.Model;
+using ShriGo.Pages;
+using Twilio.TwiML.Voice;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnecti
 
 builder.Services.AddSession(options =>
 { 
- options.IdleTimeout = TimeSpan.FromSeconds(90);//Set Session timeout 
+ options.IdleTimeout = TimeSpan.FromSeconds(120);//Set Session timeout 
 });
 var app = builder.Build();
 
@@ -28,6 +30,9 @@ if (!app.Environment.IsProduction())
 // Configure the HTTP request pipeline
 app.UseSession(); // Enable session middleware
 
+//Number of Site visitors
+app.UseMiddleware<TrackingMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
@@ -37,5 +42,6 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
 
 app.Run();
