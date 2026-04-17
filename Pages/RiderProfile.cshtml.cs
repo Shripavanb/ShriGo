@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using ShriGo.Model;
 using System.Collections;
 
@@ -53,6 +54,25 @@ namespace ShriGo.Pages
             }
 
 
+        }
+
+        //Allows Drivers to Delete their ride of choice.
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            // 1. Find the record in your database
+            var rowToDelete = await _dbContext.RideDBTable.FindAsync(id);
+
+            if (rowToDelete != null)
+            {
+                // 2. Remove the record
+                _dbContext.RideDBTable.Remove(rowToDelete);
+
+                // 3. Save changes to persist the deletion
+                await _dbContext.SaveChangesAsync();
+            }
+
+            // 4. Redirect back to the current page to refresh the table
+            return RedirectToPage();
         }
     }
 }
