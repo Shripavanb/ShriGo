@@ -39,11 +39,14 @@
     </div>
     <div class="container-fluid">
         <br />
-     
+     <!----Active List----------------------------->
         @foreach (ShriGo.Model.RideModel rideModel in Model.listRideModel)
         {
             <!--------------------------->
             <br />
+            //Define if the card should be dimmed(e.g., 4 hours passed)
+            @* var isOld = rideModel.RideTime< DateTime.Now.AddHours(-4).ToString(); *@
+
             <div class="card">
                 <div class="ride-row ride-card-header">
                     <h5 class="col-4">
@@ -68,7 +71,7 @@
                         }
                         else
                         {
-                        <span>@rideModel.RideSource</span>
+                        <span>@rideModel.RideDate</span>
                         }
                     </h5>
                     <h5 class="col-4"> @rideModel.RideTime</h5>
@@ -103,7 +106,11 @@
             </div>
         }
     </div>
+
+    <br />
+
 </div>
+@* <div id="viewer-count">Loading...</div> *@
 <!---------------Script------------------------------------------------->
 <script>
                 document.addEventListener('DOMContentLoaded', () => {
@@ -180,6 +187,7 @@
          })
      
     /*------------------------*/
+
 </script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-4PQX2FTGWX"></script>
@@ -190,4 +198,3 @@
 
     gtag('config', 'G-4PQX2FTGWX');
 </script>
-
