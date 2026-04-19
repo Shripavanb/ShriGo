@@ -9,11 +9,11 @@ namespace ShriGo.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly RideDBContext _dbContext;
 
-        public List<RideModel> listRideModel = new List<RideModel>();
+        public List<SortedRideModel> finalListRideModel = new List<SortedRideModel>();
 
-        public List<RideModel> expiredRidesList = new List<RideModel>();
-
-        public List<RideModel> todaysRideList = new List<RideModel>();
+        //New Db table
+        public List<SortedRideModel> activeTodaysRideList = new List<SortedRideModel>();
+        public List<SortedRideModel> expiredRidesList = new List<SortedRideModel>();
 
         public List<SortedRideModel> List_SortedRideModel = new List<SortedRideModel>();
 
@@ -48,6 +48,7 @@ namespace ShriGo.Pages
             //--------------------------------------------------
 
             var todaysdate = DateOnly.FromDateTime(DateTime.Today);
+
             //foreach (var list in _dbContext.Ride_DBTable)
             //{
                 //if(DateTime.Parse(list.RideTime).ToString("HH:mm")time.ToString("HH:mm"))
@@ -92,7 +93,29 @@ namespace ShriGo.Pages
             // Finds the old entities(as per date) to remove, 
             var oldRidesAsPerDate = _dbContext.Ride_DBTable.Where(r => r.RideDate < cutoffDate).ToList();
             Console.WriteLine("oldRidesAsPerDate:"+oldRidesAsPerDate);
-            //// Finds the old entities(as per date) to remove,
+
+            // Finds the old entities(as per time) to segregate List ,
+            foreach (var list in _dbContext.Ride_DBTable)
+            {
+                if(list.RideDate == DateOnly.FromDateTime(DateTime.UtcNow))
+                {
+                    if (list.RideTime < time)
+                    {
+                        expiredRidesList.Add(list);
+                    }
+                    else if(list.RideTime >= time)
+                    {
+                        List_SortedRideModel.Add(list);
+                    }                    
+                }
+                else 
+                {
+                    {
+                        List_SortedRideModel.Add(list);
+                    }
+                }
+            }
+
             //var oldRidesAsPerTime = _dbContext.Ride_DBTable.Where(r => r.RideTime.CompareTo(cutoffTime)<0).ToList();
             //Console.WriteLine("oldRidesAsPerTime:"+oldRidesAsPerTime);
 
@@ -105,13 +128,11 @@ namespace ShriGo.Pages
             //DateTime parsedTime = DateTime.Parse(time24);
             //string amPmTime = parsedTime.ToString("hh:mm tt"); // Results in "02:30 PM"
 
-
             //var sortedTimes = _dbContext.RideDBTable.OrderBy(t => t.RideTime).ToList();
-      
-            
+
             //Finally Arrange list as per date and time 
-            List_SortedRideModel = _dbContext.Ride_DBTable.OrderBy(x => x.RideDate).ThenBy(x => x.RideTime).ToList();
-           
+            //List_SortedRideModel = _dbContext.Ride_DBTable.OrderBy(x => x.RideDate).ThenBy(x => x.RideTime).ToList();
+            finalListRideModel =List_SortedRideModel.OrderBy(x => x.RideDate).ThenBy(x => x.RideTime).ToList();
         }
     }
 }
