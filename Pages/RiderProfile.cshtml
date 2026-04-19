@@ -187,19 +187,19 @@ font-weight:bold">
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var userRides in Model.UserRides)
+                    @foreach (var driverRides in Model.only_DriverRides)
                     {
                     <tr>
-                        <td>@userRides.RideId</td>               
-                        <td>@userRides.RideSource</td>                
-                        <td>@userRides.RideDesti</td>    
-                        <td>@userRides.RideVia</td>    
-                        <td>@userRides.RideTime</td>  
-                        <td>@userRides.RideSeats</td>
-                        <td>@userRides.RidePrice</td>
+                            <td>@driverRides.RideId</td>
+                            <td>@driverRides.RideSource</td>
+                            <td>@driverRides.RideDesti</td>
+                            <td>@driverRides.RideVia</td>
+                            <td>@driverRides.RideTime</td>
+                            <td>@driverRides.RideSeats</td>
+                            <td>@driverRides.RidePrice</td>
                             <td>
                                 <!-- Delete form targeting the 'OnPostDelete' handler -->
-                                <form method="post" asp-page-handler="Delete" asp-route-id="@userRides.RideId">
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@driverRides.RideId">
                                     <button type="submit" class="btn btn-danger"
                                             onclick="return confirm('Are you sure you want to delete this?')">
                                         Delete

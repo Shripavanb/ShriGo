@@ -15,10 +15,11 @@ namespace ShriGo.Pages
         public int newRideId { get ; set ;}
 
         public List<RideModel> listRideModel = new List<RideModel>();
+        public List<SortedRideModel> list_SortedRideModel = new List<SortedRideModel>();
         private DateTime lastStartDate;
 
         [BindProperty]
-        public RideModel NewRideModel { get; set; }
+        public SortedRideModel NewRideModel { get; set; }
 
 
         //Constructor 
@@ -30,17 +31,17 @@ namespace ShriGo.Pages
         
         public void OnGet()
         {
-            string session_userName = HttpContext.Session.GetString("UserName");
-            string session_UserUniqueId = HttpContext.Session.GetString("UserUniqueId");
+            string session_userName = HttpContext.Session.GetString("session_UserName");
+            string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
         }
 
         public IActionResult OnPost()
         {
-            string session_userName = HttpContext.Session.GetString("UserName");
-            string session_UserUniqueId = HttpContext.Session.GetString("UserUniqueId");
+            string session_userName = HttpContext.Session.GetString("session_UserName");
+            string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
 
             //Add user session UniqueId into Ride table to know whats he added 
-            NewRideModel.UserUniqueId = session_UserUniqueId;
+            NewRideModel.DriverUniqueId = session_UserUniqueId;
             
             // Define the cutoff date, date only 
             var cutoffDate = DateOnly.FromDateTime(DateTime.Today) ;
@@ -55,21 +56,23 @@ namespace ShriGo.Pages
             //DateOnly date = DateOnly.FromDateTime((DateTime)NewRideModel.RideDate);
 
             // Finds the old entities(as per date) to remove, 
-            var oldRidesAsPerDate = _dbContext.RideDBTable.Where(r => r.RideDate < cutoffDate).ToList();
-            // Finds the old entities(as per date) to remove,
-            var oldRidesAsPerTime = _dbContext.RideDBTable.Where(r => r.RideTime.CompareTo(cutoffTime)<0).ToList();
+            var oldRidesAsPerDate = _dbContext.Ride_DBTable.Where(r => r.RideDate < cutoffDate).ToList();
+            //// Finds the old entities(as per date) to remove,
+            //var oldRidesAsPerTime = _dbContext.Ride_DBTable.Where(r => r.RideTime.CompareTo(cutoffTime)<0).ToList();
 
             // Finds the max Id number and adds +1 to it 
-            var newRideId = _dbContext.RideDBTable.Max(r => r.RideId);
+            var newRideId = _dbContext.Ride_DBTable.Max(r => r.RideId);
 
             // Remove the entities from the DbSet
-            _dbContext.RideDBTable.RemoveRange(oldRidesAsPerDate);
+            _dbContext.Ride_DBTable.RemoveRange(oldRidesAsPerDate);
             //_dbContext.RideDBTable.RemoveRange(oldRidesAsPerTime);
 
             // Finds the max Id number and adds +1 to it 
             NewRideModel.RideId = newRideId+1;
+            NewRideModel.DriverUniqueId =session_UserUniqueId;
+            NewRideModel.DriverFirstName =session_userName;
 
-            _dbContext.RideDBTable.Add(NewRideModel);
+            _dbContext.Ride_DBTable.Add(NewRideModel);
 
             _dbContext.SaveChanges();
 

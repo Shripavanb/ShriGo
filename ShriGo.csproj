@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Analytics.v3" Version="1.68.0.1679" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.23" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.22" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.23" />
@@ -15,11 +16,15 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Twilio" Version="7.14.3" />
+    <PackageReference Include="Twilio" Version="7.14.7" />
 	  <Content Update="appsettings.json">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		  <CopyToPublishDirectory>Always</CopyToPublishDirectory>
 	  </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Filters\" />
   </ItemGroup>
 
 </Project>
