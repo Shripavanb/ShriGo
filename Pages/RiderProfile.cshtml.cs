@@ -47,9 +47,9 @@ namespace ShriGo.Pages
                
                 if (ride.DriverUniqueId ==session_UserUniqueId)
                 {
-                    int rideIndex = list_SortedRideModel.FindIndex(a => a.DriverUniqueId == session_UserUniqueId);
+                    only_DriverRides = list_SortedRideModel.FindAll(a => a.DriverUniqueId == session_UserUniqueId);
                     //Major Milestone in achiving only wanted list out of selected index
-                    only_DriverRides.Add(list_SortedRideModel[rideIndex]);
+                    //only_DriverRides.Add(list_SortedRideModel[rideIndex]);
                 }
 
             }
