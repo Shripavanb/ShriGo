@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ShriGo.Model;
 using System.Collections;
+using System.Data;
 
 namespace ShriGo.Pages
 {
@@ -12,8 +13,8 @@ namespace ShriGo.Pages
         public List<UserModel> listUserModel = new List<UserModel>();
         public List<UserModel> activeUser = new List<UserModel>();
 
-        public List<RideModel> listRideModel = new List<RideModel>();
-        public List<RideModel> UserRides = new List<RideModel>();
+        public List<SortedRideModel> list_SortedRideModel = new List<SortedRideModel>();
+        public List<SortedRideModel> only_DriverRides = new List<SortedRideModel>();
 
         //Constructor
         public RiderProfileModel(RideDBContext context)
@@ -23,36 +24,35 @@ namespace ShriGo.Pages
 
         public void OnGet()
         {
-            string UserSessionName = HttpContext.Session.GetString("UserName");
-            string userUniqueId = HttpContext.Session.GetString("UserUniqueId");
+            string session_UserName = HttpContext.Session.GetString("session_UserName");
+            string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
 
             //User profile display
             listUserModel = _dbContext.UserTb.ToList();
             foreach(var user in listUserModel)
             {
-                int index = listUserModel.FindIndex(a => a.UserFirstName == UserSessionName);
-                if (user.UserFirstName ==UserSessionName)
+                int index = listUserModel.FindIndex(a => a.UserFirstName == session_UserName);
+                if (user.UserFirstName ==session_UserName)
                 {
                     //Major Milestone in achiving only wanted list out of selected index
                     activeUser.Add(listUserModel[index]);
-                 }
+                }
              
             }
 
-            //user ride list display 
-
-            listRideModel = _dbContext.RideDBTable.ToList();
-            foreach (var ride in listRideModel)
+            //Driver ride list display   
+            list_SortedRideModel = _dbContext.Ride_DBTable.ToList();
+            foreach (var ride in list_SortedRideModel)
             {
-                int index = listRideModel.FindIndex(a => a.UserUniqueId == userUniqueId);
-                if (ride.UserUniqueId ==userUniqueId)
-                {                    
+               
+                if (ride.DriverUniqueId ==session_UserUniqueId)
+                {
+                    int rideIndex = list_SortedRideModel.FindIndex(a => a.DriverUniqueId == session_UserUniqueId);
                     //Major Milestone in achiving only wanted list out of selected index
-                    UserRides.Add(listRideModel[index]);
+                    only_DriverRides.Add(list_SortedRideModel[rideIndex]);
                 }
 
             }
-
 
         }
 

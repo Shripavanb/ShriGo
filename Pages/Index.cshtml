@@ -39,9 +39,13 @@
     </div>
     <div class="container-fluid">
         <br />
-     <!----Active List----------------------------->
-        @foreach (ShriGo.Model.RideModel rideModel in Model.listRideModel)
+<!----------------------------->
+        @{
+            var sortedtime = "00:00am";
+        }
+        @foreach (ShriGo.Model.SortedRideModel rideModel in Model.List_SortedRideModel)
         {
+              
             <!--------------------------->
             <br />
             //Define if the card should be dimmed(e.g., 4 hours passed)
@@ -50,43 +54,56 @@
             <div class="card">
                 <div class="ride-row ride-card-header">
                     <h5 class="col-4">
-                       @if (@rideModel.RideSource == "Airport")
+                        @if (@rideModel.RideSource == "Airport")
                         {
-                             <img src="~/img/flightimg1.png" alt="@rideModel.RideSource" width="43"/>
-                             <span>@rideModel.RideSource</span>
+                            <img src="~/img/flightimg1.png" alt="@rideModel.RideSource" width="43" />
+                            <span>@rideModel.RideSource</span>
                         }
                         else
                         {
-                         <span >@rideModel.RideSource</span>
+                            <span>@rideModel.RideSource</span>
                         }
-                     </h5>
+                    </h5>
                     <h5 class="col-4">
-                       @if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.Now))
+                        @if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow))
                         {
                             <span style="color:maroon;font-weight:bold">Today</span>
                         }
-                        else if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.Now).AddDays(1))
+                        else if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1))
                         {
                             <span style="color:green; font-weight:bold">Tomorrow</span>
                         }
                         else
                         {
-                        <span>@rideModel.RideDate</span>
+                            <span>@rideModel.RideDate</span>
                         }
                     </h5>
-                    <h5 class="col-4"> @rideModel.RideTime</h5>
+                    <h5 class="col-4"> 
+                     
+                        @if (@rideModel.RideTime!=null){
+
+                            TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
+    
+                            string time24 = @rideModel.RideTime.ToString();
+                            DateTime parsedTime = DateTime.Parse(time24);
+                            string amPmTime = parsedTime.ToString("hh:mm tt");
+                            // Define the cutoff date, date only
+                            sortedtime = amPmTime;
+                        }
+                    @sortedtime
+                        </h5>
                 </div>
                 <div class="row card-body">
-                   <h6 class="col-7"> Via:@rideModel.RideVia</h6>
-                   <h5 class="col-1"></h5>
+                    <h6 class="col-7"> Via:@rideModel.RideVia</h6>
+                    <h5 class="col-1"></h5>
                     <h5 class="col-4"><i class="bi bi-currency-rupee"></i>@rideModel.RidePrice/seat</h5>
-               </div>
+                </div>
                 <div class="ride-row ride-card-header">
-                    <h5 class="col-4"> 
+                    <h5 class="col-4">
                         @if (@rideModel.RideDesti == "Airport")
                         {
                             <div>
-                                <img src="~/img/flightimg1.png" alt="@rideModel.RideDesti" width="43"/>
+                                <img src="~/img/flightimg1.png" alt="@rideModel.RideDesti" width="43" />
                                 <span>@rideModel.RideDesti</span>
                             </div>
                         }
@@ -96,21 +113,22 @@
                         }
                     </h5>
                     <h5 class="col-4" style="text-align:center">
-                        <img src="~/img/seaticon.png" style="width:16px;height:19px; margin-right:4px"/>@rideModel.RideSeats
+                        <img src="~/img/seaticon.png" style="width:16px;height:19px; margin-right:4px" />@rideModel.RideSeats
                     </h5>
                     <h5 class="col-4">
-                        <a href="tel:@rideModel.RideContact" class="btn btn-success"><span style="font-weight:Bold">@rideModel.RideContact</span></a>
+                        <a href="tel:@rideModel.DriverContact" class="btn btn-success"><span style="font-weight:Bold">@rideModel.DriverContact</span></a>
                     </h5>
                     
                 </div>
             </div>
         }
-    </div>
+   </div>
+     <!----Active List----------------------------->
 
     <br />
 
 </div>
-<div id="viewer-count"><h5>Number of Viewers:</h5>Loading...</div>
+@* <div id="viewer-count"></div> *@
 <!---------------Script------------------------------------------------->
 <script>
                 document.addEventListener('DOMContentLoaded', () => {
@@ -197,44 +215,4 @@
     gtag('js', new Date());
 
     gtag('config', 'G-4PQX2FTGWX');
-</script>
-
-<script>
-    async function fetchViewers() {
-    const res = await fetch('/active-users');
-    const data = await res.json();
-    document.getElementById('viewer-count').innerText =
-    data.activeUsers + ' users online';
-    }
-
-    // refresh every 10 seconds
-    setInterval(fetchViewers, 10000);
-    fetchViewers();
-</script>
-<script>
-    const express = require('express');
-    @*  const { BetaAnalyticsDataClient } = require('@google-analytics/data'); *@
-
-    const app = express();
-
-    const analyticsDataClient = new BetaAnalyticsDataClient({
-    keyFilename: 'service-account.json',
-    });
-
-    app.get('/active-users', async (req, res) => {
-    try {
-    const [response] = await analyticsDataClient.runRealtimeReport({
-    property: 'properties/YOUR_PROPERTY_ID',
-    metrics: [{ name: 'activeUsers' }],
-    });
-
-    const users = response.rows[0].metricValues[0].value;
-    res.json({ activeUsers: users });
-    } catch (err) {
-    console.error(err);
-    res.status(500).send('Error fetching data');
-    }
-    });
-
-    app.listen(3000, () => console.log('Server running on port 3000'));
 </script>

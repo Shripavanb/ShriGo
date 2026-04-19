@@ -10,6 +10,7 @@ namespace ShriGo.Model
         public RideDBContext(DbContextOptions<RideDBContext> options) : base(options) 
         { }
         public DbSet<RideModel> RideDBTable { get; set; }
+        public DbSet<SortedRideModel> Ride_DBTable { get; set; }
 
         public DbSet<UserModel> UserTb { get; set; }
 
