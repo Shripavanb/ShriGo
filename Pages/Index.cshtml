@@ -59,10 +59,10 @@
             <div class="card">
                 <div class="ride-row ride-card-header">
                     <h5 class="col-4">
-                        @if (@rideModel.RideSource == "Airport")
+                        @if (@rideModel.RideSource == "Airport"||@rideModel.RideSource.Contains("Airport"))
                         {
                             <img src="~/img/flightimg1.png" alt="@rideModel.RideSource" width="43" />
-                            <span>@rideModel.RideSource</span>
+                            <span style="font-size-adjust:ch-width;">@rideModel.RideSource</span>
                         }
                         else
                         {
@@ -144,9 +144,7 @@
     @foreach (ShriGo.Model.SortedRideModel rideModel in Model.expiredRidesList)
     {
               
-        <!--------------------------->
-        <br />
-        //Define if the card should be dimmed(e.g., 4 hours passed)
+       //Define if the card should be dimmed(e.g., 4 hours passed)
         @* var isOld = rideModel.RideTime< DateTime.Now.AddHours(-4).ToString(); *@
 
         <div class="card">

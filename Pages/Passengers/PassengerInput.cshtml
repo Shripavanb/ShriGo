@@ -1,0 +1,116 @@
+﻿@page
+@model ShriGo.Pages.Passengers.PassengerInputModel
+@{
+}
+<div class="container-fluid">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card p-4 shadow-sm">
+                    <h2 class="text-center mb-4">Ride Input</h2>
+                    <form method="post" onsubmit="alert('Ride uploaded successfully!')">
+                        <div class="mb-3">
+                            <label for="firstName" class="form-label">Date:</label>
+                            <input type="date" id="last-start-date" class="form-control" name="RideDate" min="01-01-2025"
+                                   max="31-12-2026" placeholder="dd-mm-yyyy" value="@string.Format("{0:dd-MM-yyyy}", Model.LastStartDate)" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="From" class="form-label">From:</label>
+                            <select name="RideSource" class="form-control" id="RideSource">
+                                <option hidden>--</option>
+                                <option value="Hyd">Hyd</option>
+                                <option value="JBS">JBS</option>
+                                <option value="Arm">Arm</option>
+                                <option value="Nzb">Nzb</option>
+                                <option value="MTPL">MTPL</option>
+                                <option value="KRTL">KRTL</option>
+                                <option value="Airport">Airport</option>
+                                <option value="JBS,Airport">JBS,Airport</option>
+                                <option value="JBS,HYD,Airport">JBS,HYD,Airport</option>
+                                <option value="KRTL,MTPL">KRTL,MTPL</option>
+                                <option value="RYKL,KRTL,MTPL">RYKL,KRTL,MTPL</option>
+                            </select>
+
+                        </div>
+                        <div class="mb-3">
+                            <label for="age" class="form-label">To:</label>
+                            <select name="RideDesti" id="country" class="form-control">
+                                <option hidden>--</option>
+                                <option value="Hyd">Hyd</option>
+                                <option value="JBS">JBS</option>
+                                <option value="Arm">Arm</option>
+                                <option value="Nzb">Nzb</option>
+                                <option value="MTPL">MTPL</option>
+                                <option value="KRTL">KRTL</option>
+                                <option value="Airport">Airport</option>
+                                <option value="JBS,Airport">JBS,Airport</option>
+                                <option value="JBS,HYD,Airport">JBS,HYD,Airport</option>
+                                <option value="KRTL,MTPL">KRTL,MTPL</option>
+                                <option value="RYKL,KRTL,MTPL">RYKL,KRTL,MTPL</option>
+                            </select>
+
+                        </div>
+                        <div class="mb-3">
+                            <label for="via" class="form-label">Via:</label>
+                            <select class="form-control" id="myRideVia" name="RideVia">
+                                <option hidden>--</option>
+                                <option value="Vemulawada,Siddipet">Vemulawada,Siddipet</option>
+                                <option value="Armoor,Kamareddy">Armoor,Kamareddy</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contact" class="form-label">Time:</label>
+                            <select class="form-control" id="myRideTime" name="RideTime">
+                                <option hidden>--</option>
+                                <option value="01:00 am">01:00 am</option>
+                                <option value="02:00 am">02:00 am</option>
+                                <option value="03:00 am">03:00 am</option>
+                                <option value="04:00 am">04:00 am</option>
+                                <option value="05:00 am">05:00 am</option>
+                                <option value="06:00 am">06:00 am</option>
+                                <option value="07:00 am">07:00 am</option>
+                                <option value="08:00 am">08:00 am</option>
+                                <option value="09:00 am">09:00 am</option>
+                                <option value="10:00 am">10:00 am</option>
+                                <option value="11:00 am">11:00 am</option>
+                                <option value="12:00 am">12:00 am</option>
+                                <option value="13:00 pm">01:00 pm</option>
+                                <option value="14:00 pm">02:00 pm</option>
+                                <option value="15:00 pm">03:00 pm</option>
+                                <option value="16:00 pm">04:00 pm</option>
+                                <option value="17:00 pm">05:00 pm</option>
+                                <option value="18:00 pm">06:00 pm</option>
+                                <option value="19:00 pm">07:00 pm</option>
+                                <option value="20:00 pm">08:00 pm</option>
+                                <option value="21:00 pm">09:00 pm</option>
+                                <option value="22:00 pm">10:00 pm</option>
+                                <option value="23:00 pm">11:00 pm</option>
+                                <option value="24:00 pm">12:00 pm</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">No of Passengers:</label>
+                            <select name="RideSeats" class="form-control" id=" country">
+                                <option hidden>--</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="Contact:" class="form-label">Contact:</label>
+                            <input type="text" class="form-control" id="myRideContact" name="DriverContact" />
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Upload Requirement</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -6,53 +6,56 @@
     <!--------------Rider Info-------------------------->
     <div class="container-fluid">
         <h3>Ride Table</h3>
-        <table>
-         <thead>
-            <th>Id</th>
-    
+        <table class="table-success">
+         <thead style="background-color:gainsboro">
+            <th>Id</th>    
             <th>Date</th>
-            <th>Source</th>
-   
-            <th>Destination</th>
-    
-            <th>Via</th>
- 
+            <th>Source</th>   
+            <th>Destination</th>    
+            <th>Via</th> 
             <th>Time</th>
             <th>Seats</th>
             <th>Contact</th>
+            <th>Driver Name</th>
+            <th>Driver Unique Id</th>
        </thead>
        <tbody>
     
-            @foreach (Model.RideModel rideModel in Model.listRideModel)
+           @foreach (Model.SortedRideModel sortedRideModel in Model.listRideModel)
             {
                 <tr>
                 
                     <td>
-                        @rideModel.RideId
+                            @sortedRideModel.RideId
                     </td>
                     <td>
-                        @rideModel.RideDate
+                            @sortedRideModel.RideDate
                     </td>
-                    <br />
-                    <td>
-                        @rideModel.RideSource
-                    </td>
-                    <td>
-                        @rideModel.RideDesti
+                  <td>
+                            @sortedRideModel.RideSource
                     </td>
                     <td>
-                        @rideModel.RideVia
+                            @sortedRideModel.RideDesti
                     </td>
                     <td>
-                        @rideModel.RideTime
+                            @sortedRideModel.RideVia
                     </td>
                     <td>
-                        @rideModel.RideSeats
+                            @sortedRideModel.RideTime
+                    </td>
+                    <td>
+                            @sortedRideModel.RideSeats
                     </td>
 
                     <td>
-                        @rideModel.RideContact
+                            @sortedRideModel.DriverContact
                     </td>
+                        <td>
+                            @sortedRideModel.DriverFirstName
+                        </td>
+                        <td>
+                            @sortedRideModel.DriverUniqueId
+                        </td>
                 
                 </tr>
 
@@ -67,16 +70,12 @@
     <div class="container-fluid">
     <h3>User Table</h3>
             <table>
-                 <thead>
-                    <th>UserId</th>
-    
+                <thead style="background-color:gold">
+                    <th>UserId</th>    
                     <th>UserUniqueId</th>
                     <th>UserRegDate</th>
-   
-                    <th>UserFirstName</th>
-    
-                    <th>UserLastName</th>
- 
+                    <th>UserFirstName</th>    
+                    <th>UserLastName</th> 
                     <th>UserAge</th>
                     <th>UserEmail</th>
                     <th>UserContact</th>
