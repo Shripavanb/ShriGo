@@ -46,14 +46,8 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                            
-                            <div class="form-group">
-                                <button class="btn btn-primary btn-lg" style="    color: #ededed;
-                                    background-color: #00ff9e;
-                                    border-color: #3700ff;
-font-weight:bold">
-                                    <a asp-area="" asp-page="/RiderInput">Upload Ride</a>
-                                </button>
+                            <div >
+                                <a asp-area="" asp-page="/RiderInput" class="btn btn-info" role="button" style="font-weight:bold">Upload Ride</a>
                             </div>
                     </div>
                     <div class="col-md-2">
@@ -178,6 +172,7 @@ font-weight:bold">
                   <thead>
                     <tr class="table-hover">
                         <th scope="col">Id</th>
+                        <th scope="col">Date</th>
                         <th scope="col">From</th>
                         <th scope="col">To</th>
                         <th scope="col">Via</th>
@@ -193,6 +188,7 @@ font-weight:bold">
                     {
                     <tr>
                             <td>@driverRides.RideId</td>
+                            <td>@driverRides.RideDate</td>
                             <td>@driverRides.RideSource</td>
                             <td>@driverRides.RideDesti</td>
                             <td>@driverRides.RideVia</td>

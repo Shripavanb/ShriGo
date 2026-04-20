@@ -33,7 +33,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/SignUp">SignUp</a>
                         </li>
                         <li class="nav-item" >
-                            <a class="nav-link text-dark" asp-area="" asp-page="/SignOut">SignOut</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/SignOut"><span id="signoutBtn">SignOut</span></a>
                         </li>
                     </ul>
                 </div>
@@ -48,7 +48,7 @@
 
     
 
-    @* @if (User.Identity.IsAuthenticated)
+@*     @if (User.Identity.IsAuthenticated)
     {
         <li class="nav-item">
             <a class="nav-link" asp-page="/SignOut">Sign Out</a>
@@ -119,7 +119,16 @@
             &copy; 2025 - ShriGo -Powered by <a href="https://shriaitech.in/" target="_blank">shriaitech.in</a></a>
         </div>
     </footer>
-
+    <script>
+            if(sessionStorage.getItem('session_UserUniqueId')!=null)
+            {
+            document.getElementById("signoutBtn").style.visibility ="visible";
+            }
+            else
+            {
+                 document.getElementById("signoutBtn").style.visibility ="hidden";
+            }
+    </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
