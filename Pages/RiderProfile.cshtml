@@ -176,7 +176,7 @@ font-weight:bold">
 
                 <table class="table table-striped">
                   <thead>
-                    <tr>
+                    <tr class="table-hover">
                         <th scope="col">Id</th>
                         <th scope="col">From</th>
                         <th scope="col">To</th>
@@ -184,6 +184,8 @@ font-weight:bold">
                         <th scope="col">Time</th>
                         <th scope="col">Seats</th>
                         <th scope="col">Price</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -205,6 +207,12 @@ font-weight:bold">
                                         Delete
                                     </button>
                                 </form>
+                            </td>
+                            <td>
+                                <!----------------->
+                                <a asp-page="./Drivers/Edit" asp-route-id="@driverRides.RideId">
+                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                </a>
                             </td>
                     </tr>
                     }
