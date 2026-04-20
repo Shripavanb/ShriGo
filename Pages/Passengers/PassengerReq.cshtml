@@ -1,0 +1,96 @@
+﻿@page
+@model ShriGo.Pages.Passengers.PassengerReqModel
+@{
+}
+<div class="container-fluid">
+    <h2>Passenger Requirment</h2>
+    <div class="container-fluid">
+    <br />
+    <!-----------Active List------------------>
+    @{
+        var sortedtime = "00:00am";
+    }
+  @foreach (ShriGo.Model.SortedRideModel rideModel in Model.finalListRideModel)
+    {
+              
+        <!--------------------------->
+        <br />
+        //Define if the card should be dimmed(e.g., 4 hours passed)
+        @* var isOld = rideModel.RideTime< DateTime.Now.AddHours(-4).ToString(); *@
+
+        <div class="card">
+            <div class="ride-row ride-card-header">
+                <h5 class="col-4">
+                    @if (@rideModel.RideSource == "Airport"||@rideModel.RideSource.Contains("Airport"))
+                    {
+                        <img src="~/img/flightimg1.png" alt="@rideModel.RideSource" width="43" />
+                        <span style="font-size-adjust:ch-width;">@rideModel.RideSource</span>
+                    }
+                    else
+                    {
+                        <span>@rideModel.RideSource</span>
+                    }
+                </h5>
+                <h5 class="col-4">
+                    @if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow))
+                    {
+                        <span style="color:maroon;font-weight:bold">Today</span>
+                    }
+                    else if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1))
+                    {
+                        <span style="color:green; font-weight:bold">Tomorrow</span>
+                    }
+                    else
+                    {
+                        <span>@rideModel.RideDate</span>
+                    }
+                </h5>
+                <h5 class="col-4">
+                     
+                    @if (@rideModel.RideTime!=null)
+                    {
+
+                        TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
+    
+                        string time24 = @rideModel.RideTime.ToString();
+                        DateTime parsedTime = DateTime.Parse(time24);
+                        string amPmTime = parsedTime.ToString("hh:mm tt");
+                        // Define the cutoff date, date only
+                        sortedtime = amPmTime;
+                    }
+                    @sortedtime
+                </h5>
+            </div>
+            <div class="row card-body">
+                <h6 class="col-7"> Via:@rideModel.RideVia</h6>
+                <h5 class="col-1"></h5>
+                <h5 class="col-4"><i class="bi bi-currency-rupee"></i>@rideModel.RidePrice/seat</h5>
+            </div>
+            <div class="ride-row ride-card-header">
+                <h5 class="col-4">
+                    @if (@rideModel.RideDesti == "Airport")
+                    {
+                        <div>
+                            <img src="~/img/flightimg1.png" alt="@rideModel.RideDesti" width="43" />
+                            <span>@rideModel.RideDesti</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <span>@rideModel.RideDesti</span>
+                    }
+                </h5>
+                <h5 class="col-4" style="text-align:center">
+                    <img src="~/img/seaticon.png" style="width:16px;height:19px; margin-right:4px" />@rideModel.RideSeats
+                </h5>
+                <h5 class="col-4">
+                    <a href="tel:@rideModel.DriverContact" class="btn btn-success"><span style="font-weight:Bold">@rideModel.DriverContact</span></a>
+                </h5>
+                    
+            </div>
+        </div>
+    }
+ 
+  
+</div>
+</div>
