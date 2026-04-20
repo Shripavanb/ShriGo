@@ -9,14 +9,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-builder.Services.AddDistributedMemoryCache();//Required for Sesssion timeout
-
+//Database connection string
 builder.Services.AddDbContext<RideDBContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")) );
 
+//Session
+builder.Services.AddDistributedMemoryCache();//Required for Sesssion timeout
 builder.Services.AddSession(options =>
 { 
- options.IdleTimeout = TimeSpan.FromSeconds(120);//Set Session timeout 
+ options.IdleTimeout = TimeSpan.FromMinutes(20);//Set Session timeout 
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential= true;
 });
 var app = builder.Build();
 
@@ -28,6 +31,7 @@ if (!app.Environment.IsProduction())
     app.UseHsts();
 }
 // Configure the HTTP request pipeline
+
 app.UseSession(); // Enable session middleware
 
 //Number of Site visitors
@@ -39,7 +43,16 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
+
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllerRoute(
+//        name: "default",
+//        pattern: "{controller=Home}/{action=Index}/{id?}");
+//});
 
 app.MapRazorPages();
 

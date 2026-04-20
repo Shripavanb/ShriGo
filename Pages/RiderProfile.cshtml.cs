@@ -16,6 +16,9 @@ namespace ShriGo.Pages
         public List<SortedRideModel> list_SortedRideModel = new List<SortedRideModel>();
         public List<SortedRideModel> only_DriverRides = new List<SortedRideModel>();
 
+        [BindProperty]
+        public SortedRideModel updateRecord { get; set; }
+
         //Constructor
         public RiderProfileModel(RideDBContext context)
         {
@@ -55,6 +58,8 @@ namespace ShriGo.Pages
             }
 
         }
+
+   
 
         //Allows Drivers to Delete their ride of choice.
         public async Task<IActionResult> OnPostDeleteAsync(int id)
