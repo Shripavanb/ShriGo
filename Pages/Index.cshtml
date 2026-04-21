@@ -105,7 +105,7 @@
                 </div>
                 <div class="ride-row ride-card-header">
                     <h5 class="col-4">
-                        @if (@rideModel.RideDesti == "Airport")
+                        @if (@rideModel.RideDesti == "Airport"||@rideModel.RideDesti.Contains("Airport"))
                         {
                             <div>
                                 <img src="~/img/flightimg1.png" alt="@rideModel.RideDesti" width="43" />
