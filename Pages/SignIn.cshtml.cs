@@ -33,6 +33,9 @@ namespace ShriGo.Pages
             {
                 if(NewUserModel.UserEmail==user.UserEmail && NewUserModel.UserPswd == user.UserPswd)
                 {
+                    // Clears the session data if it holds any
+                    HttpContext.Session.Clear();
+
                     //Session Start, Creating a session variables 
                     HttpContext.Session.SetString("session_UserName", user.UserFirstName);
                     HttpContext.Session.SetString("session_UserUniqueId", user.UserUniqueId);

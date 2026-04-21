@@ -4,8 +4,14 @@
 
 <html lang="en">
 <head>
-    <meta charset="utf-8" property="og:image" content="https://shrigo.in" />
+    <meta charset="utf-8"  />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"  />
+    <meta property="og:title" content="ShriGo" />
+    <meta property="og:url" content="https://shrigo.in" />
+    <meta property="og:image"  content="~/img/shrigo_promotion_img.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="627" />
     <title>@ViewData["Title"] - ShriGo</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -14,7 +20,10 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
+                <div class="row-2">
                 <a class="navbar-brand" asp-area="" asp-page="/Index"><img src="~/img/ShriGo_Logo8.png" style="height:100px; width:150px" /></a>
+                </div>
+                <div class="row-4">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -28,17 +37,17 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/SignIn">SignIn</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/SignIn"><span id="signinBtn">SignIn</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/SignUp"><span id="signupBtn">SignUp</span></a>
                         </li>
-                        <li class="nav-item" >
-                             <a class="nav-link text-dark" asp-area="" asp-page="/SignOut"><span id="signoutBtn">SignOut</span></a>
-                        </li>
                     </ul>
                 </div>
-                <p>Welcome:@Context.Session.GetString("session_UserName")</p>
+              </div>
+                <div class="row-3">
+                    <p>Welcome:<span id="userName">@Context.Session.GetString("session_UserName")</span></p>
+                <a class="nav-link text-dark" asp-area="" asp-page="/SignOut"><span id="signoutBtn">SignOut</span></a>
                 @{
                         var username = @Context.Session.GetString("session_UserName");
                  }
@@ -47,9 +56,12 @@
                     Console.WriteLine("SessionVissible:"+username);
                     <script>
                      /*-SigOutButton---*/
+                     document.getElementById("userName").style.visibility ="visible";
                      document.getElementById("signoutBtn").style.visibility ="visible";   
-                     /*--SigUpButton---*/
+
+                     /*--SigUpButton--& SignInButton-Hidden-*/
                      document.getElementById("signupBtn").style.visibility ="hidden";
+                     document.getElementById("signinBtn").style.visibility ="hidden";
                     </script>
                }
               else
@@ -58,10 +70,17 @@
                   <script>
                     /*-SigOutButton---*/
                     document.getElementById("signoutBtn").style.visibility ="hidden";
+                    document.getElementById("userName").innerText = "Guest";
                     /*--SigUpButton---*/
                     document.getElementById("signupBtn").style.visibility ="visible";
+                    document.getElementById("signinBtn").style.visibility ="visible";
                   </script>
               }
+                  
+              </div>
+         
+               
+
             </div>
         </nav>
     </header>
