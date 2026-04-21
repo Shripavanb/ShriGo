@@ -76,7 +76,7 @@ namespace ShriGo.Pages
 
             _dbContext.SaveChanges();
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/RiderProfile");
         }
 
         [DataType(DataType.Date)]
