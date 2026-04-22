@@ -21,6 +21,7 @@ namespace ShriGo.Pages
         public SortedRideModel sortedRideModel { get; set; }
 
 
+
         public IndexModel(ILogger<IndexModel> logger, RideDBContext context)
         {
             _logger = logger;
@@ -31,6 +32,7 @@ namespace ShriGo.Pages
         {
             //Creating a session variable 
             string userValue = HttpContext.Session.GetString("session_UserName");
+
             //HttpContext.Session.SetString("UserSession", "Active");
 
             // Define the cutoff date, date only 

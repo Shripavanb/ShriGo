@@ -14,7 +14,7 @@ namespace ShriGo.Pages
         [BindProperty]
         public int newRideId { get ; set ;}
 
-        public List<RideModel> listRideModel = new List<RideModel>();
+        //public List<RideModel> listRideModel = new List<RideModel>();
         public List<SortedRideModel> list_SortedRideModel = new List<SortedRideModel>();
         private DateTime lastStartDate;
 

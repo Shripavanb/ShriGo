@@ -11,6 +11,7 @@ namespace ShriGo.Pages
 
 
         public List<UserModel> listUserModel = new List<UserModel>();
+        private RedirectToPageResult x;
 
         [BindProperty]
         public UserModel NewUserModel { get; set; }
@@ -28,6 +29,7 @@ namespace ShriGo.Pages
         {
             //List<DriverModel> databaseList = _dBContext.DriversTb.ToList();
             listUserModel = _dbContext.UserTb.ToList();
+           
 
             foreach (var user in listUserModel)
             {
@@ -39,9 +41,20 @@ namespace ShriGo.Pages
                     //Session Start, Creating a session variables 
                     HttpContext.Session.SetString("session_UserName", user.UserFirstName);
                     HttpContext.Session.SetString("session_UserUniqueId", user.UserUniqueId);
+                    HttpContext.Session.SetString("session_UserContact", user.UserContact);
+                    HttpContext.Session.SetString("session_UserEmail", user.UserEmail);
+                    HttpContext.Session.SetString("session_UserRole", user.UserRole);
 
-                    //Signin Validated
-                    return RedirectToPage("/RiderProfile");
+                    if (user.UserRole=="Driver")
+                    {
+                        //Signin Validated
+                        x= RedirectToPage("/RiderProfile");
+                    }
+                    else if (user.UserRole=="Passenger")
+                    {
+                        x= RedirectToPage("/Passengers/PassengerProfile");
+                    }
+                        return x;
                 }
                 else
                 {
