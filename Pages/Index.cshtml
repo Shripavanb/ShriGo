@@ -123,6 +123,9 @@
                     <h5 class="col-4">
                         <a href="tel:@rideModel.DriverContact" class="btn btn-success"><span style="font-weight:Bold">@rideModel.DriverContact</span></a>
                     </h5>
+                    <a asp-page="./Booking/BookRide" asp-route-id="@rideModel.RideId">
+                        <button type="submit" class="btn btn-primary">BookRide</button>
+                    </a>
                     
                 </div>
             </div>
@@ -215,7 +218,6 @@
                 <h5 class="col-4">
                     <a href="tel:@rideModel.DriverContact" class="btn btn-success"><span style="font-weight:Bold">@rideModel.DriverContact</span></a>
                 </h5>
-                    
             </div>
         </div>
     }

@@ -29,7 +29,7 @@ namespace ShriGo.Pages
         {
             string session_UserName = HttpContext.Session.GetString("session_UserName");
             string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
-
+            string session_UserRole = HttpContext.Session.GetString("session_UserRole");
             //User profile display
             listUserModel = _dbContext.UserTb.ToList();
             foreach(var user in listUserModel)
@@ -65,12 +65,12 @@ namespace ShriGo.Pages
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
             // 1. Find the record in your database
-            var rowToDelete = await _dbContext.RideDBTable.FindAsync(id);
+            var rowToDelete = await _dbContext.Ride_DBTable.FindAsync(id);
 
             if (rowToDelete != null)
             {
                 // 2. Remove the record
-                _dbContext.RideDBTable.Remove(rowToDelete);
+                _dbContext.Ride_DBTable.Remove(rowToDelete);
 
                 // 3. Save changes to persist the deletion
                 await _dbContext.SaveChangesAsync();

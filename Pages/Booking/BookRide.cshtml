@@ -1,0 +1,124 @@
+﻿@page
+@model ShriGo.Pages.Booking.BookRideModel
+@{
+}
+
+<link href="~/css/bookride.css" rel="stylesheet" />
+<link href="cdn.jsdelivr.net" rel="stylesheet">
+<script src="https://smtpjs.com/v3/smtp.js"></script>
+<script src="cdn.jsdelivr.net"></script>
+<link href="cdn.jsdelivr.net" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<div class="container-fluid">
+    @{
+        var sortedtime = "00:00am";
+    }
+
+              
+            <!--------------------------->
+            <br />
+            //Define if the card should be dimmed(e.g., 4 hours passed)
+            @* var isOld = rideModel.RideTime< DateTime.Now.AddHours(-4).ToString(); *@
+
+            <div class="card">
+        @foreach (ShriGo.Model.SortedRideModel rideModel in Model.list_selectedRideModel)
+        {
+              
+            <!--------------------------->
+            <br />
+            <div class="card">
+                <div class="ride-row ride-card-header">
+                    <h5 class="col-4">
+                        @if (@rideModel.RideSource == "Airport"||@rideModel.RideSource.Contains("Airport"))
+                        {
+                            <img src="~/img/flightimg1.png" alt="@rideModel.RideSource" width="43" />
+                            <span style="font-size-adjust:ch-width;">@rideModel.RideSource</span>
+                        }
+                        else
+                        {
+                            <span>@rideModel.RideSource</span>
+                        }
+                    </h5>
+                    <h5 class="col-4">
+                        @if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow))
+                        {
+                            <span style="color:maroon;font-weight:bold">Today</span>
+                        }
+                        else if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1))
+                        {
+                            <span style="color:green; font-weight:bold">Tomorrow</span>
+                        }
+                        else
+                        {
+                            <span>@rideModel.RideDate</span>
+                        }
+                    </h5>
+                    <h5 class="col-4">
+                     
+                        @if (@rideModel.RideTime!=null)
+                        {
+
+                            TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
+    
+                            string time24 = @rideModel.RideTime.ToString();
+                            DateTime parsedTime = DateTime.Parse(time24);
+                            string amPmTime = parsedTime.ToString("hh:mm tt");
+                            // Define the cutoff date, date only
+                            sortedtime = amPmTime;
+                        }
+                        @sortedtime
+                    </h5>
+                </div>
+                <div class="row card-body">
+                    <h6 class="col-7"> Via:@rideModel.RideVia</h6>
+                    <h5 class="col-1"></h5>
+                    <h5 class="col-4"><i class="bi bi-currency-rupee"></i>@rideModel.RidePrice/seat</h5>
+                </div>
+                <div class="ride-row ride-card-header">
+                    <h5 class="col-4">
+                        @if (@rideModel.RideDesti == "Airport"||@rideModel.RideDesti.Contains("Airport"))
+                        {
+                            <div>
+                                <img src="~/img/flightimg1.png" alt="@rideModel.RideDesti" width="43" />
+                                <span>@rideModel.RideDesti</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <span>@rideModel.RideDesti</span>
+                        }
+                    </h5>
+                    <h5 class="col-4" style="text-align:center">
+                        <img src="~/img/seaticon.png" style="width:16px;height:19px; margin-right:4px" />@rideModel.RideSeats
+                    </h5>
+                    <h5 class="col-4">
+                        <a href="tel:@rideModel.DriverContact" class="btn btn-success"><span style="font-weight:Bold">@rideModel.DriverContact</span></a>
+                    </h5>
+                    <form method="post" asp-route-id="@rideModel.RideId">
+                        <div class="quantity-selector">
+                            <button type="button" class="btn-minus" onclick="changeQuantity(-1)">-</button>
+                            <input type="number" asp-for="ItemQuantity" id="quantityInput" value="1" min="1" />
+                            <button type="button" class="btn-plus" onclick="changeQuantity(1)">+</button>
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
+                    
+                </div>
+            </div>
+        }
+  
+                   
+                </div>
+            </div>    
+            <script>
+function changeQuantity(amount) {
+const input = document.getElementById('quantityInput');
+let currentValue = parseInt(input.value) || 0;
+let newValue = currentValue + amount;
+    
+// Ensure the value does not go below the minimum
+if (newValue >= parseInt(input.min)) {
+input.value = newValue;
+}
+}
+</script>
