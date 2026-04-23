@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+builder.Services.AddControllers();
 //Database connection string
 builder.Services.AddDbContext<RideDBContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")) );
@@ -31,6 +32,14 @@ if (!app.Environment.IsProduction())
     app.UseHsts();
 }
 // Configure the HTTP request pipeline
+
+
+var path = Path.Combine(AppContext.BaseDirectory, "google-credentials.json");
+
+Environment.SetEnvironmentVariable(
+    "GOOGLE_APPLICATION_CREDENTIALS",
+    path
+);
 
 app.UseSession(); // Enable session middleware
 
@@ -55,6 +64,6 @@ app.UseAuthorization();
 //});
 
 app.MapRazorPages();
-
+app.MapControllers();
 
 app.Run();

@@ -225,7 +225,36 @@
     <br />
 
 </div>
-@* <div id="viewer-count"></div> *@
+<div id="viewer-count">Loading...</div>
+
+<script>
+    async function fetchViewers() {
+    try {
+    const res = await fetch('/api/analytics/active-users');
+    const data = await res.json();
+
+    if (data.activeUsers !== undefined) {
+    document.getElementById('viewer-count').innerText =
+    data.activeUsers + ' users online';
+    } else if (data.error) {
+    console.error("API Error:", data.error);
+    document.getElementById('viewer-count').innerText =
+    'Analytics error';
+    } else {
+    document.getElementById('viewer-count').innerText =
+    '0 users online';
+    }
+
+    } catch (err) {
+    console.error(err);
+    document.getElementById('viewer-count').innerText =
+    'Unable to load';
+    }
+    }
+
+    setInterval(fetchViewers, 10000);
+    fetchViewers();
+</script>
 <!---------------Script------------------------------------------------->
 <script>
                 document.addEventListener('DOMContentLoaded', () => {

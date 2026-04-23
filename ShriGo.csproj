@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Analytics.Data.V1Beta" Version="2.0.0-beta10" />
     <PackageReference Include="Google.Apis.Analytics.v3" Version="1.68.0.1679" />
     <PackageReference Include="Microsoft.AspNet.Identity.Owin" Version="2.2.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.9" />
@@ -22,6 +23,9 @@
 	  <Content Update="appsettings.json">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		  <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+	  </Content>
+	  <Content Update="wwwroot\google-credentials.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
   </ItemGroup>
 
