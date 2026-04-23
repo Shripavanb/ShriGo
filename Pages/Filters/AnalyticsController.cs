@@ -1,4 +1,5 @@
 ﻿using Google.Analytics.Data.V1Beta;
+using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -18,18 +19,18 @@ public class AnalyticsController : ControllerBase
     {
         try
         {
-            var path = Path.Combine(AppContext.BaseDirectory, "google-credentials.json");
+            // 👇 REPLACE CLIENT CREATION HERE
+            var json = Environment.GetEnvironmentVariable("GOOGLE_CREDENTIALS_JSON");
+            var credential = GoogleCredential.FromJson(json);
 
-            if (!System.IO.File.Exists(path))
+            var client = new BetaAnalyticsDataClientBuilder
             {
-                return Ok(new { error = "Credentials file NOT found", path });
-            }
-
-            var client = BetaAnalyticsDataClient.Create();
+                Credential = credential
+            }.Build();
 
             var request = new RunRealtimeReportRequest
             {
-                Property = "properties/502473110", // 🔥 replace with REAL property ID
+                Property = "properties/502473110",
                 Metrics = { new Metric { Name = "activeUsers" } }
             };
 
@@ -43,12 +44,7 @@ public class AnalyticsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return Ok(new
-            {
-                error = ex.Message,
-                inner = ex.InnerException?.Message,
-                stack = ex.StackTrace
-            });
+            return Ok(new { error = ex.Message });
         }
     }
 }

@@ -24,7 +24,7 @@
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		  <CopyToPublishDirectory>Always</CopyToPublishDirectory>
 	  </Content>
-	  <Content Update="Pages\google-credentials.json">
+	  <Content Update="wwwroot\google-credentials.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
   </ItemGroup>
