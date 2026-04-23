@@ -34,12 +34,12 @@ if (!app.Environment.IsProduction())
 // Configure the HTTP request pipeline
 
 
-var path = Path.Combine(AppContext.BaseDirectory, "google-credentials.json");
+//var path = Path.Combine(AppContext.BaseDirectory, "google-credentials.json");
 
-Environment.SetEnvironmentVariable(
-    "GOOGLE_APPLICATION_CREDENTIALS",
-    path
-);
+//Environment.SetEnvironmentVariable(
+//    "GOOGLE_APPLICATION_CREDENTIALS",
+//    path
+//);
 
 app.UseSession(); // Enable session middleware
 
