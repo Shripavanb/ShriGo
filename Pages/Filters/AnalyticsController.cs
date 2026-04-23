@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 [Route("api/[controller]")]
 public class AnalyticsController : ControllerBase
 {
-    private readonly BetaAnalyticsDataClient _client;
+    //private readonly BetaAnalyticsDataClient _client;
 
     public AnalyticsController()
     {
-        _client = BetaAnalyticsDataClient.Create();
+        //_client = BetaAnalyticsDataClient.Create();
     }
 
     [HttpGet("active-users")]
@@ -21,6 +21,12 @@ public class AnalyticsController : ControllerBase
         {
             // 👇 REPLACE CLIENT CREATION HERE
             var json = Environment.GetEnvironmentVariable("GOOGLE_CREDENTIALS_JSON");
+
+            if (string.IsNullOrEmpty(json))
+            {
+                throw new Exception("Google credentials not found in environment variables");
+            }
+
             var credential = GoogleCredential.FromJson(json);
 
             var client = new BetaAnalyticsDataClientBuilder
@@ -30,7 +36,7 @@ public class AnalyticsController : ControllerBase
 
             var request = new RunRealtimeReportRequest
             {
-                Property = "properties/502473110",
+                Property = "properties/123456789",
                 Metrics = { new Metric { Name = "activeUsers" } }
             };
 
