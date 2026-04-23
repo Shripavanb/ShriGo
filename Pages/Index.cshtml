@@ -4,7 +4,7 @@
     ViewData["Title"] = "ShriGo";
 
 }
-<link href="~/css/home.css" rel="stylesheet" />
+<link href="~/css/Home.css" rel="stylesheet" />
 
 <link href="cdn.jsdelivr.net" rel="stylesheet">
 <script src="https://smtpjs.com/v3/smtp.js"></script>
@@ -225,6 +225,7 @@
     <br />
 
 </div>
+<!-----------Working code-------------->
 <div id="viewer-count">Loading...</div>
 
 <script>
@@ -239,6 +240,27 @@
     setInterval(fetchUsers, 10000);
     fetchUsers();
 </script>
+
+<!------------------------->
+<div class="dashboard">
+@* 
+    <div class="card">
+        <div class="label">👀 Active Users</div>
+        <div id="activeUsers" class="value">0</div>
+    </div> *@
+
+    <div class="card">
+        <div class="label">📄 Page Views</div>
+        <div id="pageViews" class="value">0</div>
+    </div>
+
+    <div class="card">
+        <div class="label">👥 Total Users</div>
+        <div id="totalUsers" class="value">0</div>
+    </div>
+
+</div>
+
 <!---------------Script------------------------------------------------->
 <script>
                 document.addEventListener('DOMContentLoaded', () => {

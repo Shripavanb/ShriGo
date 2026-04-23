@@ -1,5 +1,7 @@
 ﻿@page
 @model ShriGo.Pages.Booking.BookRideModel
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Http
 @{
 }
 
@@ -17,7 +19,7 @@
               
             <!--------------------------->
             <br />
-            //Define if the card should be dimmed(e.g., 4 hours passed)
+            @* //Define if the card should be dimmed(e.g., 4 hours passed) *@
             @* var isOld = rideModel.RideTime< DateTime.Now.AddHours(-4).ToString(); *@
 
             <div class="card">
@@ -110,7 +112,7 @@
                    
                 </div>
             </div>    
-            <script>
+<script>
 function changeQuantity(amount) {
 const input = document.getElementById('quantityInput');
 let currentValue = parseInt(input.value) || 0;
