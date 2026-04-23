@@ -72,5 +72,10 @@ namespace ShriGo.Pages.Passengers
             // 4. Redirect back to the current page to refresh the table
             return RedirectToPage();
         }
+
+        public IActionResult OnPostBookRide()
+        {
+            return RedirectToPage("/Index");
+        }
     }
 }

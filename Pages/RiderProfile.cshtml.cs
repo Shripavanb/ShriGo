@@ -79,5 +79,10 @@ namespace ShriGo.Pages
             // 4. Redirect back to the current page to refresh the table
             return RedirectToPage();
         }
+
+        public IActionResult OnPostUploadRide()
+        {
+            return RedirectToPage("/RideInput");
+        }
     }
 }
