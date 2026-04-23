@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +50,7 @@ namespace ShriGo.Pages.Booking
         }
 
 
-        public async Task<IActionResult> OnPost(int id)
+        public async Task<IActionResult> OnPost(int id, Exception ex1)
         {
             var rideSelected = await _dbContext.Ride_DBTable.FirstOrDefaultAsync(e => e.RideId==id);
 
@@ -59,39 +60,51 @@ namespace ShriGo.Pages.Booking
             string session_UserEmail = HttpContext.Session.GetString("session_UserEmail");
 
             if (session_userName == "Guest"||session_userName ==null)
-            {                
+            {
+                ViewData["Message"] = "Please SignUp to Book a Ride..";
                 Response.Redirect("/SignUp");
             }
             else
             {
-                // Access the selected value via ItemQuantity
-                var result = ItemQuantity;
+                try
+                {
+                    // Access the selected value via ItemQuantity
+                    var result = ItemQuantity;
 
-                bookedRideModel.RideId =rideSelected.RideId;
-                bookedRideModel.RideDate =rideSelected.RideDate;
-                bookedRideModel.RideSource =rideSelected.RideSource;
-                bookedRideModel.RideDesti =rideSelected.RideDesti;
-                bookedRideModel.RideVia =rideSelected.RideVia;
-                bookedRideModel.RideTime=rideSelected.RideTime;
-                //Booked Seats
-                bookedRideModel.BookedSeats = ItemQuantity.ToString();
+                    bookedRideModel.RideId =rideSelected.RideId;
+                    bookedRideModel.RideDate =rideSelected.RideDate;
+                    bookedRideModel.RideSource =rideSelected.RideSource;
+                    bookedRideModel.RideDesti =rideSelected.RideDesti;
+                    bookedRideModel.RideVia =rideSelected.RideVia;
+                    bookedRideModel.RideTime=rideSelected.RideTime;
+                    //Booked Seats
+                    bookedRideModel.BookedSeats = ItemQuantity.ToString();
 
-                int totalbookingamount=int.Parse(rideSelected.RidePrice);
-                bookedRideModel.RidePrice =(totalbookingamount*ItemQuantity).ToString();
-                bookedRideModel.DriverContact =rideSelected.DriverContact;
-                bookedRideModel.DriverUniqueId =rideSelected.DriverUniqueId;
-                bookedRideModel.DriverFirstName =rideSelected.DriverFirstName;
+                    int totalbookingamount = int.Parse(rideSelected.RidePrice);
+                    bookedRideModel.RidePrice =(totalbookingamount*ItemQuantity).ToString();
+                    bookedRideModel.DriverContact =rideSelected.DriverContact;
+                    bookedRideModel.DriverUniqueId =rideSelected.DriverUniqueId;
+                    bookedRideModel.DriverFirstName =rideSelected.DriverFirstName;
 
-                bookedRideModel.UserFirstName =session_userName;
-                bookedRideModel.UserUniqueId =session_UserUniqueId;
-                bookedRideModel.UserContact =session_UserContact;
-                bookedRideModel.UserEmail = session_UserContact;
+                    bookedRideModel.UserFirstName =session_userName;
+                    bookedRideModel.UserUniqueId =session_UserUniqueId;
+                    bookedRideModel.UserContact =session_UserContact;
+                    bookedRideModel.UserEmail = session_UserContact;
+                    //store booked ride into db further use
+                    _dbContext.BookedRide_DBTable.Add(bookedRideModel);
+
+                    _dbContext.SaveChanges();
+
+                    return RedirectToPage("/Passengers/PassengerProfile");
+                }
+                catch (Exception ex)
+                {
+                    return (IActionResult)ex1;
+
+                }
             }
-            //store booked ride into db further use
-            _dbContext.BookedRide_DBTable.Add(bookedRideModel);
 
-            _dbContext.SaveChanges();
-            return RedirectToPage("/Passengers/PassengerProfile");
+            return Page();
 
         }
     }

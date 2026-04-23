@@ -26,3 +26,29 @@
     background-color: rgb(104 167 158 / 6%);
     border-bottom: 1px solid rgb(0 0 0 / 15%);
 }
+
+
+/*----------user view------------------*/
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.label {
+    font-size: 14px;
+    color: #777;
+}
+
+.value {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 8px;
+}
