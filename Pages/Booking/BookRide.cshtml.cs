@@ -76,8 +76,8 @@ namespace ShriGo.Pages.Booking
                 //Booked Seats
                 bookedRideModel.BookedSeats = ItemQuantity.ToString();
 
-                int totalbookingamount=int.Parse(selectedRideModel.RidePrice);
-                bookedRideModel.RidePrice =totalbookingamount.ToString();
+                int totalbookingamount=int.Parse(rideSelected.RidePrice);
+                bookedRideModel.RidePrice =(totalbookingamount*ItemQuantity).ToString();
                 bookedRideModel.DriverContact =rideSelected.DriverContact;
                 bookedRideModel.DriverUniqueId =rideSelected.DriverUniqueId;
                 bookedRideModel.DriverFirstName =rideSelected.DriverFirstName;
