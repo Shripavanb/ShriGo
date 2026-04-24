@@ -8,27 +8,15 @@ public class AnalyticsController : ControllerBase
 {
     private static int _cachedUsers = 0;
     private static DateTime _lastFetch = DateTime.MinValue;
-    //private BetaAnalyticsDataClient CreateClient()
-    //{
-    //    var json = Environment.GetEnvironmentVariable("GOOGLE_CREDENTIALS_JSON");
-
-    //    if (string.IsNullOrEmpty(json))
-    //        throw new Exception("Google credentials not found");
-
-    //    var credential = GoogleCredential.FromJson(json);
-
-    //    return new BetaAnalyticsDataClientBuilder
-    //    {
-    //        Credential = credential
-    //    }.Build();
-    //}
-
     private BetaAnalyticsDataClient CreateClient()
     {
-        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "google-credentials1.json");
+        var json = Environment.GetEnvironmentVariable("GOOGLE_CREDENTIALS_JSON");
+
+        if (string.IsNullOrEmpty(json))
+            throw new Exception("Google credentials not found");
 
         var credential = GoogleCredential
-            .FromFile(path)
+            .FromJson(json)
             .CreateScoped("https://www.googleapis.com/auth/analytics.readonly");
 
         return new BetaAnalyticsDataClientBuilder
@@ -36,6 +24,20 @@ public class AnalyticsController : ControllerBase
             Credential = credential
         }.Build();
     }
+
+    //private BetaAnalyticsDataClient CreateClient()
+    //{
+    //    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "google-credentials1.json");
+
+    //    var credential = GoogleCredential
+    //        .FromFile(path)
+    //        .CreateScoped("https://www.googleapis.com/auth/analytics.readonly");
+
+    //    return new BetaAnalyticsDataClientBuilder
+    //    {
+    //        Credential = credential
+    //    }.Build();
+    //}
 
     //private static string _cachedUsers = "0";
     //private static DateTime _lastFetch = DateTime.MinValue;
