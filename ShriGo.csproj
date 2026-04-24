@@ -27,6 +27,9 @@
 	  <Content Update="wwwroot\google-credentials.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
+	  <Content Update="wwwroot\google-credentials1.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
   </ItemGroup>
 
 </Project>

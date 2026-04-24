@@ -6,20 +6,37 @@ using Google.Analytics.Data.V1Beta;
 [Route("api/[controller]")]
 public class AnalyticsController : ControllerBase
 {
+    private static int _cachedUsers = 0;
+    private static DateTime _lastFetch = DateTime.MinValue;
+    //private BetaAnalyticsDataClient CreateClient()
+    //{
+    //    var json = Environment.GetEnvironmentVariable("GOOGLE_CREDENTIALS_JSON");
+
+    //    if (string.IsNullOrEmpty(json))
+    //        throw new Exception("Google credentials not found");
+
+    //    var credential = GoogleCredential.FromJson(json);
+
+    //    return new BetaAnalyticsDataClientBuilder
+    //    {
+    //        Credential = credential
+    //    }.Build();
+    //}
+
     private BetaAnalyticsDataClient CreateClient()
     {
-        var json = Environment.GetEnvironmentVariable("GOOGLE_CREDENTIALS_JSON");
+        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "google-credentials1.json");
 
-        if (string.IsNullOrEmpty(json))
-            throw new Exception("Google credentials not found");
-
-        var credential = GoogleCredential.FromJson(json);
+        var credential = GoogleCredential
+            .FromFile(path)
+            .CreateScoped("https://www.googleapis.com/auth/analytics.readonly");
 
         return new BetaAnalyticsDataClientBuilder
         {
             Credential = credential
         }.Build();
     }
+
     //private static string _cachedUsers = "0";
     //private static DateTime _lastFetch = DateTime.MinValue;
 
@@ -47,34 +64,50 @@ public class AnalyticsController : ControllerBase
     //    return Ok(new { activeUsers = users });
     //}
 
+
+
+
     //For Active users online only-Working Code both on locall and on server 
     [HttpGet("active-users")]
     public async Task<IActionResult> GetActiveUsers()
     {
         try
         {
+            // ✅ Cache check (FIRST)
+            if ((DateTime.UtcNow - _lastFetch).TotalSeconds < 15)
+            {
+                return Ok(new { activeUsers = _cachedUsers });
+            }
+
             var client = CreateClient();
 
-            var request = new RunRealtimeReportRequest
+            var response = await client.RunRealtimeReportAsync(new RunRealtimeReportRequest
             {
-                Property = "properties/502473110", // 🔥 your GA property ID
+                Property = "properties/502473110",
                 Metrics = { new Metric { Name = "activeUsers" } }
-            };
+            });
 
-            var response = await client.RunRealtimeReportAsync(request);
+            var value = response.Rows.FirstOrDefault()?.MetricValues.FirstOrDefault()?.Value;
 
-            var users = response.Rows.Count > 0
-                ? response.Rows[0].MetricValues[0].Value
-                : "0";
+            int.TryParse(value, out int users);
+
+            // ✅ Update cache
+            _cachedUsers = users;
+            _lastFetch = DateTime.UtcNow;
 
             return Ok(new { activeUsers = users });
         }
         catch (Exception ex)
         {
-            return Ok(new { error = ex.Message });
+            return StatusCode(500, new { error = ex.Message });
         }
     }
 
+    [HttpGet("test")]
+    public IActionResult Test()
+    {
+        return Ok("API is working");
+    }
 
     //For Active user, Total views, 
     [HttpGet("dashboard")]
@@ -84,47 +117,35 @@ public class AnalyticsController : ControllerBase
         {
             var client = CreateClient();
 
-            // 🔴 Realtime (active users)
-            var realtimeRequest = new RunRealtimeReportRequest
+            // Realtime
+            var realtime = await client.RunRealtimeReportAsync(new RunRealtimeReportRequest
             {
                 Property = "properties/502473110",
                 Metrics = { new Metric { Name = "activeUsers" } }
-            };
+            });
 
-            var realtimeResponse = await client.RunRealtimeReportAsync(realtimeRequest);
+            int.TryParse(
+                realtime.Rows.FirstOrDefault()?.MetricValues.FirstOrDefault()?.Value,
+                out int activeUsers
+            );
 
-            var activeUsers = realtimeResponse.Rows.Count > 0
-                ? int.Parse(realtimeResponse.Rows[0].MetricValues[0].Value)
-                : 0;
-
-            // 🔵 Standard report (page views + total users)
-            var reportRequest = new RunReportRequest
+            // Report
+            var report = await client.RunReportAsync(new RunReportRequest
             {
                 Property = "properties/502473110",
                 DateRanges =
             {
-                new DateRange
-                {
-                    StartDate = "2026-04-17", // 👉 change to your launch date
-                    EndDate = "today"
-                }
+                new DateRange { StartDate = "7daysAgo", EndDate = "today" }
             },
                 Metrics =
             {
                 new Metric { Name = "screenPageViews" },
                 new Metric { Name = "totalUsers" }
             }
-            };
+            });
 
-            var reportResponse = await client.RunReportAsync(reportRequest);
-
-            var pageViews = reportResponse.Rows.Count > 0
-                ? int.Parse(reportResponse.Rows[0].MetricValues[0].Value)
-                : 0;
-
-            var totalUsers = reportResponse.Rows.Count > 0
-                ? int.Parse(reportResponse.Rows[0].MetricValues[1].Value)
-                : 0;
+            int.TryParse(report.Rows.FirstOrDefault()?.MetricValues[0]?.Value, out int pageViews);
+            int.TryParse(report.Rows.FirstOrDefault()?.MetricValues[1]?.Value, out int totalUsers);
 
             return Ok(new
             {
@@ -135,7 +156,7 @@ public class AnalyticsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return Ok(new { error = ex.Message });
+            return StatusCode(500, new { error = ex.Message });
         }
     }
 }
