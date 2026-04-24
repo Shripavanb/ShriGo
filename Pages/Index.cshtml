@@ -232,14 +232,14 @@
     const data = await res.json();
 
     document.getElementById('activeUsers').innerText =
-    (data.activeUsers ?? 0) + " users online";    
+    (data.activeUsers ?? 0) + " Users Online";    
 
 
     document.getElementById('pageViews').innerText =
     (data.pageViews ?? 0) + " Page Views";
 
     document.getElementById('totalUsers').innerText =
-    (data.totalUsers ?? 0) + " Page Views";
+    (data.totalUsers ?? 0) + " Total Users";
     }
     setInterval(fetchUsers, 10000);
     fetchUsers();
@@ -249,20 +249,20 @@
     
 <div class="dashboard">
 
-@*     <div class="card">
+    <div class="card">
         <div class="label">👀 Active Users</div>
         <div id="activeUsers" class="value">0</div>
-    </div> *@
+    </div>
 
     <div class="card">
         <div class="label">📄 Page Views</div>
         <div id="pageViews" class="value">0</div>
     </div>
 
-@*     <div class="card">
+    <div class="card">
         <div class="label">👥 Total Users</div>
         <div id="totalUsers" class="value">0</div>
-    </div> *@
+    </div>
 
 </div>
 
