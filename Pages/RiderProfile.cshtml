@@ -15,6 +15,17 @@
             @foreach (var activeuser in Model.activeUser)
             {
             <form method="post">
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4"></div>
+                        <div class ="col-md-4">
+                            <button type="submit" asp-page-handler="UploadRide" class="btn btn-primary btn-lg" style=" color: #ededed;font-weight:bold">
+                                Upload Ride
+                            </button>                                                 
+                        </div>
+                    </div>
+                    <br />
+                    <br />
                 <div class="row">
                     <div class="col-md-4">
                         <div class="profile-img">
@@ -46,11 +57,7 @@
                         </div>
                     </div>
                     <div class="col-md-2">
-                            <div >
-                                <button type="submit" asp-page-handler="UploadRide" class="btn btn-primary btn-lg" style=" color: #ededed;font-weight:bold">
-                                        Upload Ride</button>
-                                                 
-                            </div>
+
                     </div>
                     <div class="col-md-2">
                        @*  <input type="submit" class="profile-edit-btn" name="btnAddMore" value="Edit Profile" /> *@
@@ -167,7 +174,7 @@
             }
         </div>
 
-        <div class="container">
+        <div class="container-fluid">
             <h3>Your Rides</h3>
 
                 <table class="table table-striped">
