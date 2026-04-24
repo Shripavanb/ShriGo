@@ -226,28 +226,33 @@
 
 </div>
 <!-----------Working code-------------->
-<div id="viewer-count">Loading...</div>
-
 <script>
     async function fetchUsers() {
-    const res = await fetch('/api/analytics/active-users');
+    const res = await fetch('/api/analytics/dashboard');
     const data = await res.json();
 
-    document.getElementById('viewer-count').innerText =
-    (data.activeUsers ?? 0) + " users online";
-    }
+    document.getElementById('activeUsers').innerText =
+    (data.activeUsers ?? 0) + " users online";    
 
+
+    document.getElementById('pageViews').innerText =
+    (data.pageViews ?? 0) + " Page Views";
+
+    document.getElementById('totalUsers').innerText =
+    (data.totalUsers ?? 0) + " Page Views";
+    }
     setInterval(fetchUsers, 10000);
     fetchUsers();
 </script>
 
 <!------------------------->
+    
 <div class="dashboard">
-@* 
+
     <div class="card">
         <div class="label">👀 Active Users</div>
         <div id="activeUsers" class="value">0</div>
-    </div> *@
+    </div>
 
     <div class="card">
         <div class="label">📄 Page Views</div>
