@@ -1,7 +1,9 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using NETCore.MailKit.Core;
 using ShriGo.Model;
 using ShriGo.Pages;
+using System.Net;
 using Twilio.TwiML.Voice;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,9 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddControllers();
+
+
 //Database connection string
 builder.Services.AddDbContext<RideDBContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")) );
+
 
 //Session
 builder.Services.AddDistributedMemoryCache();//Required for Sesssion timeout
@@ -22,6 +27,13 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential= true;
 });
+
+//Email Service 
+builder.Services.AddScoped<EmailService>();
+// Example using Scoped lifetime
+builder.Services.AddScoped<ShriGo.Pages.Booking.EmailService>();
+ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
