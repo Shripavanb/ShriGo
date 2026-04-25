@@ -23,8 +23,9 @@ namespace ShriGo.Pages.Booking
             await smtp.ConnectAsync(_config["MailSettings:Server"], int.Parse(_config["MailSettings:Port"]));
             await smtp.AuthenticateAsync(_config["MailSettings:SenderEmail"], _config["MailSettings:Password"]);
             await smtp.SendAsync(email);
-            await smtp.DisconnectAsync(true);
             Console.WriteLine("Email sent successfully.");
+            await smtp.DisconnectAsync(true);
+          
             }
             catch (MailKit.Security.AuthenticationException authEx)
             {

@@ -7,11 +7,14 @@ namespace ShriGo.Pages.Passengers
     public class PassengerProfileModel : PageModel
     {
         private readonly RideDBContext _dbContext;
+
+        //Passenger
         public List<UserModel> listUserModel = new List<UserModel>();
         public List<UserModel> activeUser = new List<UserModel>();
 
-        public List<BookedRideModel> list_BookingsTableModel = new List<BookedRideModel>();
-        public List<BookedRideModel> only_PassengerBookings = new List<BookedRideModel>();
+        //Bookings 
+        public List<BookingsModel> list_BookingsTableModel = new List<BookingsModel>();
+        public List<BookingsModel> only_PassengerBookings = new List<BookingsModel>();
 
         [BindProperty]
         public SortedRideModel updateRecord { get; set; }
@@ -40,8 +43,8 @@ namespace ShriGo.Pages.Passengers
                 }
             }
 
-            //Driver ride list display   
-            list_BookingsTableModel = _dbContext.BookedRide_DBTable.ToList();
+            //Passenger Booked ride list display   
+            list_BookingsTableModel = _dbContext.Bookings_DBTable.ToList();
             foreach (var ride in list_BookingsTableModel)
             {
 
@@ -58,12 +61,12 @@ namespace ShriGo.Pages.Passengers
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
             // 1. Find the record in your database
-            var rowToDelete = await _dbContext.Ride_DBTable.FindAsync(id);
+            var rowToDelete = await _dbContext.Bookings_DBTable.FindAsync(id);
 
             if (rowToDelete != null)
             {
                 // 2. Remove the record
-                _dbContext.Ride_DBTable.Remove(rowToDelete);
+                _dbContext.Bookings_DBTable.Remove(rowToDelete);
 
                 // 3. Save changes to persist the deletion
                 await _dbContext.SaveChangesAsync();

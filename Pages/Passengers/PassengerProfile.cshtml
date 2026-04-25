@@ -196,7 +196,7 @@
                     @foreach (var PassBookings in Model.only_PassengerBookings)
                     {
                         <tr>
-                            <td>@PassBookings.RideId</td>
+                            <td>@PassBookings.BookingId</td>
                             <td>@PassBookings.RideDate</td>
                             <td>@PassBookings.RideSource</td>
                             <td>@PassBookings.RideDesti</td>
@@ -206,7 +206,7 @@
                             <td>@PassBookings.RidePrice</td>
                             <td>
                                 <!-- Delete form targeting the 'OnPostDelete' handler -->
-                                <form method="post" asp-page-handler="Delete" asp-route-id="@PassBookings.RideId">
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@PassBookings.BookingId">
                                     <button type="submit" class="btn btn-danger"
                                             onclick="return confirm('Are you sure you want to delete this?')">
                                         Delete
