@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ShriGo.Model;
+using System.Reflection;
+using System.Text;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
@@ -21,8 +23,14 @@ namespace ShriGo.Pages.Booking
         [BindProperty]
         public SortedRideModel selectedRideModel{  get; set; }
 
+        //[BindProperty]
+        //public BookedRideModel bookedRideModel { get; set; }
+
+
         [BindProperty]
-        public BookedRideModel bookedRideModel { get; set; }
+        public BookingsModel bookedRideModel { get; set; }
+
+        public List<BookingsModel> list_BookingsModel = new List<BookingsModel>();
 
         [BindProperty]
         public List<int> SelectedIds { get; set; } // This will hold the selected values
@@ -84,7 +92,14 @@ namespace ShriGo.Pages.Booking
                     // Access the selected value via ItemQuantity
                     var result = ItemQuantity;
 
-                    bookedRideModel.RideId =rideSelected.RideId;
+                    var newBookingId = _dbContext.Bookings_DBTable.Max(r => r.BookingId);
+
+                    if (newBookingId!=null)
+                    { 
+                        bookedRideModel.BookingId  = newBookingId+1;
+                    }
+
+                    bookedRideModel.RideId =(rideSelected.RideId).ToString();
                     bookedRideModel.RideDate =rideSelected.RideDate;
                     bookedRideModel.RideSource =rideSelected.RideSource;
                     bookedRideModel.RideDesti =rideSelected.RideDesti;
@@ -104,11 +119,32 @@ namespace ShriGo.Pages.Booking
                     bookedRideModel.UserContact =session_UserContact;
                     bookedRideModel.UserEmail = session_UserEmail;
                     //store booked ride into db further use
-                    _dbContext.BookedRide_DBTable.Add(bookedRideModel);
-
+                    _dbContext.Bookings_DBTable.Add(bookedRideModel);
+                    list_BookingsModel.Add(bookedRideModel);// For Email Body
                     _dbContext.SaveChanges();
 
-                    OnPostSendMailAsync(bookedRideModel.UserEmail,"ShriGo Booking", "Booked--------------");
+                    //string emailBody = bookedRideModel.BookedSeats+bookedRideModel.RideSource;
+
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append("<h3>Your Ride has Booked:</h3> <br /><h3>Booked Ride Details:</h3><ul>");
+
+                    // Use GetProperties() to find all public elements
+                    PropertyInfo[] properties = bookedRideModel.GetType().GetProperties();
+
+                    foreach (PropertyInfo prop in properties)
+                    {
+                        string name = prop.Name;
+                        if (name == "RideDate"||name == "RideSource"||name == "RideDesti"||name == "RideVia"
+                            ||name == "RideTime"||name == "BookedSeats"||name == "RidePrice"|| name == "DriverContact"||name == "DriverFirstName")
+                        {
+
+                            object value = prop.GetValue(bookedRideModel) ?? "N/A"; // GetValue retrieves the actual data
+                            sb.Append($"<li><b>{name}: </b> {value}</li><br />");
+                        }
+                    }
+                    sb.Append("</ul>");
+                    string emailBody = sb.ToString();
+                    OnPostSendMailAsync(bookedRideModel.UserEmail,"ShriGo Booking Confirmation", emailBody);
                     //SendSms(bookedRideModel.UserContact, "RideBooked Sucessfully");
 
                     return RedirectToPage("/Passengers/PassengerProfile");
