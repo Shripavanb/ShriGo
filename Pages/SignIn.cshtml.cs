@@ -54,7 +54,11 @@ namespace ShriGo.Pages
                     {
                         x= RedirectToPage("/Passengers/PassengerProfile");
                     }
-                        return x;
+                    else if (user.UserRole=="Admin")
+                    {
+                        x= RedirectToPage("/Admin/AdminDashboard");
+                    }
+                    return x;
                 }
                 else
                 {
