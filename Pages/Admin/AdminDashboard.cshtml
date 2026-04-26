@@ -66,6 +66,76 @@
     </table>
 
     <br />
+    <!---------------Bookings Table------------------------>
+
+        <div class="container-fluid">
+            <h3>Bookings Table</h3>
+            <table class="table-responsive-md">
+                <thead style="background-color:gold">
+                    <th>BookingId</th>
+                    <th>RideSource</th>
+                    <th>RideDate</th>
+                    <th>RideDesti</th>
+                    <th>RidePrice</th>
+                    <th>RideTime</th>
+                    <th>RideVia</th>
+                    <th>DriverFirstName</th>
+                    <th>DriverUniqueId</th>
+                    <th>DriverContact</th>
+                    <th>UserFirstName</th>
+                    <th>UserContact</th>
+                  
+                </thead>
+                <tbody>
+                    @foreach (Model.BookingsModel bookingsModel in Model.listBookingsModel)
+                    {
+                        <tr>
+                            <td>
+                                @bookingsModel.BookingId
+                            </td>
+                            <td>
+                                @bookingsModel.RideSource
+                            </td>
+                            <td>
+                                @bookingsModel.RideDate
+                            </td>
+                            <td>
+                                @bookingsModel.RideDesti
+                            </td>
+                            <td>
+                                @bookingsModel.RidePrice
+                            </td>
+                            <td>
+                                @bookingsModel.RideTime
+                            </td>
+                            <td>
+                                @bookingsModel.RideVia
+                            </td>
+                            <td>
+                                @bookingsModel.DriverFirstName
+                            </td>
+                            <td>
+                                @bookingsModel.DriverUniqueId
+                            </td>
+                            <td>
+                                @bookingsModel.DriverContact
+                            </td>
+                            <td>
+                                @bookingsModel.UserFirstName
+                            </td>
+                            <td>
+                                @bookingsModel.UserContact
+                            </td>
+                    
+                 
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+        </div>
+        <br />
     <!--------------User Info-------------------------->
     <div class="container-fluid">
     <h3>User Table</h3>
