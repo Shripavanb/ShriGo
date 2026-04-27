@@ -18,6 +18,8 @@ namespace ShriGo.Model
 
         public DbSet<BookingsModel> Bookings_DBTable { get; set; }
 
+        public DbSet<PassengerModel> PassengerTb { get; set; }
+
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    //Auto increment of ID 
