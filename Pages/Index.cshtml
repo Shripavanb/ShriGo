@@ -120,14 +120,20 @@
                     <h5 class="col-4" style="text-align:center">
                         <img src="~/img/seaticon.png" style="width:16px;height:19px; margin-right:4px" />@rideModel.RideSeats
                     </h5>
+                   <h5 class="col-4">
+                        <a href="tel:@rideModel.DriverContact" class="btn btn-success"><span style="font-weight:Bold">@rideModel.DriverContact</span></a>
+                    </h5>
+               
+                </div>
+@*                 <div class="ride-row ride-card-header">
                     <h5 class="col-4">
                         <a asp-page="./Booking/BookRide" asp-route-id="@rideModel.RideId">
                             <button type="submit" class="btn btn-primary">BookRide</button>
                         </a>
                     </h5>
-               
-                    
-                </div>
+                     <h5 class="col-4"></h5>
+                      <h5 class="col-4"></h5>
+                </div> *@
             </div>
         }
   

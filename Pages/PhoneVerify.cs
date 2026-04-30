@@ -12,43 +12,30 @@ namespace ShriGo.Pages
 {
     public class PhoneVerify
     {
+        private readonly IConfiguration _config;
 
 
-        public void twilio(string mobileNo)
+        //Constructor
+        public PhoneVerify(IConfiguration config)
         {
-            var accountSid = "AC20a782fc1473c3682b6481adc266e7c9";
-            var authToken = "[AuthToken]";
-            TwilioClient.Init(accountSid, authToken);
-
-            var verification = VerificationResource.Create(
-                to: mobileNo,//"+918374499001",
-                channel: "sms",
-                pathServiceSid: "VA632db498adb24bbc2a49be09a2fbbf73"
-                );
-
-            Console.WriteLine(verification.Sid);
-            //return verification;
+            _config = config;
         }
 
+        //public void twilio(string mobileNo)
+        //{
+        //    var accountSid = _config["TwiloConnection.accountSid"];
+        //    var authToken = _config["TwiloConnection.AuthToken"];
+        //    TwilioClient.Init(accountSid, authToken);
 
-//class Example
-//    {
-//        static void Main(string[] args)
-//        {
-//            var accountSid = "AC20a782fc1473c3682b6481adc266e7c9";
-//            var authToken = "[AuthToken]";
-//            TwilioClient.Init(accountSid, authToken);
+        //    var verification = VerificationResource.Create(
+        //        to: mobileNo,
+        //        channel: "sms",
+        //        _config["TwiloConnection.pathServiceSid"]
+        //        );
 
-//            var verification = VerificationResource.Create(
-//                to: "+918374499001",
-//                channel: "sms",
-//                pathServiceSid: "VA632db498adb24bbc2a49be09a2fbbf73"
-//            );
+        //    Console.WriteLine(verification.Sid);
+        //    return verification;
+        //}
 
-//            Console.WriteLine(verification.Sid);
-//        }
-//    }
-
-
-}
+    }
 }
