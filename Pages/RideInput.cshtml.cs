@@ -59,16 +59,28 @@ namespace ShriGo.Pages
             var oldRidesAsPerDate = _dbContext.Ride_DBTable.Where(r => r.RideDate < cutoffDate).ToList();
             //// Finds the old entities(as per date) to remove,
             //var oldRidesAsPerTime = _dbContext.Ride_DBTable.Where(r => r.RideTime.CompareTo(cutoffTime)<0).ToList();
+            
+            // Returns true if NO data exists in the table
+            bool isTableEmpty = !_dbContext.Ride_DBTable.Any();
 
-            // Finds the max Id number and adds +1 to it 
-            var newRideId = _dbContext.Ride_DBTable.Max(r => r.RideId);
+            if (isTableEmpty)
+            {
+                NewRideModel.RideId = 1;
+                Console.WriteLine("Table is empty.");
+            }
+            else
+            {
+                // Finds the max Id number and adds +1 to it 
+                var newRideId = _dbContext.Ride_DBTable.Max(r => r.RideId);
+                NewRideModel.RideId = newRideId+1;
+                Console.WriteLine("Table has data.");            
+            }
+      
 
             // Remove the entities from the DbSet
             _dbContext.Ride_DBTable.RemoveRange(oldRidesAsPerDate);
             //_dbContext.RideDBTable.RemoveRange(oldRidesAsPerTime);
-
-            // Finds the max Id number and adds +1 to it 
-            NewRideModel.RideId = newRideId+1;
+    
             NewRideModel.DriverUniqueId =session_UserUniqueId;
             NewRideModel.DriverFirstName =session_userName;
 
