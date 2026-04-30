@@ -12,7 +12,7 @@
     <div class="container">
         <div class="container emp-profile">
 
-            @foreach (var activeuser in Model.activeUser)
+            @foreach (var activePassenger in Model.listPassengerModel)
             {
                 <form method="post">
                     <div class="row">
@@ -40,10 +40,10 @@
 
                             <div class="profile-head">
                                 <h5>
-                                    <p>Welcome, @activeuser.UserFirstName</p>
+                                    <p>Welcome, @activePassenger.PassengerFirstName</p>
                                 </h5>
                                 <h6>
-                                    Cab driver /Cab Owner
+                                    Passenger
                                 </h6>
                                 <p class="proile-rating">RANKINGS : <span>8/10</span></p>
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -67,12 +67,12 @@
                         <div class="col-md-4">
                             <div class="profile-work">
                                 <p>WORK Details</p>
-                                <a href="">Arm to Hyd</a><br />
-                                <a href="">Hyd to Arm </a><br />
-                                <a href="">Nzb to Hyd</a>
+                                <a href="">Agent</a><br />
+                                <a href="">Merchant</a><br />
+                                <a href="">Sale person</a>
                                 <p>SKILLS</p>
-                                <a href="">Four wheel Driver</a><br />
-                                <a href="">Two wheel Driver</a><br />
+                                <a href="">Real estate</a><br />
+                                <a href="">Doctor</a><br />
                             </div>
                         </div>
                         <div class="col-md-8">
@@ -83,7 +83,7 @@
                                             <label>User Id</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p>@activeuser.UserUniqueId</p>
+                                            <p>@activePassenger.PassengerUniqueId</p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -91,7 +91,7 @@
                                             <label>Name</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p>@activeuser.UserFirstName</p>
+                                            <p>@activePassenger.PassengerFirstName</p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -99,7 +99,7 @@
                                             <label>Email</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p>@activeuser.UserEmail</p>
+                                            <p>@activePassenger.PassengerEmail</p>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -107,15 +107,15 @@
                                             <label>Phone/Contact no:</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p>@activeuser.UserContact</p>
+                                            <p>@activePassenger.PassengerContact</p>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label>Profession/Role</label>
+                                            <label>Age</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <p>@activeuser.UserRole</p>
+                                            <p>@activePassenger.PassengerAge</p>
                                         </div>
                                     </div>
                                 </div>

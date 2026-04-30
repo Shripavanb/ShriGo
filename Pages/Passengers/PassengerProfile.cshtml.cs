@@ -9,8 +9,8 @@ namespace ShriGo.Pages.Passengers
         private readonly RideDBContext _dbContext;
 
         //Passenger
-        public List<UserModel> listUserModel = new List<UserModel>();
-        public List<UserModel> activeUser = new List<UserModel>();
+        public List<PassengerModel> listPassengerModel = new List<PassengerModel>();
+        public List<PassengerModel> activePassenger = new List<PassengerModel>();
 
         //Bookings 
         public List<BookingsModel> list_BookingsTableModel = new List<BookingsModel>();
@@ -29,17 +29,17 @@ namespace ShriGo.Pages.Passengers
         {
             string session_UserName = HttpContext.Session.GetString("session_UserName");
             string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
-   
+
 
             //User profile display
-            listUserModel = _dbContext.UserTb.ToList();
-            foreach (var user in listUserModel)
+            listPassengerModel = _dbContext.PassengerTb.ToList();
+            foreach (var user in listPassengerModel)
             {
-                int index = listUserModel.FindIndex(a => a.UserFirstName == session_UserName);
-                if (user.UserFirstName ==session_UserName)
+                int index = listPassengerModel.FindIndex(a => a.PassengerFirstName == session_UserName);
+                if (user.PassengerFirstName ==session_UserName)
                 {
                     //Major Milestone in achiving only wanted list out of selected index
-                    activeUser.Add(listUserModel[index]);
+                    activePassenger.Add(listPassengerModel[index]);
                 }
             }
 

@@ -2,6 +2,7 @@
 @model ShriGo.Pages.SignUpModel
 @{
 }
+<
 <div>
     <div class="container-fluid">
         <div class="row">
@@ -10,58 +11,132 @@
                     <div class="col-md-6 col-lg-5">
                         <div class="card p-4 shadow-sm">
                             <h2 class="text-center mb-4">Sign Up</h2>
-                            <form method="post" onsubmit="alert('Form submitted successfully!')">
-                                <div class="mb-3">
-                                    <label for="firstName" class="form-label">Are you a </label>
-                                    <select class="form-control" id="Role" name="UserRole">
-                                        <option hidden>--</option>
-                                        <option value="Driver">Driver</option>
-                                        <option value="Passenger">Passenger</option>
-                                        </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="firstName" class="form-label">First Name</label>
-                                    <input type="text" class="form-control" id="firstName" name="UserFirstName" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="lastName" class="form-label">Last Name</label>
-                                    <input type="text" class="form-control" id="lastName" name="UserLastName" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="age" class="form-label">Age</label>
-                                    <input type="text" class="form-control" id="Age" name="UserAge" aria-describedby="age" min="0" max="99" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email address</label>
-                                    <input type="email" class="form-control" id="email" name="UserEmail" aria-describedby="emailHelp">
-                                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="contact" class="form-label">Contact</label>
-                                    <input type="text" class="form-control" id="contact" name="UserContact" aria-describedby="contact" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" name="UserPswd" id="password" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                    <input type="password" class="form-control" id="confirm_password" onkeyup="checkMatches()" required>
-                                    <span id="message"></span>
-                                </div>
-                                <br />
-                                <div class="mb-3">
-                                    <label for="confirmPassword" class="form-label">Please choose Subscription</label>
-                                    <select class="form-control" id="Subscription" name="Subscription" required>
-                                        <option hidden>--</option>
-                                        <option value="200">200/m</option>
-                                    </select>
-                                </div>
-                                <br />
-                                <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-primary">Sign Up</button>
-                                </div>
-                            </form>
+                                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="pills-driver-tab" data-bs-toggle="pill" data-bs-target="#pills-driver" type="button" role="tab" aria-controls="pills-driver" aria-selected="true">Driver</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="pills-passenger-tab" data-bs-toggle="pill" data-bs-target="#pills-passenger" type="button" role="tab" aria-controls="pills-passenger" aria-selected="false">Passenger</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="pills-tabContent">
+                                    <!------Driver---------------->
+                                    <div class="tab-pane fade show active" id="pills-driver" role="tabpanel" aria-labelledby="pills-driver-tab" tabindex="0">
+                                        <form method="post" asp-page-handler="Driver">
+                                            @if (ViewData["Message"] != null)
+                                            {
+                                                <div class="alert alert-info">@ViewData["Message"]</div>
+                                            }
+                                            <div class="mb-3">
+                                                <input id="Role" name="UserRole" value="Driver" style="visibility:hidden" />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="firstName" class="form-label">First Name</label>
+                                                <input type="text" class="form-control" id="firstName" name="UserFirstName" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="lastName" class="form-label">Last Name</label>
+                                                <input type="text" class="form-control" id="lastName" name="UserLastName" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="lastName" class="form-label">Vehicle Reg no</label>
+                                                <input type="text" class="form-control" id="RegNo" name="VehicleRegNo" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="lastName" class="form-label">Vehicle Insurance No</label>
+                                                <input type="text" class="form-control" id="RegNo" name="VehicleInsur" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="lastName" class="form-label">Vehicle Make/Model </label>
+                                                <input type="text" class="form-control" id="RegNo" name="VehicleModel" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="age" class="form-label">Driver Age</label>
+                                                <input type="text" class="form-control" id="Age" name="UserAge" aria-describedby="age" min="0" max="99" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email address</label>
+                                                <input type="email" class="form-control" id="email" name="UserEmail" aria-describedby="emailHelp">
+                                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="contact" class="form-label">Contact</label>
+                                                <input type="text" class="form-control" id="contact" name="UserContact" aria-describedby="contact" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input type="password" class="form-control" name="UserPswd" id="password" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                                <input type="password" class="form-control" id="confirm_password" onkeyup="checkMatches()" required>
+                                                <span id="message"></span>
+                                            </div>
+                                            <br />
+                                            <div class="mb-3">
+                                                <label for="confirmPassword" class="form-label">Please choose Subscription</label>
+                                                <select class="form-control" id="Subscription" name="Subscription" required>
+                                                    <option hidden>--</option>
+                                                    <option value="200">200/m</option>
+                                                </select>
+                                            </div>
+                                            <br />
+                                            <div class="d-grid gap-2">
+                                                <button type="submit" data-dismiss="alert" class="btn btn-primary" data-target="#my-alert">Sign Up</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!------Passenger---------------->
+                                    <div class="tab-pane fade" id="pills-passenger" role="tabpanel" aria-labelledby="pills-passenger-tab" tabindex="0">
+                                        <form method="post" asp-page-handler="Passenger">
+                                            @if (ViewData["Message"] != null)
+                                            {
+                                                <div class="alert alert-info">@ViewData["Message"]</div>
+                                            }
+                                            <div class="mb-3">
+                                                <input id="Role" name="UserRole" value="Passenger" style="visibility:hidden"/>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="firstName" class="form-label">First Name</label>
+                                                <input type="text" class="form-control" id="firstName" name="PassengerFirstName" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="lastName" class="form-label">Last Name</label>
+                                                <input type="text" class="form-control" id="lastName" name="PassengerLastName" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="age" class="form-label">Age</label>
+                                                <input type="text" class="form-control" id="Age" name="PassengerAge" aria-describedby="age" min="0" max="99" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email address</label>
+                                                <input type="email" class="form-control" id="email" name="PassengerEmail" aria-describedby="emailHelp">
+                                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="contact" class="form-label">Contact</label>
+                                                <input type="text" class="form-control" id="contact" name="PassengerContact" aria-describedby="contact" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="password" class="form-label">Password</label>
+                                                <input type="password" class="form-control" name="PassengerPswd" id="password" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                                <input type="password" class="form-control" id="confirm_password" onkeyup="checkMatches()" required>
+                                                <span id="message"></span>
+                                            </div>
+                                            <br />
+                      @*                       <div class="mb-3">
+                                                <input id="Subscription" name="Subscription" value="None" style="visibility:hidden"/>
+                                            </div> *@
+                                            <br />
+                                            <div class="d-grid gap-2">
+                                                <button type="submit" data-dismiss="alert" class="btn btn-primary" data-target="#my-alert">Sign Up</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>                        
                         </div>
                     </div>
                 </div>
@@ -84,5 +159,21 @@
               }
             }
 
+            /*--------------Pop up Message---------------------*/
+                //  const form = document.querySelector('form');
+                // const message = document.querySelector('#success-message');
+                // form.addEventListener('submit', (e) => {
+                //   e.preventDefault(); // Prevents page reload
+                //   message.style.display = 'block'; // Shows the message
+                // });
 </script>
+
+        @if (ViewData["Message"] != null)
+        {
+            <script type="text/javascript">
+                    document.onload = function () {
+                    alert("@ViewData["Message"]");
+                    };
+            </script>
+        }
 </div>
