@@ -1,3 +1,5 @@
+using Google.Api;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -9,12 +11,15 @@ namespace ShriGo.Pages
     {
         private readonly RideDBContext _dbContext;
 
-
-        public List<UserModel> listUserModel = new List<UserModel>();
         private RedirectToPageResult x;
 
+        public List<UserModel> listUserModel = new List<UserModel>();
         [BindProperty]
         public UserModel NewUserModel { get; set; }
+
+        public List<PassengerModel> listPassengerModel = new List<PassengerModel>();
+        [BindProperty]
+        public PassengerModel NewPassengerModel { get; set; }
 
 
         public SignInModel(RideDBContext context)
@@ -25,15 +30,16 @@ namespace ShriGo.Pages
         {
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(string InputEmail, string InputPswd)
         {
             //List<DriverModel> databaseList = _dBContext.DriversTb.ToList();
             listUserModel = _dbContext.UserTb.ToList();
-           
+            listPassengerModel = _dbContext.PassengerTb.ToList();
+
 
             foreach (var user in listUserModel)
             {
-                if(NewUserModel.UserEmail==user.UserEmail && NewUserModel.UserPswd == user.UserPswd)
+                if (InputEmail==user.UserEmail && InputPswd == user.UserPswd)
                 {
                     // Clears the session data if it holds any
                     HttpContext.Session.Clear();
@@ -50,28 +56,60 @@ namespace ShriGo.Pages
                         //Signin Validated
                         x= RedirectToPage("/RiderProfile");
                     }
-                    else if (user.UserRole=="Passenger")
-                    {
-                        x= RedirectToPage("/Passengers/PassengerProfile");
-                    }
                     else if (user.UserRole=="Admin")
                     {
                         x= RedirectToPage("/Admin/AdminDashboard");
                     }
                     return x;
                 }
-                else
+
+                //if (NewDriverModel.DriverEmail == listDriverM)
+                //{
+
+                //}
+                //verify the login credentials and allow user to profile page 
+                //Response.Redirect("~/Admin/AdminDashboard.cshtml");
+
+            }
+            foreach (var user in listPassengerModel)
+            {
+                if (InputEmail==user.PassengerEmail && InputPswd == user.PassengerPswd)
                 {
-                    //Signin Not Validated
+                    // Clears the session data if it holds any
+                    HttpContext.Session.Clear();
+
+                    //Session Start, Creating a session variables 
+                    HttpContext.Session.SetString("session_UserName", user.PassengerFirstName);
+                    HttpContext.Session.SetString("session_UserUniqueId", user.PassengerUniqueId);
+                    HttpContext.Session.SetString("session_UserContact", user.PassengerContact);
+                    HttpContext.Session.SetString("session_UserEmail", user.PassengerEmail);
+
+                    return RedirectToPage("/Passengers/PassengerProfile");
                 }
             }
-            //if (NewDriverModel.DriverEmail == listDriverM)
-            //{
-
-            //}
-            //verify the login credentials and allow user to profile page 
-            //Response.Redirect("~/Admin/AdminDashboard.cshtml");
             return RedirectToPage();
         }
+
+        
+        //----------Future use code ------------------------------------------
+
+        //    // User navigation property
+        //     public User User { get; set; }
+        //public async Task<bool> VerifyUserAsync(string email, string passwordHash)
+        //{
+        //    // Joining Users and Profiles to verify credentials [4, 6]
+        //    var userExists = await _dbContext.UserTb
+        //        .Join(_dbContext.PassengerTb,
+        //            user => user.UserId,
+        //            profile => profile.UserId,
+        //            (user, profile) => new { user, profile })
+        //        .AnyAsync(joined =>
+        //            joined.user.Email == email &&
+        //            joined.user.PasswordHash == passwordHash &&
+        //            joined.user.IsActive);
+
+        //    return userExists;
+        //}
+         
     }
 }

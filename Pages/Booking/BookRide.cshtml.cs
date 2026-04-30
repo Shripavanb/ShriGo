@@ -14,6 +14,7 @@ namespace ShriGo.Pages.Booking
     public class BookRideModel : PageModel
     {
         private readonly RideDBContext _dbContext;
+        private readonly IConfiguration _config;
 
         public List<SortedRideModel> list_selectedRideModel = new List<SortedRideModel>();
 
@@ -48,10 +49,11 @@ namespace ShriGo.Pages.Booking
 
 
         //constructor
-        public BookRideModel(RideDBContext context, EmailService emailservice)
+        public BookRideModel(RideDBContext context, EmailService emailservice, IConfiguration config)
         {
             _dbContext=context;
             _emailService = emailservice;
+            _config=config;
         }
 
         public async Task<IActionResult> OnGetAsync(int id)
@@ -164,8 +166,9 @@ namespace ShriGo.Pages.Booking
         public void SendSms(string phoneNumber, string messageBody)
         {
             // Replace with your actual credentials from the Twilio Console
-            string accountSid = "AC20a782fc1473c3682b6481adc266e7c9";
-            string authToken = "ea781111b75e5871f3e47169962e977c";
+            var accountSid = _config["TwiloConnection.accountSid"];
+            var authToken = _config["TwiloConnection.AuthToken"];
+   
 
             TwilioClient.Init(accountSid, authToken);
 
