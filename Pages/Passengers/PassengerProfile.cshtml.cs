@@ -31,7 +31,7 @@ namespace ShriGo.Pages.Passengers
             string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
 
 
-            //User profile display
+            //Passsenger profile display
             listPassengerModel = _dbContext.PassengerTb.ToList();
             foreach (var user in listPassengerModel)
             {
@@ -48,9 +48,9 @@ namespace ShriGo.Pages.Passengers
             foreach (var ride in list_BookingsTableModel)
             {
 
-                if (ride.UserUniqueId ==session_UserUniqueId)
+                if (ride.PassengerUniqueId ==session_UserUniqueId)
                 {
-                    only_PassengerBookings = list_BookingsTableModel.FindAll(a => a.UserUniqueId == session_UserUniqueId);
+                    only_PassengerBookings = list_BookingsTableModel.FindAll(a => a.PassengerUniqueId == session_UserUniqueId);
                     //Major Milestone in achiving only wanted list out of selected index
                     //only_DriverRides.Add(list_SortedRideModel[rideIndex]);
                 }

@@ -28,11 +28,11 @@ namespace ShriGo.Model
 
         public string? DriverFirstName { get; set; }
 
-        public string? UserFirstName { get; set; }
+        public string? PassengerFirstName { get; set; }
 
-        public string? UserUniqueId { get; set; }
-        public string? UserContact { get; set; }
-        public string? UserEmail { get; set; }
+        public string? PassengerUniqueId { get; set; }
+        public string? PassengerContact { get; set; }
+        public string? PassengerEmail { get; set; }
 
   
     }
