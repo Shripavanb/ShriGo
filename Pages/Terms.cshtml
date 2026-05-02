@@ -1,0 +1,187 @@
+﻿@page
+@model ShriGo.Pages.TermsModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShriGo Terms & Conditions</title>
+    <link href="~/css/terms.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>ShriGo Terms & Conditions</h1>
+        <div class="effective-date">Effective Date: 03May2026</div>
+
+        <h2>1. Introduction</h2>
+        <p>ShriGo is a platform connecting drivers and passengers for ride-sharing services. By using our platform, you agree to these Terms & Conditions and Privacy Policy.</p>
+
+        <h2>2. User Eligibility</h2>
+        <ul>
+            <li>Users must be at least 18 years old</li>
+            <li>All information provided must be accurate</li>
+            <li>ShriGo can suspend accounts for false information</li>
+        </ul>
+
+        <h2>3. Driver Terms</h2>
+
+        <h3>3.1 Registration</h3>
+        <ul>
+            <li>Drivers must register on the platform</li>
+            <li>Submit Aadhaar, RC, Insurance, and vehicle details</li>
+        </ul>
+
+        <h3>3.2 Responsibilities</h3>
+        <ul>
+            <li>Ensure passenger safety</li>
+            <li>Follow traffic laws</li>
+            <li>No drunk driving</li>
+            <li>Maintain professional behavior</li>
+        </ul>
+
+        <h3>3.3 Ride Management</h3>
+        <ul>
+            <li>Drivers must upload rides</li>
+            <li>Drivers are responsible once a booking is confirmed</li>
+        </ul>
+
+        <h3>3.4 Pricing</h3>
+        <ul>
+            <li>Drivers set pricing per trip or per passenger</li>
+            <li>ShriGo will charge Drivers a monthly subscription</li>
+        </ul>
+
+        <h3>3.5 Cancellation</h3>
+        <ul>
+            <li>No cancellations after booking</li>
+            <li>Alternate driver must be arranged if needed</li>
+        </ul>
+
+        <h3>3.6 Liability</h3>
+        <ul>
+            <li>Drivers and insurance are responsible for accidents</li>
+        </ul>
+
+        <h2>4. Passenger Terms</h2>
+
+        <h3>4.1 Booking</h3>
+        <ul>
+            <li>Passengers book rides via the platform</li>
+            <li>Must pay agreed fare</li>
+        </ul>
+
+        <h3>4.2 Responsibilities</h3>
+        <ul>
+            <li>Be on time at pickup</li>
+            <li>Respect driver</li>
+            <li>Follow safety instructions</li>
+        </ul>
+
+        <h3>4.3 Prohibited Actions</h3>
+        <ul>
+            <li>No illegal items</li>
+            <li>No harassment or abuse</li>
+            <li>No damage to vehicle</li>
+        </ul>
+
+        <h3>4.4 Cancellation</h3>
+        <ul>
+            <li>Avoid cancellations</li>
+            <li>Repeated cancellations may lead to suspension</li>
+        </ul>
+
+        <h2>5. Platform Disclaimer</h2>
+        <ul>
+            <li>ShriGo is only a connecting platform</li>
+            <li>Not responsible for driver/passenger behavior</li>
+            <li>Not liable for accidents or delays</li>
+        </ul>
+
+        <h2>6. Safety</h2>
+        <p>All users must ensure safe conduct during trips.</p>
+
+        <h2>7. Accidents & Incidents</h2>
+        <p>Drivers and their insurance are responsible for any accidents.</p>
+
+        <h2 id="privacy">8. Privacy Policy</h2>
+
+        <h3>8.1 Data Collection</h3>
+        <ul>
+            <li>Name, phone, email</li>
+            <li>Identity documents</li>
+            <li>Trip and location data</li>
+        </ul>
+
+        <h3>8.2 Data Usage</h3>
+        <ul>
+            <li>Service improvement</li>
+            <li>User verification</li>
+            <li>Booking processing</li>
+        </ul>
+
+        <h3>8.3 Data Sharing</h3>
+        <ul>
+            <li>Between drivers and passengers</li>
+            <li>With authorities if required</li>
+        </ul>
+
+        <h3>8.4 Security</h3>
+        <p>We use reasonable security measures but cannot guarantee full security.</p>
+
+        <h3>8.5 User Rights</h3>
+        <ul>
+            <li>Access data</li>
+            <li>Request correction or deletion</li>
+        </ul>
+
+        <h2>9. Termination</h2>
+        <p>Accounts may be suspended for violations or unsafe behavior.</p>
+
+        <h2>10. Updates</h2>
+        <p>ShriGo may update terms at any time. Continued use means acceptance.</p>
+
+        <h2>11. Governing Law</h2>
+        <p>These terms are governed by the laws of India.</p>
+
+        <h2>12. Contact</h2>
+        <p>
+            Email: shrigopb@gmail.com<br>
+            Website: <a href="https://shrigo.in">https://shrigo.in</a>
+        </p>
+
+        <!-- ✅ ACCEPTANCE SECTION -->
+        <div class="checkbox-section">
+            <input type="checkbox" id="acceptTerms">
+            <label for="acceptTerms">
+                I have read and agree to the Terms & Conditions and Privacy Policy
+            </label>
+            <br>
+            <button class="accept-btn" id="acceptBtn" disabled>Accept & Continue</button>
+        </div>
+
+        <footer>
+            © 2026 ShriGo. All rights reserved.
+        </footer>
+
+    </div>
+
+    <script>
+            const checkbox = document.getElementById('acceptTerms');
+            const button = document.getElementById('acceptBtn');
+
+            checkbox.addEventListener('change', function () {
+              button.disabled = !this.checked;
+            });
+
+            button.addEventListener('click', function () {
+              alert("Terms accepted. You can now continue.");
+              // 👉 Replace this with real backend/API call
+            });
+    </script>
+
+</body>
+</html>

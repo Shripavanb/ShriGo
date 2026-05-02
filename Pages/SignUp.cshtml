@@ -39,6 +39,15 @@
                                                 <input type="text" class="form-control" id="lastName" name="UserLastName" required>
                                             </div>
                                             <div class="mb-3">
+                                                <label for="DriverAadharNo" class="form-label">Driver Aadhar Number </label>
+                                                <input type="text" class="form-control" id="DriverAadharNo" name="DriverAadharNo" required>
+                                                <div id="aadharhelp" class="form-text">12-digit unique identification number</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="age" class="form-label">Driver Age</label>
+                                                <input type="text" class="form-control" id="Age" name="UserAge" aria-describedby="age" min="0" max="99" required>
+                                            </div>
+                                            <div class="mb-3">
                                                 <label for="lastName" class="form-label">Vehicle Reg no</label>
                                                 <input type="text" class="form-control" id="RegNo" name="VehicleRegNo" required>
                                             </div>
@@ -49,10 +58,6 @@
                                             <div class="mb-3">
                                                 <label for="lastName" class="form-label">Vehicle Make/Model </label>
                                                 <input type="text" class="form-control" id="RegNo" name="VehicleModel" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="age" class="form-label">Driver Age</label>
-                                                <input type="text" class="form-control" id="Age" name="UserAge" aria-describedby="age" min="0" max="99" required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="email" class="form-label">Email address</label>
@@ -80,9 +85,18 @@
                                                     <option value="200">200/m</option>
                                                 </select>
                                             </div>
+                                            <div class="terms-box">
+                                                <input type="checkbox" id="driveracceptTerms" />
+                                                <label for="acceptTerms">
+                                                    I agree to the
+                                                    <a asp-page="/Terms" target="_blank">Terms & Conditions</a>
+                                                    and
+                                                    <a asp-page="/Privacy" target="_blank">Privacy Policy</a>
+                                                </label>
+                                            </div>
                                             <br />
                                             <div class="d-grid gap-2">
-                                                <button type="submit" data-dismiss="alert" class="btn btn-primary" data-target="#my-alert">Sign Up</button>
+                                                <button type="submit" id="driversignupBtn" data-dismiss="alert" class="btn btn-primary" data-target="#my-alert" disabled>Sign Up</button>
                                             </div>
                                         </form>
                                     </div>
@@ -98,7 +112,7 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="firstName" class="form-label">First Name</label>
-                                                <input type="text" class="form-control" id="firstName" name="PassengerFirstName" required>
+                                                <input type="text" class="form-control" id="firstName" name="PassengerFirstName"  required>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="lastName" class="form-label">Last Name</label>
@@ -127,12 +141,21 @@
                                                 <span id="message"></span>
                                             </div>
                                             <br />
-                      @*                       <div class="mb-3">
+                                            <div class="mb-3">
                                                 <input id="Subscription" name="Subscription" value="None" style="visibility:hidden"/>
-                                            </div> *@
-                                            <br />
+                                            </div>
+                                            <div class="terms-box">
+                                                <input type="checkbox" id="passengeracceptTerms" />
+                                                <label for="acceptTerms">
+                                                    I agree to the
+                                                    <a asp-area="" asp-page="/Terms" target="_blank">Terms & Conditions</a>
+                                                    and
+                                                    <a asp-page="/Privacy" target="_blank">Privacy Policy</a>
+                                                </label>
+                                            </div>
+                                            <br />                                           
                                             <div class="d-grid gap-2">
-                                                <button type="submit" data-dismiss="alert" class="btn btn-primary" data-target="#my-alert">Sign Up</button>
+                                                <button type="submit" id="passengersignupBtn" data-dismiss="alert" class="btn btn-primary" data-target="#my-alert" disabled>Sign Up</button>
                                             </div>
                                         </form>
                                     </div>
@@ -144,6 +167,23 @@
         </div>
 
     </div>
+ <script>
+     //Driver terms agreed 
+            const checkbox1 = document.getElementById('driveracceptTerms');
+            const driverbutton = document.getElementById('driversignupBtn');                                
+
+          checkbox1.addEventListener('change', function () {
+                      driverbutton.disabled = !this.checked;
+          });
+                //Passenger terms agreed
+              const checkbox2 = document.getElementById('passengeracceptTerms');
+              const passengerbutton = document.getElementById('passengersignupBtn');
+
+              checkbox2.addEventListener('change', function () {
+               passengerbutton.disabled = !this.checked;
+              });
+
+</script>
 <script>
           function checkMatches() {
               const password = document.getElementById('password').value;
