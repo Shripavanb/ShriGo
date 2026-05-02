@@ -83,7 +83,7 @@
                             <span>@rideModel.RideDate</span>
                         }
                     </h5>
-                    <h5 class="col-4"> 
+                    <h5 class="col-3"> 
                      
                         @if (@rideModel.RideTime!=null){
 
@@ -96,6 +96,9 @@
                             sortedtime = amPmTime;
                         }
                     @sortedtime
+                        </h5>
+                        <h5 class="col-1"> 
+                           <i class="bi bi-share-fill" id="shareBtn" ></i>
                         </h5>
                 </div>
                 <div class="row card-body">
@@ -359,4 +362,19 @@
     gtag('js', new Date());
 
     gtag('config', 'G-4PQX2FTGWX');
+</script>
+<!----Sharing trip ----->
+<script>
+    document.getElementById('shareBtn').addEventListener('click', async () => {
+        try {
+            await navigator.share({
+                Source: 'MTPL',
+                Desti: 'HYD',
+                text: 'Check out this content',
+                url: window.location.href
+            });
+        } catch (err) {
+            console.log('Error sharing:', err);
+        }
+    });
 </script>

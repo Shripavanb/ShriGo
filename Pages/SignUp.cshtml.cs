@@ -1,12 +1,14 @@
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ShriGo.Model;
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
+using System.Windows;
 using Twilio;
 using Twilio.Rest.Verify.V2.Service;
-using System.Windows;
+
 
 namespace ShriGo.Pages
 {
@@ -63,6 +65,8 @@ namespace ShriGo.Pages
         //    return verification; // Add this
 
         //}
+
+        //Driver Signup
         public IActionResult OnPostDriver()
         {
 
@@ -83,6 +87,11 @@ namespace ShriGo.Pages
             // DriverReg Date only 
             NewUserModel.UserRegDate = DateOnly.FromDateTime(DateTime.Today);
 
+            //NewUserModel.AcceptedTerms = true;
+            //NewUserModel.AcceptedAt = DateTime.UtcNow;
+            //NewUserModel.TermsVersion = "v1.0";
+            //NewUserModel.IpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+
             _dBContext.UserTb.Add(NewUserModel);
 
             if (_dBContext.SaveChanges() ==1)
@@ -98,7 +107,7 @@ namespace ShriGo.Pages
 
         }
 
-
+        //Passenger Signup 
         public IActionResult OnPostPassenger()
         {
             //DriverId
@@ -117,6 +126,11 @@ namespace ShriGo.Pages
 
             // DriverReg Date only 
             NewPassengerModel.PassengerRegDate = DateOnly.FromDateTime(DateTime.Today);
+
+            //NewUserModel.AcceptedTerms = true;
+            //NewUserModel.AcceptedAt = DateTime.UtcNow;
+            //NewUserModel.TermsVersion = "v1.0";
+            //NewUserModel.IpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 
             _dBContext.PassengerTb.Add(NewPassengerModel);
 
