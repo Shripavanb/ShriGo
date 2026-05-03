@@ -296,7 +296,30 @@
             <p>అన్ని ప్రమాదాలకు డ్రైవర్ మరియు ఇన్సూరెన్స్ బాధ్యత వహిస్తుంది.</p>
             <p>అత్యవసర పరిస్థితుల్లో స్థానిక అధికారులను సంప్రదించాలి </p>
         </section>
+                         <hr />          
+        <div style="margin-top:30px;">
+                                        <label>
+                                            <input type="checkbox" id="agree">
+                                            నేను నియమాలు మరియు షరతులను అంగీకరిస్తున్నాను
+                                        </label>
+                                        <br><br>
+                                        <button onclick="acceptTerms()" style="padding:10px 20px; background:#3498db; color:#fff; border:none; border-radius:6px;">
+                                            కొనసాగించండి
+                                        </button>
+                                    </div>
 
+                                    <script>
+                                                                            function acceptTerms() {
+                                                                                const checked = document.getElementById('agree').checked;
+                                                                                if (!checked) {
+                                                                                    alert("దయచేసి నియమాలు అంగీకరించండి");
+                                                                                    return;
+                                                                                }
+
+                                                                                // TODO: call your API to store acceptance
+                                                                                alert("Accepted successfully");
+                                                                            }
+                                    </script>
     </div>
 
                             </div>
