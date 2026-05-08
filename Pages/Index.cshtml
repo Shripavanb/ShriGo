@@ -4,7 +4,7 @@
     ViewData["Title"] = "ShriGo";
 
 }
-<link href="~/css/Home.css" rel="stylesheet" />
+<link href="~/css/index.css" rel="stylesheet" />
 
 <link href="cdn.jsdelivr.net" rel="stylesheet">
 <script src="https://smtpjs.com/v3/smtp.js"></script>
@@ -14,21 +14,24 @@
 <div>
     <!-----------------Row1-Top --------------------------------->
 
-    <div class="container-fluid">
-        <div class="row" style="padding-left:6px; padding-right:6px">
-            <img src="~/img/ShriGo_Landing_pg3.png" />
+    <!-- HERO -->
+    <section class="hero">
+        <h1 class="display-5">Welcome to ShriGo</h1>
+        <h1>Affordable Rides. Trusted Drivers.</h1>
+        <h3 class="display-8">Make your Journey</h3>
+        <p>Book rides or earn by driving with ShriGo</p>
+
+        <div class="cta">
+            <button class="btn-primary">Book a Ride</button>
+            <button class="btn-secondary" asp-page="/SignUp">Become a Driver</button>
         </div>
-       
-        <div class="row" style="text-align:center">
-            <h1 class="display-5">Welcome to ShriGo</h1>
-            <h3 class="display-8">Make your Journey</h3>
-        </div>
-    </div>
+    </section>
     <div class="container-fluid">
-        <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        <div class="booking">
+            <input type="text" placeholder="Enter Pickup Location">
+            <input type="text" placeholder="Enter Drop Location">
+            <button>Check Price & Book</button>
+        </div>
     </div>
     <br />
     <div class="container-fluid">
@@ -150,7 +153,7 @@
         <hr style="border:2px solid #842029; width: 100%;">
      <h3 style="text-align:center">Started/Expired Ride List</h3>
         <hr style="border: 2px solid #842029; width: 100%;">
-    </div>
+
     @{
         var lsortedtime = "00:00am";
     }
@@ -230,11 +233,46 @@
                 </h5>
             </div>
         </div>
-    }
+        }
+    </div>
  
     <br />
 
 </div>
+<!-- TRUST -->
+<section class="trust">
+    <div>✔ Verified Drivers</div>
+    <div>✔ Aadhaar Verified</div>
+    <div>✔ Safe & Secure</div>
+    <div>✔ 24/7 Support</div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="steps">
+    <h2>How ShriGo Works</h2>
+    <br />
+    <h4>Booking from available ride</h4>
+    <div class="step-grid">
+        <div class="step">1. View our Active Rides</div>
+        <div class="step">2. Choose Your Ride</div>
+        <div class="step">3. Call Driver/Book ride of your choice</div>
+    </div>
+    <br />
+    <h4>Book your desired ride </h4>
+    <div class="step-grid">
+        <div class="step">1. Enter Pickup & Drop</div>
+        <div class="step">2. Choose Your Ride</div>
+        <div class="step">3. Travel Safely</div>
+    </div>
+</section>
+
+<!-- DRIVER CTA -->
+<section class="driver">
+    <h2>Earn with ShriGo</h2>
+    <p>Join as a driver and earn daily income</p>
+    <button>Start Driving</button>
+</section>
+<br />
 <!-----------Working code-------------->
 <script>
     async function fetchUsers() {
