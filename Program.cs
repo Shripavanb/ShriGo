@@ -53,6 +53,19 @@ if (!app.Environment.IsProduction())
 //    path
 //);
 
+//For Site safety
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["X-Frame-Options"] = "DENY";
+    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
+    context.Response.Headers["Permissions-Policy"] = "geolocation=(), microphone=()";
+
+    context.Response.Headers["Content-Security-Policy"] =
+        "default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval';";
+
+    await next();
+});
 app.UseSession(); // Enable session middleware
 
 //Number of Site visitors
@@ -74,7 +87,7 @@ app.UseAuthorization();
 //        name: "default",
 //        pattern: "{controller=Home}/{action=Index}/{id?}");
 //});
-
+app.UseHsts();
 app.MapRazorPages();
 app.MapControllers();
 
