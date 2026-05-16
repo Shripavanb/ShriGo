@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShriGo.Model;
+using static Google.Api.ResourceDescriptor.Types;
 
 namespace ShriGo.Pages
 {
@@ -143,22 +144,41 @@ namespace ShriGo.Pages
             string time24 = item.RideTime.ToString();
             DateTime parsedTime = DateTime.Parse(time24);
             string amPmTime = parsedTime.ToString("hh:mm tt");
+            string date = "";
+
+            if (item.RideDate == DateOnly.FromDateTime(DateTime.UtcNow))
+            {
+                date ="Today";
+            }
+            else if (item.RideDate == DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1))
+            {
+                date ="Tomorrow";
+            }
+            else
+            {
+                date =(item.RideDate).ToString();
+            }
 
 
             string message =
-                "🚗 Ride Available!\n\n" +
-                "┌───────────────────────┐\n" +
-                "|📅 Date  : {item.RideDate:dd MMM yyyy}\n" +
-                "|📍 From   : {item.RideSource}\n" +
-                "|📍 To     : {item.RideDesti}\n" +
-                "|⏰Time   : {amPmTime}\n" +
-                "|💺Seats  : {item.RideSeats}\n" +
-                "|💰Price   : ₹{item.RidePrice}\n\n" +
-                "|📞Contact : {item.DriverContact}\n\n" +
-                "└───────────────────────┘\n\n" +
+                "🚗 *Ride Available on ShriGo!* \n\n" +
+
+                "┌─────────────┐\n" +
+                "│ 📅 Date    : " + date +"("+(item.RideDate)+")" +"\n" +
+                "│ 📍 From     : " + item.RideSource + "\n" +
+                "│ 📍 To       : " + item.RideDesti + "\n" +                
+                "│ ⏰ Time    : " + amPmTime + "\n" +
+                "│ 💺 Seats    : " + item.RideSeats + "\n" +
+                "│ 💰 Price    : ₹" + item.RidePrice+ "/p"+" \n" +
+                "│ 👤 Driver   : " + item.DriverFirstName + "\n" +
+                "│ 📞 Contact  : " + item.DriverContact + "\n" +
+                "└─────────────┘\n\n" +
+
                 "⚡ Book your seat now before it fills!\n\n" +
-                $"🌐 Book now on https://shrigo.in"
-                ;
+
+                "🌐 Book now on https://shrigo.in";
+
+
          
             return Uri.EscapeDataString(message);
         }
