@@ -103,8 +103,31 @@
                     @sortedtime
                         </h5>
                         <h5 class="col-1"> 
-                           <i class="bi bi-share-fill" id="shareBtn" ></i>
-                        </h5>
+                        <a href="https://wa.me/?text=@Model.GetWhatsAppShareText(@rideModel)"
+                               target="_blank"
+                               class="btn btn-success">
+                            <i class="bi bi-share-fill"></i>
+                        </a>
+
+@*                         <a href="https://wa.me/?text=@Uri.EscapeDataString(
+                                                                   $"🚗 *Ride Available on ShriGo!*\n\n" +
+                                                                   $"📍 *From:* {@rideModel.RideSource}\n" +
+                                                                   $"📍 *To:* {@rideModel.RideDesti}\n" +
+                                                                   $"📅 *Date:* {@rideModel.RideDate:dd MMM yyyy}\n" +
+                                                                   $"⏰ *Time:* {@rideModel.RideTime:hh\\:mm tt}\n" +
+                                                                   $"💺 *Seats Left:* {@rideModel.RideSeats}\n" +
+                                                                   $"💰 *Price:* ₹{@rideModel.RidePrice}\n\n" +
+                                                                   $"⚡ Book your seat now before it fills!\n\n" +
+                                                                   $"🌐 https://shrigo.in/Rides/Details/{@rideModel.RideId}"
+                                                                   )"
+                               target="_blank"
+                               class="btn btn-success rounded-pill w-50 py-2">
+
+                            <i class="bi bi-whatsapp me-2"></i>
+                            Share Ride
+
+                        </a> *@
+                       </h5>
                 </div>
                 <div class="row card-body">
                     <h6 class="col-7"> Via:@rideModel.RideVia</h6>

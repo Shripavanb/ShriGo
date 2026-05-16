@@ -99,7 +99,7 @@
                     <form method="post" asp-route-id="@rideModel.RideId">
                         <div class="quantity-selector">
                             <button type="button" class="btn-minus" onclick="changeQuantity(-1)">-</button>
-                            <input type="number" asp-for="ItemQuantity" id="quantityInput" value="1" min="1" />
+                            <input type="number" asp-for="BookedSeats" id="quantityInput" value="1" min="1" />
                             <button type="button" class="btn-plus" onclick="changeQuantity(1)">+</button>
                         </div>
                         <button type="submit">Submit</button>

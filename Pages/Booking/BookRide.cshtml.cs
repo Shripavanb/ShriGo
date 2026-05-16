@@ -1,3 +1,4 @@
+using Google.Api;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -37,7 +38,7 @@ namespace ShriGo.Pages.Booking
         public List<int> SelectedIds { get; set; } // This will hold the selected values
 
         [BindProperty]
-        public int ItemQuantity { get; set; } = 1;
+        public int BookedSeats { get; set; } = 1;
 
         //Email 
         private readonly EmailService _emailService;
@@ -47,7 +48,7 @@ namespace ShriGo.Pages.Booking
         [BindProperty]
         public string Message { get; set; }
 
-
+   
         //constructor
         public BookRideModel(RideDBContext context, EmailService emailservice, IConfiguration config)
         {
@@ -84,15 +85,27 @@ namespace ShriGo.Pages.Booking
 
             if (session_userName == "Guest"||session_userName ==null)
             {
-                ViewData["Message"] = "Please SignUp to Book a Ride..";
-                Response.Redirect("/SignUp");
+                ViewData["Message"] = "Please SignIn/SignUp to Book a Ride..";
+                Response.Redirect("/SignIn");
             }
             else
             {
                 try
                 {
-                    // Access the selected value via ItemQuantity
-                    var result = ItemQuantity;
+                    int convert_dbseats = int.Parse(rideSelected.RideSeats);
+                    // Access the selected value via BookedSeats
+                    if (rideSelected != null && convert_dbseats >= BookedSeats)
+                    {
+                        convert_dbseats -= BookedSeats;
+
+                        // Optional: prevent negative values
+                        if (convert_dbseats < 0)
+                        {
+                            convert_dbseats = 0;
+                        }
+                        rideSelected.RideSeats = convert_dbseats.ToString();
+                        await _dbContext.SaveChangesAsync();
+                    }
 
                     var newBookingId = _dbContext.Bookings_DBTable.Max(r => r.BookingId);
 
@@ -108,10 +121,10 @@ namespace ShriGo.Pages.Booking
                     bookedRideModel.RideVia =rideSelected.RideVia;
                     bookedRideModel.RideTime=rideSelected.RideTime;
                     //Booked Seats
-                    bookedRideModel.BookedSeats = ItemQuantity.ToString();
+                    bookedRideModel.BookedSeats = BookedSeats.ToString();
 
                     int totalbookingamount = int.Parse(rideSelected.RidePrice);
-                    bookedRideModel.RidePrice =(totalbookingamount*ItemQuantity).ToString();
+                    bookedRideModel.RidePrice =(totalbookingamount*BookedSeats).ToString();
                     bookedRideModel.DriverContact =rideSelected.DriverContact;
                     bookedRideModel.DriverUniqueId =rideSelected.DriverUniqueId;
                     bookedRideModel.DriverFirstName =rideSelected.DriverFirstName;

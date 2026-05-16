@@ -136,5 +136,22 @@ namespace ShriGo.Pages
             //List_SortedRideModel = _dbContext.Ride_DBTable.OrderBy(x => x.RideDate).ThenBy(x => x.RideTime).ToList();
             finalListRideModel =List_SortedRideModel.OrderBy(x => x.RideDate).ThenBy(x => x.RideTime).ToList();
         }
+
+
+        public string GetWhatsAppShareText(ShriGo.Model.SortedRideModel item)
+        {
+            return Uri.EscapeDataString(
+                $"🚗 Ride Available!\n\n" +
+                $"Date: {item.RideDate:dd MMM yyyy}\n" +
+                $"From: {item.RideSource}\n" +
+                $"To: {item.RideDesti}\n" +         
+                $"Time: {item.RideTime}\n" +
+                $"Seats Left: {item.RideSeats}\n" +
+                $"Price: ₹{item.RidePrice}\n\n" +
+                $"Contact: {item.DriverContact}\n\n" +
+                $"Book now on https://shrigo.in"
+
+            );
+        }
     }
 }
