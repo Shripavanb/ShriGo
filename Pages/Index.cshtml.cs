@@ -140,18 +140,27 @@ namespace ShriGo.Pages
 
         public string GetWhatsAppShareText(ShriGo.Model.SortedRideModel item)
         {
-            return Uri.EscapeDataString(
-                $"🚗 Ride Available!\n\n" +
-                $"Date: {item.RideDate:dd MMM yyyy}\n" +
-                $"From: {item.RideSource}\n" +
-                $"To: {item.RideDesti}\n" +         
-                $"Time: {item.RideTime}\n" +
-                $"Seats Left: {item.RideSeats}\n" +
-                $"Price: ₹{item.RidePrice}\n\n" +
-                $"Contact: {item.DriverContact}\n\n" +
-                $"Book now on https://shrigo.in"
+            string time24 = item.RideTime.ToString();
+            DateTime parsedTime = DateTime.Parse(time24);
+            string amPmTime = parsedTime.ToString("hh:mm tt");
 
-            );
+
+            string message =
+                "🚗 Ride Available!\n\n" +
+                "┌───────────────────────┐\n" +
+                "|📅 Date  : {item.RideDate:dd MMM yyyy}\n" +
+                "|📍 From   : {item.RideSource}\n" +
+                "|📍 To     : {item.RideDesti}\n" +
+                "|⏰Time   : {amPmTime}\n" +
+                "|💺Seats  : {item.RideSeats}\n" +
+                "|💰Price   : ₹{item.RidePrice}\n\n" +
+                "|📞Contact : {item.DriverContact}\n\n" +
+                "└───────────────────────┘\n\n" +
+                "⚡ Book your seat now before it fills!\n\n" +
+                $"🌐 Book now on https://shrigo.in"
+                ;
+         
+            return Uri.EscapeDataString(message);
         }
     }
 }
