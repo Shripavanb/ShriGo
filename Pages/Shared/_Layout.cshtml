@@ -1,7 +1,6 @@
 ﻿<!DOCTYPE html>
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Http
-
 <html lang="en">
 <head>
     <meta charset="utf-8"  />
@@ -53,9 +52,13 @@
                     {
                     <a class="nav-link text-dark" asp-area="" asp-page="/RiderProfile"><span id="riderprofileBtn">MyProfile</span></a>
                     }
-                    else if(@Context.Session.GetString("session_UserRole") =="Passenger")
+                    else if(@Context.Session.GetString("session_UserRole") =="Admin")
                     {
-                    <a class="nav-link text-dark" asp-area="" asp-page="/Passengers/PassengerProfile"><span id="riderprofileBtn">MyProfile</span></a>
+                    <a class="nav-link text-dark" asp-area="" asp-page="/Admin/AdminDashboard"><span id="AdminprofileBtn">MyProfile</span></a>
+                    }
+                    else if (@Context.Session.GetString("session_PassengerRole") == "Passenger")
+                    {
+                    <a class="nav-link text-dark" asp-area="" asp-page="/Passengers/PassengerProfile"><span id="pasngprofile">MyProfile</span></a>
                     }
                     <a class="nav-link text-dark" asp-area="" asp-page="/SignOut"><span id="signoutBtn">SignOut</span></a>
                 @{
@@ -64,24 +67,28 @@
                 @if (!string.IsNullOrEmpty(username))
                 {
                     Console.WriteLine("SessionVissible:"+username);
-                    <script>
-                     /*-SigOutButton---*/
-                     document.getElementById("userName").style.visibility ="visible";
-                     document.getElementById("riderprofileBtn").style.visibility ="visible";
-                     document.getElementById("signoutBtn").style.visibility ="visible";   
+                        <script>
+                            /*--SigOutButton---*/
+                            document.getElementById("userName").style.visibility ="visible";
+                            document.getElementById("riderprofileBtn").style.visibility ="visible";
+                            document.getElementById("AdminprofileBtn").style.visibility ="visible";
+                            document.getElementById("pasngprofile").style.visibility ="visible";
+                            document.getElementById("signoutBtn").style.visibility ="visible";
 
-                     /*--SigUpButton--& SignInButton-Hidden-*/
-                     document.getElementById("signupBtn").style.visibility ="hidden";
-                     document.getElementById("signinBtn").style.visibility ="hidden";
-                    </script>
+                            /*-SigUpButton--& SignInButton-Hidden-*/
+                            document.getElementById("signinBtn").style.visibility ="hidden";
+                            document.getElementById("signupBtn").style.visibility ="hidden";
+                        </script>
                }
               else
                 {
-                    Console.WriteLine("Session****:"+username);
-                  <script>
-                    /*-SigOutButton---*/
+     
+                   <script >
+                    /*--SigOutButton--*/
                     document.getElementById("signoutBtn").style.visibility ="hidden";
                     document.getElementById("riderprofileBtn").style.visibility ="hidden";
+                    document.getElementById("AdminprofileBtn").style.visibility ="hidden";
+                    document.getElementById("pasngprofile").style.visibility ="hidden";
                     document.getElementById("userName").innerText = "Guest";
 
                     /*--SigUpButton---*/
