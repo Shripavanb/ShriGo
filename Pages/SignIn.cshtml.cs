@@ -83,6 +83,7 @@ namespace ShriGo.Pages
                     HttpContext.Session.SetString("session_UserUniqueId", user.PassengerUniqueId);
                     HttpContext.Session.SetString("session_UserContact", user.PassengerContact);
                     HttpContext.Session.SetString("session_UserEmail", user.PassengerEmail);
+                    HttpContext.Session.SetString("session_PassengerRole", user.Role);
 
                     return RedirectToPage("/Passengers/PassengerProfile");
                 }

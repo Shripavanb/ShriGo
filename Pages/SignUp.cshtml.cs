@@ -127,6 +127,8 @@ namespace ShriGo.Pages
             // DriverReg Date only 
             NewPassengerModel.PassengerRegDate = DateOnly.FromDateTime(DateTime.Today);
 
+            NewPassengerModel.Role = "Passenger";
+
             //NewUserModel.AcceptedTerms = true;
             //NewUserModel.AcceptedAt = DateTime.UtcNow;
             //NewUserModel.TermsVersion = "v1.0";

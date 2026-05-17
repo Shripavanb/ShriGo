@@ -1,3 +1,4 @@
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShriGo.Model;
@@ -33,6 +34,7 @@ namespace ShriGo.Pages
         {
             //Creating a session variable 
             string userValue = HttpContext.Session.GetString("session_UserName");
+            HttpContext.Session.SetString("session_Guest", "Guest_session");
 
             //HttpContext.Session.SetString("UserSession", "Active");
 

@@ -17,5 +17,6 @@ namespace ShriGo.Model
         public string? PassengerEmail { get; set; }
         public string? PassengerContact { get; set; }
         public string? PassengerPswd { get; set; }
+        public string? Role { get; set; }
     }
 }
