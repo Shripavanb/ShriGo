@@ -18,5 +18,6 @@ namespace ShriGo.Model
         public string? PassengerContact { get; set; }
         public string? PassengerPswd { get; set; }
         public string? Role { get; set; }
+        public bool? AcceptedTerms { get; set; } = false;//by default
     }
 }

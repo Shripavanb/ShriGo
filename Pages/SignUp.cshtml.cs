@@ -31,8 +31,6 @@ namespace ShriGo.Pages
         private static readonly Random _random = new Random();
         public int UniqueNumber { get; set; }
 
-
-
         //Constructor
         public SignUpModel(RideDBContext context, IConfiguration config)
         {
@@ -87,7 +85,7 @@ namespace ShriGo.Pages
             // DriverReg Date only 
             NewUserModel.UserRegDate = DateOnly.FromDateTime(DateTime.Today);
 
-            //NewUserModel.AcceptedTerms = true;
+            NewUserModel.AcceptedTerms = true;
             //NewUserModel.AcceptedAt = DateTime.UtcNow;
             //NewUserModel.TermsVersion = "v1.0";
             //NewUserModel.IpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
@@ -129,7 +127,7 @@ namespace ShriGo.Pages
 
             NewPassengerModel.Role = "Passenger";
 
-            //NewUserModel.AcceptedTerms = true;
+            NewPassengerModel.AcceptedTerms = true;
             //NewUserModel.AcceptedAt = DateTime.UtcNow;
             //NewUserModel.TermsVersion = "v1.0";
             //NewUserModel.IpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
