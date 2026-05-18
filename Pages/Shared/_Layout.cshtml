@@ -68,39 +68,30 @@
                 {
                     Console.WriteLine("SessionVissible:"+username);
                         <script>
-                            /*--SigOutButton---*/
+                            document.getElementById("signinBtn").style.visibility ="hidden";
+                            document.getElementById("signupBtn").style.visibility ="hidden";
                             document.getElementById("userName").style.visibility ="visible";
                             document.getElementById("riderprofileBtn").style.visibility ="visible";
                             document.getElementById("AdminprofileBtn").style.visibility ="visible";
                             document.getElementById("pasngprofile").style.visibility ="visible";
-                            document.getElementById("signoutBtn").style.visibility ="visible";
-
-                            /*-SigUpButton--& SignInButton-Hidden-*/
-                            document.getElementById("signinBtn").style.visibility ="hidden";
-                            document.getElementById("signupBtn").style.visibility ="hidden";
+                            document.getElementById("signoutBtn").style.visibility ="visible";             
                         </script>
                }
               else
-                {
-     
+                {     
                    <script >
-                    /*--SigOutButton--*/
+                    document.getElementById("userName").innerText = "Guest";
+                    document.getElementById("signupBtn").style.visibility ="visible";
+                    document.getElementById("signinBtn").style.visibility ="visible";
                     document.getElementById("signoutBtn").style.visibility ="hidden";
                     document.getElementById("riderprofileBtn").style.visibility ="hidden";
                     document.getElementById("AdminprofileBtn").style.visibility ="hidden";
                     document.getElementById("pasngprofile").style.visibility ="hidden";
-                    document.getElementById("userName").innerText = "Guest";
+             
 
-                    /*--SigUpButton---*/
-                    document.getElementById("signupBtn").style.visibility ="visible";
-                    document.getElementById("signinBtn").style.visibility ="visible";
                   </script>
-              }
-                  
-              </div>
-         
-               
-
+              }                  
+              </div>                   
             </div>
         </nav>
     </header>

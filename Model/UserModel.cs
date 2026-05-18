@@ -30,5 +30,6 @@ namespace ShriGo.Model
         public string? VehicleRegNo { get; set; }
         public string? VehicleInsur { get; set; }
         public string? VehicleModel { get; set; }
+        public bool? AcceptedTerms { get; set; } = false;//by default
     }
 }
