@@ -35,5 +35,7 @@ namespace ShriGo.Model
         public string? PasswordResetToken { get; set; }
 
         public DateTime? ResetTokenExpiry { get; set; }
+
+        public string? UserImagePath { get; set; }
     }
 }

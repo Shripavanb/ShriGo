@@ -57,51 +57,67 @@ namespace ShriGo.Pages
 
                 return Page();
             }
-
             // ======================================================
-            // FIND USER
+            // FIND USER OR PASSENGER
             // ======================================================
 
             var user = _dbContext.UserTb
                 .FirstOrDefault(x =>
                     x.PasswordResetToken == Token &&
-                    x.ResetTokenExpiry > DateTime.Now);
+                    x.ResetTokenExpiry > DateTime.UtcNow);
 
-            if (user == null)
-            {
-                TempData["Message"] =
-                    "Invalid or expired reset link.";
-
-                return RedirectToPage("/SignIn");
-            }
+            var passenger = _dbContext.PassengerTb
+                .FirstOrDefault(x =>
+                    x.PasswordResetToken == Token &&
+                    x.ResetTokenExpiry > DateTime.UtcNow);
 
             // ======================================================
             // HASH PASSWORD
             // ======================================================
 
-            var passwordHelper =
-                new PasswordHelper();
-
-            user.UserPswd =
-                passwordHelper.HashPassword(
-                    NewPassword);
+            var passwordHelper = new PasswordHelper();
 
             // ======================================================
-            // CLEAR RESET TOKEN
+            // UPDATE USER
             // ======================================================
 
-            user.PasswordResetToken = null;
+            if (user != null)
+            {
+                user.UserPswd = passwordHelper.HashPassword(NewPassword);
 
-            user.ResetTokenExpiry = null;
+                user.PasswordResetToken = null;
+                user.ResetTokenExpiry = null;
 
-            await _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
+
+                TempData["Message"] = "Password reset successful.";
+
+                return RedirectToPage("/SignIn");
+            }
 
             // ======================================================
-            // SUCCESS
+            // UPDATE PASSENGER
             // ======================================================
 
-            TempData["Message"] =
-                "Password reset successful.";
+            if (passenger != null)
+            {
+                passenger.PassengerPswd = passwordHelper.HashPassword(NewPassword);
+
+                passenger.PasswordResetToken = null;
+                passenger.ResetTokenExpiry = null;
+
+                await _dbContext.SaveChangesAsync();
+
+                TempData["Message"] = "Password reset successful.";
+
+                return RedirectToPage("/PassengerSignIn");
+            }
+
+            // ======================================================
+            // INVALID TOKEN
+            // ======================================================
+
+            TempData["Message"] = "Invalid or expired reset link.";
 
             return RedirectToPage("/SignIn");
         }

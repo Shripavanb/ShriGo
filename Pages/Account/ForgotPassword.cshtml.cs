@@ -27,10 +27,21 @@ namespace ShriGo.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
+            // ======================================================
+            // FIND USER OR PASSENGER
+            // ======================================================
+
             var user = _dbContext.UserTb
                 .FirstOrDefault(x => x.UserEmail == Email);
 
-            if (user == null)
+            var passenger = _dbContext.PassengerTb
+                .FirstOrDefault(x => x.PassengerEmail == Email);
+
+            // ======================================================
+            // IF NOT FOUND (DO NOT REVEAL INFO)
+            // ======================================================
+
+            if (user == null && passenger == null)
             {
                 TempData["Message"] =
                     "If account exists, reset link sent.";
@@ -38,41 +49,59 @@ namespace ShriGo.Pages
                 return RedirectToPage("/SignIn");
             }
 
-            // Generate secure token
+            // ======================================================
+            // GENERATE TOKEN
+            // ======================================================
+
             var token = Guid.NewGuid().ToString();
 
-            user.PasswordResetToken = token;
+            // ======================================================
+            // USER RESET SETUP
+            // ======================================================
 
-            user.ResetTokenExpiry =
-                DateTime.Now.AddMinutes(30);
+            if (user != null)
+            {
+                user.PasswordResetToken = token;
+                user.ResetTokenExpiry = DateTime.UtcNow.AddMinutes(30);
+            }
+
+            // ======================================================
+            // PASSENGER RESET SETUP
+            // ======================================================
+
+            if (passenger != null)
+            {
+                passenger.PasswordResetToken = token;
+                passenger.ResetTokenExpiry = DateTime.UtcNow.AddMinutes(30);
+            }
 
             await _dbContext.SaveChangesAsync();
+
+            // ======================================================
+            // RESET LINK
+            // ======================================================
 
             var resetLink =
                 $"{Request.Scheme}://{Request.Host}/Account/ResetPassword?token={token}";
 
-            // TODO:
-            // Send email here
+            // ======================================================
+            // SEND EMAIL
+            // ======================================================
+
             await _emailService.sendEmailAsync(
-                                Email,
-                                "Reset Your ShriGo Password",
-                                $@"
-                    <h2>Password Reset</h2>
+                Email,
+                "Reset Your ShriGo Password",
+                $@"
+        <h2>Password Reset</h2>
 
-                    <p>
-                        Click below to reset your password:
-                    </p>
+        <p>Click below to reset your password:</p>
 
-                    <p>
-                        <a href='{resetLink}'>
-                            Reset Password
-                        </a>
-                    </p>
+        <p>
+            <a href='{resetLink}'>Reset Password</a>
+        </p>
 
-                    <p>
-                        Link expires in 30 minutes.
-                    </p>
-                    ");
+        <p>Link expires in 30 minutes.</p>
+        ");
 
             TempData["Message"] =
                 "Reset link generated.";
