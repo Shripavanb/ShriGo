@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ShriGo.Model;
+using ShriGo.Pages.Helpers;
 
 namespace ShriGo.Pages
 {
@@ -19,6 +20,9 @@ namespace ShriGo.Pages
         [BindProperty]
         public string NewPassword { get; set; }
 
+        [BindProperty]
+        public string ConfirmPassword { get; set; }
+
         public void OnGet(string token)
         {
             Token = token;
@@ -26,6 +30,38 @@ namespace ShriGo.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
+            // ======================================================
+            // VALIDATIONS
+            // ======================================================
+
+            if (string.IsNullOrWhiteSpace(NewPassword))
+            {
+                ViewData["Message"] =
+                    "Password is required.";
+
+                return Page();
+            }
+
+            if (NewPassword.Length < 8)
+            {
+                ViewData["Message"] =
+                    "Password must be minimum 8 characters.";
+
+                return Page();
+            }
+
+            if (NewPassword != ConfirmPassword)
+            {
+                ViewData["Message"] =
+                    "Passwords do not match.";
+
+                return Page();
+            }
+
+            // ======================================================
+            // FIND USER
+            // ======================================================
+
             var user = _dbContext.UserTb
                 .FirstOrDefault(x =>
                     x.PasswordResetToken == Token &&
@@ -34,19 +70,35 @@ namespace ShriGo.Pages
             if (user == null)
             {
                 TempData["Message"] =
-                    "Invalid or expired token.";
+                    "Invalid or expired reset link.";
 
                 return RedirectToPage("/SignIn");
             }
 
-            // TEMPORARY
-            // Later replace with password hashing
-            user.UserPswd = NewPassword;
+            // ======================================================
+            // HASH PASSWORD
+            // ======================================================
+
+            var passwordHelper =
+                new PasswordHelper();
+
+            user.UserPswd =
+                passwordHelper.HashPassword(
+                    NewPassword);
+
+            // ======================================================
+            // CLEAR RESET TOKEN
+            // ======================================================
 
             user.PasswordResetToken = null;
+
             user.ResetTokenExpiry = null;
 
             await _dbContext.SaveChangesAsync();
+
+            // ======================================================
+            // SUCCESS
+            // ======================================================
 
             TempData["Message"] =
                 "Password reset successful.";
