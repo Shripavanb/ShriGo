@@ -29,7 +29,8 @@ namespace ShriGo.Pages.Helpers
 
         public bool IsHashed(string password)
         {
-            return password.StartsWith("AQAAAA");
+            return !string.IsNullOrWhiteSpace(password)
+                   && password.Length > 50;
         }
     }
 }
