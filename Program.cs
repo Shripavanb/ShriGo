@@ -86,7 +86,7 @@ var app = builder.Build();
 // ERROR HANDLING
 // ======================================================
 
-if (!app.Environment.IsDevelopment())
+if (!app.Environment.IsProduction())
 {
     app.UseExceptionHandler("/Error");
 

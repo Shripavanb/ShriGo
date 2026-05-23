@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ShriGo.Model;
+using ShriGo.Pages.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using System.Windows;
 using Twilio;
 using Twilio.Rest.Verify.V2.Service;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace ShriGo.Pages
@@ -67,9 +69,20 @@ namespace ShriGo.Pages
         //Driver Signup
         public IActionResult OnPostDriver()
         {
+            if (NewUserModel.UserPswd.Length < 8)
+            {
+                ViewData["Message"] = "Password must be minimum 8 characters";
+                return Page();
+            }
 
-            //DriverId
-            NewUserModel.UserId = (_dBContext.UserTb.Max(r => r.UserId))+1;
+            //DriverId/Admin Id
+             NewUserModel.UserId =
+             _dBContext.UserTb.Any()
+             ? _dBContext.UserTb.Max(r => r.UserId) + 1
+             : 1;
+
+            var passwordHelper = new PasswordHelper();
+            NewUserModel.UserPswd = passwordHelper.HashPassword(NewUserModel.UserPswd);
 
             //DriverUniqueId
             //string driverLastName = _dBContext.DriversTb.Where(x=>x.DriverId == NewDriverModel.DriverId).Select(u => u.DriverLastName).FirstOrDefault();
@@ -108,9 +121,19 @@ namespace ShriGo.Pages
         //Passenger Signup 
         public IActionResult OnPostPassenger()
         {
-            //DriverId
-            NewPassengerModel.PassengerId = (_dBContext.UserTb.Max(r => r.UserId))+1;
+            if (NewPassengerModel.PassengerPswd.Length < 8)
+            {
+                ViewData["Message"] = "Password must be minimum 8 characters";
+                return Page();
+            }
+            //PassengerId
+            NewPassengerModel.PassengerId =
+      _dBContext.PassengerTb.Any()
+      ? _dBContext.PassengerTb.Max(r => r.PassengerId) + 1
+      : 1;
 
+            var passwordHelper = new PasswordHelper();
+            NewPassengerModel.PassengerPswd = passwordHelper.HashPassword(NewPassengerModel.PassengerPswd);
             //DriverUniqueId
             //string driverLastName = _dBContext.DriversTb.Where(x=>x.DriverId == NewDriverModel.DriverId).Select(u => u.DriverLastName).FirstOrDefault();
             // Generate a random number between 1,000,000 and 9,999,999

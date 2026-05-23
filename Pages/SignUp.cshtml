@@ -70,13 +70,41 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="password" class="form-label">Password</label>
-                                                <input type="password" class="form-control" name="UserPswd" id="password" required>
+
+                                                <div class="input-group">
+                                                    <input type="password"
+                                                           class="form-control"
+                                                           name="UserPswd"
+                                                           id="password"
+                                                           minlength="8"
+                                                           required>
+
+                                                    <button type="button"
+                                                            class="btn btn-outline-secondary"
+                                                            onclick="togglePassword()">
+                                                        <i class="fa fa-eye" id="eyeIcon"></i>
+                                                    </button>
+                                                </div>
+
+                                                <small class="text-muted">
+                                                    Password must contain minimum 8 characters
+                                                </small>
                                             </div>
+
                                             <div class="mb-3">
-                                                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                                <input type="password" class="form-control" id="confirm_password" onkeyup="checkMatches()" required>
-                                                <span id="message"></span>
+                                                <label for="confirmPassword" class="form-label">
+                                                    Confirm Password
+                                                </label>
+
+                                                <input type="password"
+                                                       class="form-control"
+                                                       id="confirm_password"
+                                                       onkeyup="checkMatches()"
+                                                       required>
+
+                                                <span id="message" class="fw-bold"></span>
                                             </div>
+
                                             <br />
                                             <div class="mb-3">
                                                 <label for="confirmPassword" class="form-label">Please choose Subscription</label>
@@ -133,13 +161,41 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label for="password" class="form-label">Password</label>
-                                                <input type="password" class="form-control" name="PassengerPswd" id="password" required>
+
+                                                <div class="input-group">
+                                                    <input type="password"
+                                                           class="form-control"
+                                                           name="UserPswd"
+                                                           id="password"
+                                                           minlength="8"
+                                                           required>
+
+                                                    <button type="button"
+                                                            class="btn btn-outline-secondary"
+                                                            onclick="togglePassword()">
+                                                        <i class="fa fa-eye" id="eyeIcon"></i>
+                                                    </button>
+                                                </div>
+
+                                                <small class="text-muted">
+                                                    Password must contain minimum 8 characters
+                                                </small>
                                             </div>
+
                                             <div class="mb-3">
-                                                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                                <input type="password" class="form-control" id="confirm_password" onkeyup="checkMatches()" required>
-                                                <span id="message"></span>
+                                                <label for="confirmPassword" class="form-label">
+                                                    Confirm Password
+                                                </label>
+
+                                                <input type="password"
+                                                       class="form-control"
+                                                       id="confirm_password"
+                                                       onkeyup="checkMatches()"
+                                                       required>
+
+                                                <span id="message" class="fw-bold"></span>
                                             </div>
+
                                             <br />
                                             <div class="mb-3">
                                                 <input id="Subscription" name="Subscription" value="None" style="visibility:hidden"/>
@@ -185,27 +241,47 @@
 
 </script>
 <script>
-          function checkMatches() {
-              const password = document.getElementById('password').value;
-              const confirm = document.getElementById('confirm_password').value;
-              const message = document.getElementById('message');
+                function checkMatches() {
 
-              if (password === confirm) {
-                message.innerHTML = 'Matching';
-                message.style.color = 'green';
-              } else {
-                message.innerHTML = 'Not Matching';
-                message.style.color = 'red';
-              }
-            }
+                    const password = document.getElementById('password').value;
+                    const confirm = document.getElementById('confirm_password').value;
+                    const message = document.getElementById('message');
 
-            /*--------------Pop up Message---------------------*/
-                //  const form = document.querySelector('form');
-                // const message = document.querySelector('#success-message');
-                // form.addEventListener('submit', (e) => {
-                //   e.preventDefault(); // Prevents page reload
-                //   message.style.display = 'block'; // Shows the message
-                // });
+                    if (confirm.length === 0) {
+                        message.innerHTML = '';
+                        return;
+                    }
+
+                    if (password === confirm) {
+                        message.innerHTML = '✓ Passwords Match';
+                        message.style.color = 'green';
+                    }
+                    else {
+                        message.innerHTML = '✗ Passwords Do Not Match';
+                        message.style.color = 'red';
+                    }
+                }
+
+                function togglePassword() {
+
+                    const passwordField = document.getElementById("password");
+                    const eyeIcon = document.getElementById("eyeIcon");
+
+                    if (passwordField.type === "password") {
+
+                        passwordField.type = "text";
+
+                        eyeIcon.classList.remove("fa-eye");
+                        eyeIcon.classList.add("fa-eye-slash");
+                    }
+                    else {
+
+                        passwordField.type = "password";
+
+                        eyeIcon.classList.remove("fa-eye-slash");
+                        eyeIcon.classList.add("fa-eye");
+                    }
+                }
 </script>
 
         @if (ViewData["Message"] != null)
