@@ -19,5 +19,9 @@ namespace ShriGo.Model
         public string? PassengerPswd { get; set; }
         public string? Role { get; set; }
         public bool? AcceptedTerms { get; set; } = false;//by default
+
+        public string? PasswordResetToken { get; set; }
+
+        public DateTime? ResetTokenExpiry { get; set; }
     }
 }

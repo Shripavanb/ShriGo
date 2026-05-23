@@ -1,94 +1,174 @@
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using NETCore.MailKit.Core;
 using ShriGo.Model;
 using ShriGo.Pages;
+using ShriGo.Pages.Booking;
 using System.Net;
-using Twilio.TwiML.Voice;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorPages();
 
+// ======================================================
+// SERVICES
+// ======================================================
+
+// Razor Pages + Controllers
+builder.Services.AddRazorPages();
 builder.Services.AddControllers();
 
 
-//Database connection string
+// ======================================================
+// DATABASE
+// ======================================================
+
 builder.Services.AddDbContext<RideDBContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("AzureSqlConnection")) );
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("AzureSqlConnection")));
 
 
-//Session
-builder.Services.AddDistributedMemoryCache();//Required for Sesssion timeout
+// ======================================================
+// SESSION
+// ======================================================
+
+builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddSession(options =>
-{ 
- options.IdleTimeout = TimeSpan.FromMinutes(20);//Set Session timeout 
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(20);
+
     options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential= true;
+
+    options.Cookie.IsEssential = true;
+
+    options.Cookie.SecurePolicy =
+        CookieSecurePolicy.Always;
 });
 
-//Email Service 
+
+// ======================================================
+// EMAIL SETTINGS
+// ======================================================
+
+var emailJson =
+    builder.Configuration["EmailSettingsJson"];
+
+if (!string.IsNullOrEmpty(emailJson))
+{
+    var emailSettings =
+        JsonSerializer.Deserialize<EmailSettings>(emailJson);
+
+    if (emailSettings != null)
+    {
+        builder.Services.AddSingleton(emailSettings);
+    }
+}
+
+
+// ======================================================
+// CUSTOM SERVICES
+// ======================================================
+
 builder.Services.AddScoped<EmailService>();
-// Example using Scoped lifetime
-builder.Services.AddScoped<ShriGo.Pages.Booking.EmailService>();
-ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+
+// ======================================================
+// SECURITY
+// ======================================================
+
+ServicePointManager.SecurityProtocol =
+    SecurityProtocolType.Tls12;
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsProduction())
+
+// ======================================================
+// ERROR HANDLING
+// ======================================================
+
+if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+
     app.UseHsts();
 }
-// Configure the HTTP request pipeline
 
 
-//var path = Path.Combine(AppContext.BaseDirectory, "google-credentials.json");
+// ======================================================
+// HTTPS
+// ======================================================
 
-//Environment.SetEnvironmentVariable(
-//    "GOOGLE_APPLICATION_CREDENTIALS",
-//    path
-//);
+app.UseHttpsRedirection();
 
-//For Site safety
+
+// ======================================================
+// STATIC FILES
+// ======================================================
+
+app.UseStaticFiles();
+
+
+// ======================================================
+// SECURITY HEADERS
+// ======================================================
+
 app.Use(async (context, next) =>
 {
     context.Response.Headers["X-Frame-Options"] = "DENY";
-    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
-    context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
-    context.Response.Headers["Permissions-Policy"] = "geolocation=(), microphone=()";
+
+    context.Response.Headers["X-Content-Type-Options"] =
+        "nosniff";
+
+    context.Response.Headers["Referrer-Policy"] =
+        "strict-origin-when-cross-origin";
+
+    context.Response.Headers["Permissions-Policy"] =
+        "geolocation=(), microphone=()";
 
     context.Response.Headers["Content-Security-Policy"] =
         "default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval';";
 
     await next();
 });
-app.UseSession(); // Enable session middleware
 
-//Number of Site visitors
-app.UseMiddleware<TrackingMiddleware>();
 
-app.UseHttpsRedirection();
-
-app.UseStaticFiles();
+// ======================================================
+// ROUTING
+// ======================================================
 
 app.UseRouting();
+
+
+// ======================================================
+// SESSION
+// ======================================================
+
+app.UseSession();
+
+
+// ======================================================
+// CUSTOM MIDDLEWARE
+// ======================================================
+
+app.UseMiddleware<TrackingMiddleware>();
+
+
+// ======================================================
+// AUTHORIZATION
+// ======================================================
 
 app.UseAuthentication();
 
 app.UseAuthorization();
 
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapControllerRoute(
-//        name: "default",
-//        pattern: "{controller=Home}/{action=Index}/{id?}");
-//});
-app.UseHsts();
+
+// ======================================================
+// ENDPOINTS
+// ======================================================
+
 app.MapRazorPages();
+
 app.MapControllers();
+
 
 app.Run();

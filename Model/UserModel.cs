@@ -31,5 +31,9 @@ namespace ShriGo.Model
         public string? VehicleInsur { get; set; }
         public string? VehicleModel { get; set; }
         public bool? AcceptedTerms { get; set; } = false;//by default
+
+        public string? PasswordResetToken { get; set; }
+
+        public DateTime? ResetTokenExpiry { get; set; }
     }
 }
