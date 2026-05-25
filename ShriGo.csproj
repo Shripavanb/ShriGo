@@ -34,6 +34,9 @@
 	  <Content Update="wwwroot\google-credentials1.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
+	  <Content Update="wwwroot\img\Logo\shrigo_share_banner.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
   </ItemGroup>
 
   <ItemGroup>
