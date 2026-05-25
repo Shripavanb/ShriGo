@@ -1,0 +1,191 @@
+﻿@page
+@model ShriGo.Pages.Booking.CheckAndBookRideModel
+
+<link href="~/css/bookride.css" rel="stylesheet" />
+
+<div class="container mt-4">
+
+    <div class="card p-3">
+
+        <h3>Check & Book Ride</h3>
+
+        <form method="post">
+            <!-------------Future use with Google API--------------->
+@*             <div class="card p-3">
+
+                <input type="text"
+                       id="pickup"
+                       class="form-control"
+                       value="@Model.Pickup"
+                       placeholder="Pickup" />
+
+                <br />
+
+                <input type="text"
+                       id="drop"
+                       class="form-control"
+                       value="@Model.Drop"
+                       placeholder="Drop" />
+
+                <br />
+
+                <button onclick="calculateDistance()"
+                        class="btn btn-primary">
+                    Check Fare
+                </button>
+
+                <hr />
+
+                <h5 id="distanceText"></h5>
+                <h5 id="durationText"></h5>
+                <h4 id="fareText"></h4>
+
+            </div> *@
+            <!--------------------------------->
+            <div class="card p-3">
+
+                <h4>@Model.Pickup → @Model.Drop</h4>
+                <br />
+                <h5>Distance: @Model.DistanceKm KM</h5>
+                <br />
+                <h5>Estimated Fare: ₹@Model.EstimatedFare/Trip</h5>
+                <br />
+                <h5>Min Seats Available: 4</h5>
+                <br />
+                <h5>Estimated Price/Person, Price/Seat: ₹@Model.MinEstimatedPricePP-₹@Model.MaxEstimatedPricePP</h5>
+                <br />
+
+                <h6>Note:Distance is Mostly acurate as poosble, local pickups may vary distance and price.</h6>
+                <button type="button" class="btn btn-success">
+                    📞<a href="tel:+918374499001" class="call-btn" style="font-weight:bold;color:white">Call Now</a>                    
+                </button>
+            </div>
+
+@*      <div class="mb-3">
+                <label>Pickup Location</label>
+                <input asp-for="Pickup"
+                       class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label>Drop Location</label>
+                <input asp-for="Drop"
+                       class="form-control" />
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Check Price
+            </button> *@
+
+        </form>
+
+     @*    @if (Model.EstimatedFare > 0)
+        {
+            <hr />
+
+            <h4>Estimated Fare: ₹@Model.EstimatedFare</h4>
+
+            <h5>Distance: @Model.DistanceKm KM</h5>
+        } *@
+
+    </div>
+
+</div>
+
+<!-------------Future use with Google API--------------->
+<script async
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+</script>
+
+<script>
+
+    const PRICE_PER_KM = 8;
+    const MIN_FARE = 50;
+
+    function calculateDistance() {
+
+        const pickup =
+            document.getElementById("pickup").value;
+
+        const drop =
+            document.getElementById("drop").value;
+
+        const service =
+            new google.maps.DistanceMatrixService();
+
+        service.getDistanceMatrix(
+        {
+            origins: [pickup],
+            destinations: [drop],
+            travelMode: 'DRIVING',
+            unitSystem: google.maps.UnitSystem.METRIC
+        },
+
+        function(response, status) {
+
+            if (status !== 'OK') {
+                alert('Error: ' + status);
+                return;
+            }
+
+            const result =
+                response.rows[0].elements[0];
+
+            if (result.status !== "OK") {
+                alert("No route found");
+                return;
+            }
+
+            const distanceText =
+                result.distance.text;
+
+            const durationText =
+                result.duration.text;
+
+            const distanceValueKm =
+                result.distance.value / 1000;
+
+            let fare =
+                distanceValueKm * PRICE_PER_KM;
+
+            if (fare < MIN_FARE) {
+                fare = MIN_FARE;
+            }
+
+            document.getElementById("distanceText")
+                .innerHTML =
+                "Distance: " + distanceText;
+
+            document.getElementById("durationText")
+                .innerHTML =
+                "ETA: " + durationText;
+
+            document.getElementById("fareText")
+                .innerHTML =
+                "Estimated Fare: ₹" +
+                Math.round(fare);
+        });
+    }
+</script>
+<!--------Future use-------------->
+<script>
+
+    function initAutocomplete() {
+
+        const pickup =
+            new google.maps.places.Autocomplete(
+                document.getElementById('pickup'));
+
+        const drop =
+            new google.maps.places.Autocomplete(
+                document.getElementById('drop'));
+    }
+
+    google.maps.event.addDomListener(
+        window,
+        'load',
+        initAutocomplete
+    );
+
+</script>

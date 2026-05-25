@@ -28,13 +28,68 @@
         
         </div>
     </section>
+    <!------------------------->
     <div class="container-fluid">
+        <div class="booking">
+
+        @*     <input type="text"
+                   id="pickup"
+                   placeholder="Enter Pickup Location"> *@
+            <label for="From" class="form-label">PickUp:</label>
+            <select name="pickup" class="form-control" id="pickup">
+                <option hidden>--</option>
+                <option value="HYD">Hyd</option>
+                <option value="JBS">JBS</option>
+                <option value="Airport">Airport</option>
+                <option value="MTPL">MTPL</option>
+                <option value="KRTL">KRTL</option>
+                <option value="KRTL">RYKL</option>
+                <option value="ARMR">ARMR</option>
+                <option value="NZB">NZB</option>
+                <option value="JBS,HYD">JBS,HYD</option>
+                <option value="JBS,Airport">JBS,Airport</option>
+                <option value="JBS,HYD,Airport">JBS,HYD,Airport</option>
+                <option value="KRTL,MTPL">KRTL,MTPL</option>
+                <option value="RYKL,KRTL,MTPL">RYKL,KRTL,MTPL</option>
+            </select>
+
+@*             <input type="text"
+                   id="drop"
+                   placeholder="Enter Drop Location"> *@
+            <label for="drop" class="form-label">Drop:</label>
+            <select name="drop" class="form-control" id="drop">
+                <option hidden>--</option>
+                <option value="HYD">Hyd</option>
+                <option value="JBS">JBS</option>
+                <option value="Airport">Airport</option>
+                <option value="MTPL">MTPL</option>
+                <option value="KRTL">KRTL</option>
+                <option value="KRTL">RYKL</option>
+                <option value="ARMR">ARMR</option>
+                <option value="NZB">NZB</option>
+                <option value="JBS,HYD">JBS,HYD</option>
+                <option value="JBS,Airport">JBS,Airport</option>
+                <option value="JBS,HYD,Airport">JBS,HYD,Airport</option>
+                <option value="KRTL,MTPL">KRTL,MTPL</option>
+                <option value="RYKL,KRTL,MTPL">RYKL,KRTL,MTPL</option>
+             </select>
+
+            <button type="button" onclick="goToBookRide()">
+                Check Price & Book
+            </button>
+
+        </div>
+    </div>
+
+    <!---------------------------------->
+
+@*     <div class="container-fluid">
         <div class="booking">
             <input type="text" placeholder="Enter Pickup Location">
             <input type="text" placeholder="Enter Drop Location">
             <button>Check Price & Book</button>
         </div>
-    </div>
+    </div> *@
     <br />
     <div class="container-fluid">
        <div class="row">
@@ -422,4 +477,20 @@
             console.log('Error sharing:', err);
         }
     });
+</script>
+
+<script>
+    function goToBookRide() {
+
+    const pickup = document.getElementById("pickup").value;
+    const drop = document.getElementById("drop").value;
+
+    if (!pickup || !drop) {
+    alert("Please enter pickup and drop");
+    return;
+    }
+
+    window.location.href =
+    `/Booking/CheckAndBookRide?pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}`;
+    }
 </script>
