@@ -19,7 +19,7 @@
             Welcome to ShriGo
         </h1>
 
-        <h2 class="hero-subtitle">
+        <h2 class="hero-subtitle" style="color:white">
             Affordable Rides. Trusted Drivers.
         </h2>
 
@@ -31,16 +31,12 @@
 
             <a href="#ride-section"
                    class="btn btn-primary btn-lg rounded-pill px-4">
-
                 Book a Ride
-
             </a>
 
             <a href="/SignUp"
                    class="btn btn-outline-light btn-lg rounded-pill px-4">
-
                 Become a Driver
-
             </a>
 
         </div>
@@ -49,7 +45,6 @@
 
 </section>
 
-<!-- BOOKING -->
 <!-- BOOKING -->
 <div class="container booking-wrapper">
 
@@ -125,7 +120,7 @@
 
                 <button type="button"
                         onclick="goToBookRide()"
-                        class="btn booking-btn w-100">
+                        class="btn booking-btn btn-warning w-100">
 
                     Check Price & Book
 
@@ -156,6 +151,7 @@
 
     @{
         var sortedtime = "00:00am";
+        var add2hourstosortedtime = "00:00am";
     }
 
     @foreach (ShriGo.Model.SortedRideModel rideModel in Model.finalListRideModel)
@@ -165,8 +161,9 @@
             string time24 = rideModel.RideTime.ToString();
 
             DateTime parsedTime = DateTime.Parse(time24);
-
             sortedtime = parsedTime.ToString("hh:mm tt");
+            add2hourstosortedtime = DateTime.Parse(time24).AddHours(2).ToString("hh:mm tt");
+            
         }
 
         <div class="card shadow-sm border-0 mb-4 ride-card">
@@ -195,22 +192,22 @@
 
                         </div>
 
-                        <small class="text-success fw-semibold">
+                        <small class="text-success fw-bold ">
 
                             @if (rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow))
                             {
-                                <span>Today</span>
+                                <span class="text-success">Today</span>
                             }
                             else if (rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1))
                             {
-                                <span>Tomorrow</span>
+                                <span class="text-primary">Tomorrow</span>
                             }
                             else
                             {
-                                <span>@rideModel.RideDate</span>
+                                <span class="text-dark">@rideModel.RideDate</span>
                             }
 
-                            • @sortedtime
+                            • @sortedtime-@add2hourstosortedtime
 
                         </small>
 
@@ -218,7 +215,7 @@
 
                     <a href="https://wa.me/?text=@Model.GetWhatsAppShareText(rideModel)"
                            target="_blank"
-                           class="btn btn-success btn-sm rounded-3">
+                           class="btn btn-warning btn-sm rounded-3">
 
                         <i class="bi bi-share-fill"></i>
 
@@ -345,6 +342,7 @@
 
     @{
         var lsortedtime = "00:00am";
+        var ladd2hourstosortedtime = "00:00am";
     }
 
     @foreach (ShriGo.Model.SortedRideModel rideModel in Model.expiredRidesList)
@@ -356,6 +354,7 @@
             DateTime parsedTime = DateTime.Parse(time24);
 
             lsortedtime = parsedTime.ToString("hh:mm tt");
+            ladd2hourstosortedtime = DateTime.Parse(time24).AddHours(2).ToString("hh:mm tt");
         }
 
         <div class="card shadow-sm border-0 mb-4 ride-card opacity-75">
@@ -394,7 +393,7 @@
                                 <span>@rideModel.RideDate</span>
                             }
 
-                            • @lsortedtime
+                            • @lsortedtime-@ladd2hourstosortedtime
 
                         </small>
 
