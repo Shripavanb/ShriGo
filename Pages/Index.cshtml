@@ -1,496 +1,669 @@
 ﻿@page
 @model ShriGo.Pages.IndexModel
+
 @{
     ViewData["Title"] = "ShriGo";
-
 }
-<link href="~/css/index.css" rel="stylesheet" />
 
-<link href="cdn.jsdelivr.net" rel="stylesheet">
-<script src="https://smtpjs.com/v3/smtp.js"></script>
-<script src="cdn.jsdelivr.net"></script>
-<link href="cdn.jsdelivr.net" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-<div>
-    <!-----------------Row1-Top --------------------------------->
+<link rel="stylesheet" href="~/css/index.css" />
 
-    <!-- HERO -->
-    <section class="hero">
-        <h1 class="display-5">Welcome to ShriGo</h1>
-        <h1>Affordable Rides. Trusted Drivers.</h1>
-        <h3 class="display-8">Make your Journey</h3>
-        <p>Book rides or earn by driving with ShriGo</p>
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
-        <div class="cta">
-            <button class="btn-primary">Book a Ride</button>
-            <a href="/SignUp" class=""><button class="btn-secondary">Become a Driver</button>
-                </a>
-        
-        </div>
-    </section>
-    <!------------------------->
-    <div class="container-fluid">
-        <div class="booking">
+<!-- HERO -->
+<section class="hero">
 
-        @*     <input type="text"
-                   id="pickup"
-                   placeholder="Enter Pickup Location"> *@
-            <label for="From" class="form-label">PickUp:</label>
-            <select name="pickup" class="form-control" id="pickup">
-                <option hidden>--</option>
-                <option value="HYD">Hyd</option>
-                <option value="JBS">JBS</option>
-                <option value="Airport">Airport</option>
-                <option value="MTPL">MTPL</option>
-                <option value="KRTL">KRTL</option>
-                <option value="KRTL">RYKL</option>
-                <option value="ARMR">ARMR</option>
-                <option value="NZB">NZB</option>
-                <option value="JBS,HYD">JBS,HYD</option>
-                <option value="JBS,Airport">JBS,Airport</option>
-                <option value="JBS,HYD,Airport">JBS,HYD,Airport</option>
-                <option value="KRTL,MTPL">KRTL,MTPL</option>
-                <option value="RYKL,KRTL,MTPL">RYKL,KRTL,MTPL</option>
-            </select>
+    <div class="hero-content container">
 
-@*             <input type="text"
-                   id="drop"
-                   placeholder="Enter Drop Location"> *@
-            <label for="drop" class="form-label">Drop:</label>
-            <select name="drop" class="form-control" id="drop">
-                <option hidden>--</option>
-                <option value="HYD">Hyd</option>
-                <option value="JBS">JBS</option>
-                <option value="Airport">Airport</option>
-                <option value="MTPL">MTPL</option>
-                <option value="KRTL">KRTL</option>
-                <option value="KRTL">RYKL</option>
-                <option value="ARMR">ARMR</option>
-                <option value="NZB">NZB</option>
-                <option value="JBS,HYD">JBS,HYD</option>
-                <option value="JBS,Airport">JBS,Airport</option>
-                <option value="JBS,HYD,Airport">JBS,HYD,Airport</option>
-                <option value="KRTL,MTPL">KRTL,MTPL</option>
-                <option value="RYKL,KRTL,MTPL">RYKL,KRTL,MTPL</option>
-             </select>
+        <h1 class="display-4 fw-bold">
+            Welcome to ShriGo
+        </h1>
 
-            <button type="button" onclick="goToBookRide()">
-                Check Price & Book
-            </button>
+        <h2 class="hero-subtitle">
+            Affordable Rides. Trusted Drivers.
+        </h2>
 
-        </div>
-    </div>
+        <p class="hero-text">
+            Book rides or earn by driving with ShriGo
+        </p>
 
-    <!---------------------------------->
+        <div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
 
-@*     <div class="container-fluid">
-        <div class="booking">
-            <input type="text" placeholder="Enter Pickup Location">
-            <input type="text" placeholder="Enter Drop Location">
-            <button>Check Price & Book</button>
-        </div>
-    </div> *@
-    <br />
-    <div class="container-fluid">
-       <div class="row">
-            <hr style="border:2px solid green; width: 100%;">
-            <h3 style="text-align:center">Active Rides</h3>
-            <hr style="border: 2px solid green; width: 100%;">
-        </div>
-        <div id="data-container">
-            <!-- Dynamic content will be inserted here -->
+            <a href="#ride-section"
+                   class="btn btn-primary btn-lg rounded-pill px-4">
+
+                Book a Ride
+
+            </a>
+
+            <a href="/SignUp"
+                   class="btn btn-outline-light btn-lg rounded-pill px-4">
+
+                Become a Driver
+
+            </a>
+
         </div>
 
     </div>
-    <div class="container-fluid">
-        <br />
-<!-----------Active List------------------>
-        @{
-            var sortedtime = "00:00am";
-        }
-        @foreach (ShriGo.Model.SortedRideModel rideModel in Model.finalListRideModel)
-        {
-              
-            <!--------------------------->
-            <br />
-            //Define if the card should be dimmed(e.g., 4 hours passed)
-            @* var isOld = rideModel.RideTime< DateTime.Now.AddHours(-4).ToString(); *@
 
-            <div class="card">
-                <div class="ride-row ride-card-header">
-                    <h5 class="col-4">
-                        @if (@rideModel.RideSource == "Airport"||@rideModel.RideSource.Contains("Airport"))
-                        {
-                            <img src="~/img/flightimg1.png" alt="@rideModel.RideSource" width="43" />
-                            <span style="font-size-adjust:ch-width;">@rideModel.RideSource</span>
-                        }
-                        else
-                        {
-                            <span>@rideModel.RideSource</span>
-                        }
-                    </h5>
-                    <h5 class="col-4">
-                        @if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow))
-                        {
-                            <span style="color:maroon;font-weight:bold">Today</span>
-                        }
-                        else if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1))
-                        {
-                            <span style="color:green; font-weight:bold">Tomorrow</span>
-                        }
-                        else
-                        {
-                            <span>@rideModel.RideDate</span>
-                        }
-                    </h5>
-                    <h5 class="col-3"> 
-                     
-                        @if (@rideModel.RideTime!=null){
+</section>
 
-                            TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
-    
-                            string time24 = @rideModel.RideTime.ToString();
-                            DateTime parsedTime = DateTime.Parse(time24);
-                            string amPmTime = parsedTime.ToString("hh:mm tt");
-                            // Define the cutoff date, date only
-                            sortedtime = amPmTime;
-                        }
-                    @sortedtime
-                        </h5>
-                        <h5 class="col-1"> 
-                        <a href="https://wa.me/?text=@Model.GetWhatsAppShareText(@rideModel)"
-                               target="_blank"
-                               class="btn btn-success">
-                            <i class="bi bi-share-fill"></i>
-                        </a>
+<!-- BOOKING -->
+<!-- BOOKING -->
+<div class="container booking-wrapper">
 
-                       </h5>
-                </div>
-                <div class="row card-body">
-                    <h6 class="col-7"> Via:@rideModel.RideVia</h6>
-                    <h5 class="col-1"></h5>
-                    <h5 class="col-4"><i class="bi bi-currency-rupee"></i>@rideModel.RidePrice/seat</h5>
-                </div>
-                <div class="ride-row ride-card-header">
-                    <h5 class="col-4">
-                        @if (@rideModel.RideDesti == "Airport"||@rideModel.RideDesti.Contains("Airport"))
-                        {
-                            <div>
-                                <img src="~/img/flightimg1.png" alt="@rideModel.RideDesti" width="43" />
-                                <span>@rideModel.RideDesti</span>
-                            </div>
-                        }
-                        else
-                        {
-                            <span>@rideModel.RideDesti</span>
-                        }
-                    </h5>
-                    <h5 class="col-4" style="text-align:center">
-                        <img src="~/img/seaticon.png" style="width:16px;height:19px; margin-right:4px" />@rideModel.RideSeats
-                    </h5>
-                   <h5 class="col-4">
-                        @* <i class="bi bi-telephone-forward-fill"  style="width:16px;height:19px; margin-right:2px"></i> *@
-                        <a href="tel:@rideModel.DriverContact" class="btn btn-success"><span style="font-weight:Bold">@rideModel.DriverContact</span></a>
-                    </h5>
-               
-                </div>
-                <div class="ride-row ride-card-header">
-                    <h5 class="col-4">
-                        <a asp-page="./Booking/BookRide" asp-route-id="@rideModel.RideId">
-                            <button type="submit" class="btn btn-primary">BookRide</button>
-                        </a>
-                    </h5>
-                     <h5 class="col-4"></h5>
-                      <h5 class="col-4"></h5>
-                </div>
+    <div class="booking-card">
+
+        <h3 class="booking-title">
+            Find Your Ride
+        </h3>
+
+        <div class="row g-3">
+
+            <div class="col-12 col-md-5">
+
+                <label class="form-label booking-label">
+                    Pickup
+                </label>
+
+                <select name="pickup"
+                        class="form-select booking-select"
+                        id="pickup">
+
+                    <option hidden>Choose Pickup</option>
+
+                    <option value="HYD">Hyd</option>
+                    <option value="JBS">JBS</option>
+                    <option value="Airport">Airport</option>
+                    <option value="MTPL">MTPL</option>
+                    <option value="KRTL">KRTL</option>
+                    <option value="KRTL">RYKL</option>
+                    <option value="ARMR">ARMR</option>
+                    <option value="NZB">NZB</option>
+                    <option value="JBS,HYD">JBS,HYD</option>
+                    <option value="JBS,Airport">JBS,Airport</option>
+                    <option value="JBS,HYD,Airport">JBS,HYD,Airport</option>
+                    <option value="KRTL,MTPL">KRTL,MTPL</option>
+                    <option value="RYKL,KRTL,MTPL">RYKL,KRTL,MTPL</option>
+
+                </select>
+
             </div>
-        }
-  
-    
+
+            <div class="col-12 col-md-5">
+
+                <label class="form-label booking-label">
+                    Drop
+                </label>
+
+                <select name="drop"
+                        class="form-select booking-select"
+                        id="drop">
+
+                    <option hidden>Choose Drop</option>
+
+                    <option value="HYD">Hyd</option>
+                    <option value="JBS">JBS</option>
+                    <option value="Airport">Airport</option>
+                    <option value="MTPL">MTPL</option>
+                    <option value="KRTL">KRTL</option>
+                    <option value="KRTL">RYKL</option>
+                    <option value="ARMR">ARMR</option>
+                    <option value="NZB">NZB</option>
+                    <option value="JBS,HYD">JBS,HYD</option>
+                    <option value="JBS,Airport">JBS,Airport</option>
+                    <option value="JBS,HYD,Airport">JBS,HYD,Airport</option>
+                    <option value="KRTL,MTPL">KRTL,MTPL</option>
+                    <option value="RYKL,KRTL,MTPL">RYKL,KRTL,MTPL</option>
+
+                </select>
+
+            </div>
+
+            <div class="col-12 col-md-2 d-flex align-items-end">
+
+                <button type="button"
+                        onclick="goToBookRide()"
+                        class="btn booking-btn w-100">
+
+                    Check Price & Book
+
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <br />
-     <!----Started/Expired Ride List----------------------------->
-     <div class="row">
-        <hr style="border:2px solid #842029; width: 100%;">
-     <h3 style="text-align:center">Started/Expired Ride List</h3>
-        <hr style="border: 2px solid #842029; width: 100%;">
+</div>
+
+<!-- ACTIVE RIDES -->
+<div class="container py-4" id="ride-section">
+
+    <div class="text-center mb-4">
+
+        <hr class="border border-success border-2 opacity-100">
+
+        <h2 class="fw-bold">
+            Active Rides
+        </h2>
+
+        <hr class="border border-success border-2 opacity-100">
+
+    </div>
+
+    @{
+        var sortedtime = "00:00am";
+    }
+
+    @foreach (ShriGo.Model.SortedRideModel rideModel in Model.finalListRideModel)
+    {
+        if (rideModel.RideTime != null)
+        {
+            string time24 = rideModel.RideTime.ToString();
+
+            DateTime parsedTime = DateTime.Parse(time24);
+
+            sortedtime = parsedTime.ToString("hh:mm tt");
+        }
+
+        <div class="card shadow-sm border-0 mb-4 ride-card">
+
+            <div class="card-body p-3">
+
+                <!-- TOP -->
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+
+                    <div>
+
+                        <div class="fw-bold fs-5">
+
+                            @if (rideModel.RideSource.Contains("Airport"))
+                            {
+                                <img src="~/img/flightimg1.png"
+                                     width="28"
+                                     class="me-1" />
+
+                                <span>@rideModel.RideSource</span>
+                            }
+                            else
+                            {
+                                <span>@rideModel.RideSource</span>
+                            }
+
+                        </div>
+
+                        <small class="text-success fw-semibold">
+
+                            @if (rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow))
+                            {
+                                <span>Today</span>
+                            }
+                            else if (rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1))
+                            {
+                                <span>Tomorrow</span>
+                            }
+                            else
+                            {
+                                <span>@rideModel.RideDate</span>
+                            }
+
+                            • @sortedtime
+
+                        </small>
+
+                    </div>
+
+                    <a href="https://wa.me/?text=@Model.GetWhatsAppShareText(rideModel)"
+                           target="_blank"
+                           class="btn btn-success btn-sm rounded-3">
+
+                        <i class="bi bi-share-fill"></i>
+
+                    </a>
+
+                </div>
+
+                <hr>
+
+                <!-- VIA + PRICE -->
+                <div class="d-flex justify-content-between flex-wrap gap-3">
+
+                    <div class="location-text">
+
+                        <small class="text-muted">
+                            Via
+                        </small>
+
+                        <div>
+                            @rideModel.RideVia
+                        </div>
+
+                    </div>
+
+                    <div class="text-end">
+
+                        <small class="text-muted">
+                            Price
+                        </small>
+
+                        <div class="fw-bold text-success fs-5">
+
+                            ₹@rideModel.RidePrice
+
+                            <small>/seat</small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <!-- DESTINATION -->
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                    <div class="d-flex align-items-center gap-2">
+
+                        @if (rideModel.RideDesti.Contains("Airport"))
+                        {
+                            <img src="~/img/flightimg1.png"
+                                 width="28" />
+                        }
+
+                        <span class="fw-semibold">
+                            @rideModel.RideDesti
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        <img src="~/img/seaticon.png"
+                             style="width:18px;height:18px;" />
+
+                        <span class="fw-semibold">
+                            @rideModel.RideSeats Seats
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="row mt-3 g-2">
+
+                    <div class="col-12 col-md-6">
+
+                        <a asp-page="./Booking/BookRide"
+                               asp-route-id="@rideModel.RideId"
+                               class="btn btn-primary w-100 rounded-3">
+
+                            Book Ride
+
+                        </a>
+
+                    </div>
+
+                    <div class="col-12 col-md-6">
+
+                        <a href="tel:@rideModel.DriverContact"
+                               class="btn btn-success w-100 rounded-3">
+
+                            @rideModel.DriverContact
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</div>
+
+<!-- EXPIRED RIDES -->
+<div class="container py-4">
+
+    <div class="text-center mb-4">
+
+        <hr class="border border-danger border-2 opacity-100">
+
+        <h2 class="fw-bold text-danger">
+            Started / Expired Rides
+        </h2>
+
+        <hr class="border border-danger border-2 opacity-100">
+
+    </div>
 
     @{
         var lsortedtime = "00:00am";
     }
+
     @foreach (ShriGo.Model.SortedRideModel rideModel in Model.expiredRidesList)
     {
-              
-       //Define if the card should be dimmed(e.g., 4 hours passed)
-        @* var isOld = rideModel.RideTime< DateTime.Now.AddHours(-4).ToString(); *@
+        if (rideModel.RideTime != null)
+        {
+            string time24 = rideModel.RideTime.ToString();
 
-        <div class="card">
-            <div class="ride-row ride-card-header">
-                <h5 class="col-4">
-                    @if (@rideModel.RideSource == "Airport")
-                    {
-                        <img src="~/img/flightimg1.png" alt="@rideModel.RideSource" width="43" />
-                        <span>@rideModel.RideSource</span>
-                    }
-                    else
-                    {
-                        <span>@rideModel.RideSource</span>
-                    }
-                </h5>
-                <h5 class="col-4">
-                    @if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow))
-                    {
-                        <span style="color:maroon;font-weight:bold">Today</span>
-                    }
-                    else if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1))
-                    {
-                        <span style="color:green; font-weight:bold">Tomorrow</span>
-                    }
-                    else
-                    {
-                        <span>@rideModel.RideDate</span>
-                    }
-                </h5>
-                <h5 class="col-4">
-                     
-                    @if (@rideModel.RideTime!=null)
-                    {
+            DateTime parsedTime = DateTime.Parse(time24);
 
-                        TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
-    
-                        string time24 = @rideModel.RideTime.ToString();
-                        DateTime parsedTime = DateTime.Parse(time24);
-                        string amPmTime = parsedTime.ToString("hh:mm tt");
-                        // Define the cutoff date, date only
-                        lsortedtime = amPmTime;
-                    }
-                    @lsortedtime
-                </h5>
-            </div>
-            <div class="row card-body">
-                <h6 class="col-7"> Via:@rideModel.RideVia</h6>
-                <h5 class="col-1"></h5>
-                <h5 class="col-4"><i class="bi bi-currency-rupee"></i>@rideModel.RidePrice/seat</h5>
-            </div>
-            <div class="ride-row ride-card-header">
-                <h5 class="col-4">
-                    @if (@rideModel.RideDesti == "Airport")
-                    {
-                        <div>
-                            <img src="~/img/flightimg1.png" alt="@rideModel.RideDesti" width="43" />
-                            <span>@rideModel.RideDesti</span>
-                        </div>
-                    }
-                    else
-                    {
-                        <span>@rideModel.RideDesti</span>
-                    }
-                </h5>
-                <h5 class="col-4" style="text-align:center">
-                    <img src="~/img/seaticon.png" style="width:16px;height:19px; margin-right:4px" />@rideModel.RideSeats
-                </h5>
-                <h5 class="col-4">
-                    <a href="tel:@rideModel.DriverContact" class="btn btn-success"><span style="font-weight:Bold">@rideModel.DriverContact</span></a>
-                </h5>
-            </div>
-        </div>
+            lsortedtime = parsedTime.ToString("hh:mm tt");
         }
-    </div>
- 
-    <br />
+
+        <div class="card shadow-sm border-0 mb-4 ride-card opacity-75">
+
+            <div class="card-body p-3">
+
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+
+                    <div>
+
+                        <div class="fw-bold fs-5">
+
+                            @if (rideModel.RideSource.Contains("Airport"))
+                            {
+                                <img src="~/img/flightimg1.png"
+                                     width="28"
+                                     class="me-1" />
+                            }
+
+                            @rideModel.RideSource
+
+                        </div>
+
+                        <small class="text-danger fw-semibold">
+
+                            @if (rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow))
+                            {
+                                <span>Today</span>
+                            }
+                            else if (rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1))
+                            {
+                                <span>Tomorrow</span>
+                            }
+                            else
+                            {
+                                <span>@rideModel.RideDate</span>
+                            }
+
+                            • @lsortedtime
+
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="d-flex justify-content-between flex-wrap gap-3">
+
+                    <div class="location-text">
+
+                        <small class="text-muted">
+                            Via
+                        </small>
+
+                        <div>
+                            @rideModel.RideVia
+                        </div>
+
+                    </div>
+
+                    <div class="text-end">
+
+                        <small class="text-muted">
+                            Price
+                        </small>
+
+                        <div class="fw-bold text-danger fs-5">
+
+                            ₹@rideModel.RidePrice
+
+                            <small>/seat</small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                    <div class="d-flex align-items-center gap-2">
+
+                        @if (rideModel.RideDesti.Contains("Airport"))
+                        {
+                            <img src="~/img/flightimg1.png"
+                                 width="28" />
+                        }
+
+                        <span class="fw-semibold">
+                            @rideModel.RideDesti
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        <img src="~/img/seaticon.png"
+                             style="width:18px;height:18px;" />
+
+                        <span class="fw-semibold">
+                            @rideModel.RideSeats Seats
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
 
 </div>
+
 <!-- TRUST -->
 <section class="trust">
+
     <div>✔ Verified Drivers</div>
+
     <div>✔ Aadhaar Verified</div>
+
     <div>✔ Safe & Secure</div>
+
     <div>✔ 24/7 Support</div>
+
 </section>
 
 <!-- HOW IT WORKS -->
 <section class="steps">
-    <h2>How ShriGo Works</h2>
-    <br />
-    <h4 style="color:white">Booking from available ride</h4>
-    <div class="step-grid">
-        <div class="step">1. View our Active Rides</div>
-        <div class="step">2. Choose Your Ride</div>
-        <div class="step">3. Call Driver/Book ride of your choice</div>
+
+    <h2 class="fw-bold mb-5">
+        How ShriGo Works
+    </h2>
+
+    <h4>
+        Booking from available rides
+    </h4>
+
+    <div class="step-grid mb-5">
+
+        <div class="step">
+            1. View Active Rides
+        </div>
+
+        <div class="step">
+            2. Choose Your Ride
+        </div>
+
+        <div class="step">
+            3. Call Driver / Book Ride
+        </div>
+
     </div>
-    <br />
-    <h4 style="color:white">Book your desired ride </h4>
+
+    <h4>
+        Book your desired ride
+    </h4>
+
     <div class="step-grid">
-        <div class="step">1. Enter Pickup & Drop</div>
-        <div class="step">2. Choose Your Ride</div>
-        <div class="step">3. Travel Safely</div>
+
+        <div class="step">
+            1. Enter Pickup & Drop
+        </div>
+
+        <div class="step">
+            2. Choose Your Ride
+        </div>
+
+        <div class="step">
+            3. Travel Safely
+        </div>
+
     </div>
+
 </section>
 
 <!-- DRIVER CTA -->
 <section class="driver">
-    <h2 style="color:white">Earn with ShriGo</h2>
-    <p>Join as a driver and earn daily income</p>
-    <a href="/SignUp" class=""><button>Start Driving</button></a>
+
+    <h2 class="fw-bold">
+        Earn with ShriGo
+    </h2>
+
+    <p>
+        Join as a driver and earn daily income
+    </p>
+
+    <a href="/SignUp">
+
+        <button class="btn btn-primary btn-lg rounded-pill px-4">
+
+            Start Driving
+
+        </button>
+
+    </a>
+
 </section>
-<br />
-<!-----------Working code-------------->
-<script>
-    async function fetchUsers() {
-    const res = await fetch('/api/analytics/dashboard');
-    const data = await res.json();
 
-    document.getElementById('activeUsers').innerText =
-    (data.activeUsers ?? 0) + " Users Online";    
+<!-- ANALYTICS -->
+<div class="container">
 
+    <div class="dashboard">
 
-    document.getElementById('pageViews').innerText =
-    (data.pageViews ?? 0) + " Site Views";
+        <div class="card d-none">
 
-    document.getElementById('totalUsers').innerText =
-    (data.totalUsers ?? 0) + " Total Users";
-    }
-    setInterval(fetchUsers, 10000);
-    fetchUsers();
-</script>
+            <div class="label">
+                👀 Active Users
+            </div>
 
-<!------------------------->
-    
-<div class="dashboard">
+            <div id="activeUsers" class="value">
+                0
+            </div>
 
-    <div class="card" style ="visibility:hidden" >
-        <div class="label">👀 Active Users</div>
-        <div id="activeUsers" class="value">0</div>
-    </div>
+        </div>
 
-    <div class="card">
-        <div class="label">📄 Site Views</div>
-        <div id="pageViews" class="value">0</div>
-    </div>
+        <div class="card">
 
-    <div class="card" style="visibility:hidden">
-        <div class="label">👥 Total Users</div>
-        <div id="totalUsers" class="value">0</div>
+            <div class="label">
+                📄 Site Views
+            </div>
+
+            <div id="pageViews" class="value">
+                0
+            </div>
+
+        </div>
+
+        <div class="card d-none">
+
+            <div class="label">
+                👥 Total Users
+            </div>
+
+            <div id="totalUsers" class="value">
+                0
+            </div>
+
+        </div>
+
     </div>
 
 </div>
 
-<!---------------Script------------------------------------------------->
+<!-- ANALYTICS SCRIPT -->
 <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                const dataContainer = document.getElementById('data-container');
+    async function fetchUsers() {
 
-                // Fetch JSON data (if from a file)
-                fetch('data.json') // Replace 'data.json' with your file path
-                    .then(response => response.json())
-                    .then(data => {
-                        // Create an unordered list element
-                        const ul = document.createElement('ul');
+        const res = await fetch('/api/analytics/dashboard');
 
+        const data = await res.json();
 
-                        // Loop through the JSON data and create list items
-                        data.forEach(item => {
-                                const li = document.createElement('li');
-                                const contactButton  = document.createElement('button');
-                            //    const div1  = document.createElement('Div');
-    
-                                    li.innerHTML = `<strong><h1>${item.Source}</h1>
-                                                </strong>: ${item.Desti}
-                                                </strong>: ${item.Via}
-                                                </strong>: ${item.Time}
-                                                </strong>: ${item.Date}`;
-                                // div1.classList.add('modal');
-                                // div1.tabIndex.add('-1')
-                            contactButton.classList.add('btn', 'btn-info', 'btn-sm', 'ms-2'); // ms-2 for margin-start
-                            contactButton.textContent = 'Details';
-                            contactButton.addEventListener('click', () => {
-                                    alert('Details for: ' + item.textContent.replace('Details', '').trim());
+        document.getElementById('activeUsers').innerText =
+            (data.activeUsers ?? 0) + " Users Online";
 
-                        });
-                        //li.appendChild(div1);
-                                 li.appendChild(contactButton);
-                            ul.appendChild(li);
+        document.getElementById('pageViews').innerText =
+            (data.pageViews ?? 0) + " Site Views";
 
-                        });
+        document.getElementById('totalUsers').innerText =
+            (data.totalUsers ?? 0) + " Total Users";
+    }
 
-                        // Append the created list to the container
-                        dataContainer.appendChild(ul);
+    setInterval(fetchUsers, 10000);
 
-                    })
-                    .catch(error => console.error('Error fetching data:', error));
-
-                // If JSON data is embedded directly in JavaScript:
-                // const embeddedData = [
-                //     { "name": "Embedded Item 1", "description": "Description for embedded item 1" },
-                //     { "name": "Embedded Item 2", "description": "Description for embedded item 2" }
-                // ];
-                //
-                // const embeddedUl = document.createElement('ul');
-                // embeddedData.forEach(item => {
-                //     const li = document.createElement('li');
-                //     li.innerHTML = `<strong>${item.name}</strong>: ${item.description}`;
-                //     embeddedUl.appendChild(li);
-                // });
-                // dataContainer.appendChild(embeddedUl);
-            });
-           /*-------Slide Show---------------------------------*/
-         $(document).ready(
-
-             function(){
-
-           $(window).scroll(function() {
-             $(".slideanim").each(function(){
-               var pos = $(this).offset().top;
-
-               var winTop = $(window).scrollTop();
-                 if (pos < winTop + 600) {
-                   $(this).addClass("slide");
-                 }
-             });
-           });
-         })
-     
-    /*------------------------*/
-
+    fetchUsers();
 </script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4PQX2FTGWX"></script>
+
+<!-- GOOGLE TAG -->
+<script async
+        src="https://www.googletagmanager.com/gtag/js?id=G-4PQX2FTGWX">
+</script>
+
 <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
     gtag('js', new Date());
 
     gtag('config', 'G-4PQX2FTGWX');
 </script>
-<!----Sharing trip ----->
-<script>
-    document.getElementById('shareBtn').addEventListener('click', async () => {
-        try {
-            await navigator.share({
-                Source: 'MTPL',
-                Desti: 'HYD',
-                text: 'Check out this content',
-                url: window.location.href
-            });
-        } catch (err) {
-            console.log('Error sharing:', err);
-        }
-    });
-</script>
 
+<!-- BOOK RIDE -->
 <script>
+
     function goToBookRide() {
 
-    const pickup = document.getElementById("pickup").value;
-    const drop = document.getElementById("drop").value;
+        const pickup =
+            document.getElementById("pickup").value;
 
-    if (!pickup || !drop) {
-    alert("Please enter pickup and drop");
-    return;
+        const drop =
+            document.getElementById("drop").value;
+
+        if (!pickup || !drop) {
+
+            alert("Please select pickup and drop");
+
+            return;
+        }
+
+        window.location.href =
+            `/Booking/CheckAndBookRide?pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}`;
     }
 
-    window.location.href =
-    `/Booking/CheckAndBookRide?pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}`;
-    }
 </script>
