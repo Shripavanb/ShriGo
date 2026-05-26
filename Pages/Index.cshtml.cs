@@ -146,6 +146,7 @@ namespace ShriGo.Pages
             string time24 = item.RideTime.ToString();
             DateTime parsedTime = DateTime.Parse(time24);
             string amPmTime = parsedTime.ToString("hh:mm tt");
+            string add2hourstoamPmTime = DateTime.Parse(time24).AddHours(2).ToString("hh:mm tt");
             string date = "";
 
             if (item.RideDate == DateOnly.FromDateTime(DateTime.UtcNow))
@@ -163,21 +164,18 @@ namespace ShriGo.Pages
 
 
             string message =
-                "🚗 *Ride Available on ShriGo!* \n\n" +
-
+                "🚗 *Ride Available on ShriGo.in!* \n" +
                 "┌─────────────┐\n" +
                 "│ 📅 Date    : " + date +"("+(item.RideDate)+")" +"\n" +
                 "│ 📍 From     : " + item.RideSource + "\n" +
                 "│ 📍 To       : " + item.RideDesti + "\n" +                
-                "│ ⏰ Time    : " + amPmTime + "\n" +
+                "│ ⏰ Time    : " + amPmTime+"-"+add2hourstoamPmTime+ "\n" +
                 "│ 💺 Seats    : " + item.RideSeats + "\n" +
                 "│ 💰 Price    : ₹" + item.RidePrice+ "/p"+" \n" +
                 "│ 👤 Driver   : " + item.DriverFirstName + "\n" +
                 "│ 📞 Contact  : " + item.DriverContact + "\n" +
-                "└─────────────┘\n\n" +
-
-                "⚡ Book your seat now before it fills!\n\n" +
-
+                "└─────────────┘\n" +
+                "⚡ Book your seat now before it fills!\n" +
                 "🌐 Book now on https://shrigo.in";
 
 
