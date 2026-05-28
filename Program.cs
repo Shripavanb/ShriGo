@@ -77,7 +77,20 @@ builder.Services.AddScoped<EmailService>();
 
 ServicePointManager.SecurityProtocol =
     SecurityProtocolType.Tls12;
+//--------------------------------------------------
+// CORS Policy-API
+//--------------------------------------------------
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy =>
+        {
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
@@ -138,7 +151,11 @@ app.Use(async (context, next) =>
 
 app.UseRouting();
 
+//--------------------------------------------------
+// CORS-API
+//--------------------------------------------------
 
+app.UseCors("AllowAll");//Api service for App development 
 // ======================================================
 // SESSION
 // ======================================================
