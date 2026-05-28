@@ -30,3 +30,12 @@ namespace ShriGo.Model
 
     }
 }
+        //Furture change TODO
+        //[Column(TypeName = "decimal(10,2)")]
+        //public decimal RidePrice { get; set; }
+        //// Metadata
+        //public DateTime CreatedAt { get; set; }
+        //    = DateTime.UtcNow;
+
+        //public bool IsActive { get; set; }
+        //    = true;
