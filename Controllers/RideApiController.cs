@@ -15,79 +15,77 @@ namespace ShriGo.Controllers
             _dbContext = context;
         }
 
+
         [HttpGet("active")]
         public async Task<IActionResult> GetActiveRides()
         {
-            var now =
-                DateTime.Now;
+            var now = DateTime.Now;
 
             var rides = await _dbContext
                 .Ride_DBTable
+                .ToListAsync();
+
+            var activeRides = rides
                 .Where(r =>
 
                     r.RideDate != null &&
                     r.RideTime != null &&
 
-                    r.RideDate
-                        .Value
-                        .ToDateTime(
-
-                            r.RideTime.Value
-                        )
+                    r.RideDate.Value
+                        .ToDateTime(r.RideTime.Value)
                         .AddHours(2)
 
                         >= now
                 )
                 .OrderBy(r => r.RideDate)
                 .ThenBy(r => r.RideTime)
-                .ToListAsync();
+                .ToList();
 
-            return Ok(rides);
+            return Ok(activeRides);
         }
-
 
         [HttpGet("history")]
         public async Task<IActionResult> GetRideHistory()
         {
-            var now =
-                DateTime.Now;
+            var now = DateTime.Now;
 
             var rides = await _dbContext
                 .Ride_DBTable
+                .ToListAsync();
+
+            var historyRides = rides
                 .Where(r =>
 
                     r.RideDate != null &&
                     r.RideTime != null &&
 
-                    r.RideDate
-                        .Value
-                        .ToDateTime(
-
-                            r.RideTime.Value
-                        )
+                    r.RideDate.Value
+                        .ToDateTime(r.RideTime.Value)
                         .AddHours(2)
 
                         < now
                 )
                 .OrderByDescending(r => r.RideDate)
                 .ThenByDescending(r => r.RideTime)
-                .ToListAsync();
+                .ToList();
 
-            return Ok(rides);
+            return Ok(historyRides);
         }
-        [HttpGet("Expired")]
-        public async Task<IActionResult> GetExpiredRides()
-        {
-            var today = DateOnly.FromDateTime(DateTime.Today);
 
-            var oldRides = await _dbContext
-                .Ride_DBTable
-                .Where(r => r.RideDate < today)
-                .OrderByDescending(r => r.RideDate)
-                .ThenByDescending(r => r.RideTime)
-                .ToListAsync();
+        ////Future use 
+        //[HttpGet("Expired")]
+        //public async Task<IActionResult> GetExpiredRides()
+        //{
+        //    var today = DateOnly.FromDateTime(DateTime.Today);
 
-            return Ok(oldRides);
-        }
+        //    var oldRides = await _dbContext
+        //        .Ride_DBTable
+        //        .Where(r => r.RideDate < today)
+        //        .OrderByDescending(r => r.RideDate)
+        //        .ThenByDescending(r => r.RideTime)
+        //        .ToListAsync();
+
+        //    return Ok(oldRides);
+        //}
     }
 }
