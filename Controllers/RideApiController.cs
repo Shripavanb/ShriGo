@@ -10,82 +10,180 @@ namespace ShriGo.Controllers
     {
         private readonly RideDBContext _dbContext;
 
-        public RideApiController(RideDBContext context)
+        public RideApiController(
+            RideDBContext context
+        )
         {
             _dbContext = context;
         }
 
-
+        //--------------------------------------------------
+        // GET ACTIVE RIDES
+        //--------------------------------------------------
         [HttpGet("active")]
-        public async Task<IActionResult> GetActiveRides()
+        public async Task<IActionResult>
+            GetActiveRides()
         {
-            var now = DateTime.Now;
+            var now =
+                DateTime.Now;
 
-            var rides = await _dbContext
-                .Ride_DBTable
-                .ToListAsync();
+            var rides =
+                await _dbContext
+                    .Ride_DBTable
+                    .ToListAsync();
 
-            var activeRides = rides
-                .Where(r =>
+            var activeRides =
+                rides
+                    .Where(r =>
 
-                    r.RideDate != null &&
-                    r.RideTime != null &&
+                        r.RideDate != null &&
+                        r.RideTime != null &&
 
-                    r.RideDate.Value
-                        .ToDateTime(r.RideTime.Value)
-                        .AddHours(2)
+                        r.RideDate.Value
+                            .ToDateTime(
+                                r.RideTime.Value
+                            )
+                            .AddHours(2)
 
-                        >= now
-                )
-                .OrderBy(r => r.RideDate)
-                .ThenBy(r => r.RideTime)
-                .ToList();
+                            >= now
+                    )
+                    .OrderBy(
+                        r => r.RideDate
+                    )
+                    .ThenBy(
+                        r => r.RideTime
+                    )
+                    .ToList();
 
-            return Ok(activeRides);
+            return Ok(
+                activeRides
+            );
         }
 
+        //--------------------------------------------------
+        // GET HISTORY RIDES
+        //--------------------------------------------------
         [HttpGet("history")]
-        public async Task<IActionResult> GetRideHistory()
+        public async Task<IActionResult>
+            GetRideHistory()
         {
-            var now = DateTime.Now;
+            var now =
+                DateTime.Now;
 
-            var rides = await _dbContext
-                .Ride_DBTable
-                .ToListAsync();
+            var rides =
+                await _dbContext
+                    .Ride_DBTable
+                    .ToListAsync();
 
-            var historyRides = rides
-                .Where(r =>
+            var historyRides =
+                rides
+                    .Where(r =>
 
-                    r.RideDate != null &&
-                    r.RideTime != null &&
+                        r.RideDate != null &&
+                        r.RideTime != null &&
 
-                    r.RideDate.Value
-                        .ToDateTime(r.RideTime.Value)
-                        .AddHours(2)
+                        r.RideDate.Value
+                            .ToDateTime(
+                                r.RideTime.Value
+                            )
+                            .AddHours(2)
 
-                        < now
-                )
-                .OrderByDescending(r => r.RideDate)
-                .ThenByDescending(r => r.RideTime)
-                .ToList();
+                            < now
+                    )
+                    .OrderByDescending(
+                        r => r.RideDate
+                    )
+                    .ThenByDescending(
+                        r => r.RideTime
+                    )
+                    .ToList();
 
-            return Ok(historyRides);
+            return Ok(
+                historyRides
+            );
         }
 
-        ////Future use 
-        //[HttpGet("Expired")]
-        //public async Task<IActionResult> GetExpiredRides()
-        //{
-        //    var today = DateOnly.FromDateTime(DateTime.Today);
+        //--------------------------------------------------
+        // UPLOAD RIDE
+        //--------------------------------------------------
 
-        //    var oldRides = await _dbContext
-        //        .Ride_DBTable
-        //        .Where(r => r.RideDate < today)
-        //        .OrderByDescending(r => r.RideDate)
-        //        .ThenByDescending(r => r.RideTime)
-        //        .ToListAsync();
+        [HttpPost("upload")]
+        public async Task<IActionResult>
+        UploadRide(
 
-        //    return Ok(oldRides);
-        //}
+        [FromBody]
+        SortedRideModel newRide
+        )
+        {
+            try
+            {
+                if (newRide == null)
+                {
+                    return BadRequest(
+                        "Ride data missing"
+                    );
+                }
+
+                //-----------------------------------
+                // Remove expired rides
+                //-----------------------------------
+                var cutoffDate =
+                    DateOnly
+                        .FromDateTime(
+                            DateTime.Today
+                        );
+
+                var oldRides =
+                   await _dbContext
+                       .Ride_DBTable
+                       .Where(r =>
+
+                           r.RideDate != null
+                           &&
+
+                           r.RideDate
+                           < cutoffDate
+                       )
+                       .ToListAsync();
+
+                if (oldRides.Any())
+                {
+                    _dbContext
+                        .Ride_DBTable
+                        .RemoveRange(
+                            oldRides
+                        );
+                }
+
+                //-----------------------------------
+                // Save new ride
+                //-----------------------------------
+                await _dbContext
+                    .Ride_DBTable
+                    .AddAsync(
+                        newRide
+                    );
+
+                await _dbContext
+                    .SaveChangesAsync();
+
+                return Ok(
+                    new
+                    {
+                        success = true,
+                        message =
+                            "Ride uploaded successfully"
+                    }
+                );
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(
+                    500,
+                    ex.Message
+                );
+            }
+        }
     }
 }
