@@ -154,6 +154,25 @@ namespace ShriGo.Controllers
                 //-----------------------------------
                 // Save new ride
                 //-----------------------------------
+                bool isTableEmpty =
+                !_dbContext
+                    .Ride_DBTable
+                    .Any();
+
+                if (isTableEmpty)
+                {
+                    newRide.RideId = 1;
+                }
+                else
+                {
+                    var maxRideId =
+                        _dbContext
+                            .Ride_DBTable
+                            .Max(r => r.RideId);
+
+                    newRide.RideId =
+                        maxRideId + 1;
+                }
                 await _dbContext
                     .Ride_DBTable
                     .AddAsync(
@@ -177,7 +196,8 @@ namespace ShriGo.Controllers
             {
                 return StatusCode(
                     500,
-                    ex.Message
+                    ex.InnerException?.Message
+                    ?? ex.Message
                 );
             }
         }
