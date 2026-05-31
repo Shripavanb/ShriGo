@@ -2,6 +2,7 @@
 @model ShriGo.Pages.Booking.BookRideModel
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Http
+@using ShriGo.Helpers
 @{
 }
 
@@ -42,11 +43,11 @@
                         }
                     </h5>
                     <h5 class="col-4">
-                        @if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow))
+                        @if (@rideModel.RideDate == TimeHelper.GetIndiaDate())
                         {
                             <span style="color:maroon;font-weight:bold">Today</span>
                         }
-                        else if (@rideModel.RideDate == DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1))
+                        else if (@rideModel.RideDate == TimeHelper.GetIndiaDate().AddDays(1))
                         {
                             <span style="color:green; font-weight:bold">Tomorrow</span>
                         }
@@ -59,8 +60,8 @@
                      
                         @if (@rideModel.RideTime!=null)
                         {
-
-                            TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
+                            var now =    TimeHelper.GetIndiaTime();
+                            TimeOnly time = TimeOnly.FromDateTime(now);
     
                             string time24 = @rideModel.RideTime.ToString();
                             DateTime parsedTime = DateTime.Parse(time24);

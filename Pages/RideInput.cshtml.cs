@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ShriGo.Helpers;
 using ShriGo.Model;
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
@@ -37,6 +38,7 @@ namespace ShriGo.Pages
 
         public IActionResult OnPost()
         {
+            var now = TimeHelper.GetIndiaTime();
             string session_userName = HttpContext.Session.GetString("session_UserName");
             string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
 
@@ -44,16 +46,14 @@ namespace ShriGo.Pages
             NewRideModel.DriverUniqueId = session_UserUniqueId;
             
             // Define the cutoff date, date only 
-            var cutoffDate = DateOnly.FromDateTime(DateTime.Today) ;
+            var cutoffDate = TimeHelper.GetIndiaDate(); 
 
-            TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
+            TimeOnly time = TimeOnly.FromDateTime(now);
             string time24 = time.ToString();
             DateTime parsedTime = DateTime.Parse(time24);
             string amPmTime = parsedTime.ToString("hh:mm tt");
             // Define the cutoff date, date only 
             string cutoffTime = amPmTime;
-
-            //DateOnly date = DateOnly.FromDateTime((DateTime)NewRideModel.RideDate);
 
             // Finds the old entities(as per date) to remove, 
             var oldRidesAsPerDate = _dbContext.Ride_DBTable.Where(r => r.RideDate < cutoffDate).ToList();

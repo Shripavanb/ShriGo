@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ShriGo.Helpers;
 using ShriGo.Model;
 
 namespace ShriGo.Pages.Passengers
@@ -29,15 +30,17 @@ namespace ShriGo.Pages.Passengers
 
         public void OnGet()
         {
+            var now =TimeHelper.GetIndiaTime();
+
             //Creating a session variable 
             string userValue = HttpContext.Session.GetString("session_PassengerName");
             //HttpContext.Session.SetString("UserSession", "Active");
 
             // Define the cutoff date, date only 
-            var cutoffDate = DateOnly.FromDateTime(DateTime.Today);
+            var cutoffDate = TimeHelper.GetIndiaDate();
             Console.WriteLine("cutoffDate:"+cutoffDate);
 
-            TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
+            TimeOnly time = TimeOnly.FromDateTime(now);
 
             string time24 = time.ToString();
             DateTime parsedTime = DateTime.Parse(time24);
@@ -47,7 +50,7 @@ namespace ShriGo.Pages.Passengers
             Console.WriteLine("cutoffTime:"+cutoffTime);
             //--------------------------------------------------
 
-            var todaysdate = DateOnly.FromDateTime(DateTime.Today);
+            var todaysdate = TimeHelper.GetIndiaDate();
 
             //foreach (var list in _dbContext.Ride_DBTable)
             //{
@@ -97,7 +100,7 @@ namespace ShriGo.Pages.Passengers
             // Finds the old entities(as per time) to segregate List ,
             foreach (var list in _dbContext.Ride_DBTable)
             {
-                if (list.RideDate == DateOnly.FromDateTime(DateTime.UtcNow))
+                if (list.RideDate == TimeHelper.GetIndiaDate())
                 {
                     if (list.RideTime < time)
                     {
