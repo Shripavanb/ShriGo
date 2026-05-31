@@ -1,7 +1,9 @@
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using ShriGo.Helpers;
 using ShriGo.Model;
 using ShriGo.Pages.Helpers;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +11,6 @@ using System.Numerics;
 using System.Windows;
 using Twilio;
 using Twilio.Rest.Verify.V2.Service;
-using Microsoft.AspNetCore.Identity;
 
 
 namespace ShriGo.Pages
@@ -96,7 +97,7 @@ namespace ShriGo.Pages
             NewUserModel.UserUniqueId = UniqueNumber.ToString();
 
             // DriverReg Date only 
-            NewUserModel.UserRegDate = DateOnly.FromDateTime(DateTime.Today);
+            NewUserModel.UserRegDate = TimeHelper.GetIndiaDate();
 
             NewUserModel.AcceptedTerms = true;
             //NewUserModel.AcceptedAt = DateTime.UtcNow;
@@ -146,7 +147,7 @@ namespace ShriGo.Pages
             NewPassengerModel.PassengerUniqueId = UniqueNumber.ToString();
 
             // DriverReg Date only 
-            NewPassengerModel.PassengerRegDate = DateOnly.FromDateTime(DateTime.Today);
+            NewPassengerModel.PassengerRegDate = TimeHelper.GetIndiaDate();
 
             NewPassengerModel.Role = "Passenger";
 

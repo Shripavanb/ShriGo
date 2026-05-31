@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ShriGo.Helpers;
 using ShriGo.Model;
 
 namespace ShriGo.Controllers
@@ -24,8 +25,7 @@ namespace ShriGo.Controllers
         public async Task<IActionResult>
             GetActiveRides()
         {
-            var now =
-                DateTime.Now;
+            var now = TimeHelper.GetIndiaTime();
 
             var rides =
                 await _dbContext
@@ -67,8 +67,7 @@ namespace ShriGo.Controllers
         public async Task<IActionResult>
             GetRideHistory()
         {
-            var now =
-                DateTime.Now;
+            var now = TimeHelper.GetIndiaTime();
 
             var rides =
                 await _dbContext
@@ -128,11 +127,8 @@ namespace ShriGo.Controllers
                 // Remove expired rides
                 //-----------------------------------
                 var cutoffDate =
-                    DateOnly
-                        .FromDateTime(
-                            DateTime.Today
-                        );
-
+                    TimeHelper
+                        .GetIndiaDate();
                 var oldRides =
                    await _dbContext
                        .Ride_DBTable

@@ -1,8 +1,7 @@
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ShriGo.Helpers;
 using ShriGo.Model;
-using static Google.Api.ResourceDescriptor.Types;
 
 namespace ShriGo.Pages
 {
@@ -11,20 +10,29 @@ namespace ShriGo.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly RideDBContext _dbContext;
 
-        public List<SortedRideModel> finalListRideModel = new List<SortedRideModel>();
+        public List<SortedRideModel> finalListRideModel =
+            new List<SortedRideModel>();
 
-        //New Db table
-        public List<SortedRideModel> activeTodaysRideList = new List<SortedRideModel>();
-        public List<SortedRideModel> expiredRidesList = new List<SortedRideModel>();
+        public List<SortedRideModel> activeTodaysRideList =
+            new List<SortedRideModel>();
 
-        public List<SortedRideModel> List_SortedRideModel = new List<SortedRideModel>();
+        public List<SortedRideModel> expiredRidesList =
+            new List<SortedRideModel>();
+
+        public List<SortedRideModel> List_SortedRideModel =
+            new List<SortedRideModel>();
 
         [BindProperty]
-        public SortedRideModel sortedRideModel { get; set; }
+        public SortedRideModel sortedRideModel
+        {
+            get;
+            set;
+        }
 
-
-
-        public IndexModel(ILogger<IndexModel> logger, RideDBContext context)
+        public IndexModel(
+            ILogger<IndexModel> logger,
+            RideDBContext context
+        )
         {
             _logger = logger;
             _dbContext = context;
@@ -32,155 +40,264 @@ namespace ShriGo.Pages
 
         public void OnGet()
         {
-            //Creating a session variable 
-            string userValue = HttpContext.Session.GetString("session_UserName");
-            HttpContext.Session.SetString("session_Guest", "Guest_session");
+            //----------------------------------
+            // India Time
+            //----------------------------------
+            var now =
+                TimeHelper.GetIndiaTime();
 
-            //HttpContext.Session.SetString("UserSession", "Active");
+            var todaysdate =
+                TimeHelper.GetIndiaDate();
 
-            // Define the cutoff date, date only 
-            var cutoffDate = DateOnly.FromDateTime(DateTime.Today);
-            Console.WriteLine("cutoffDate:"+cutoffDate);
+            //----------------------------------
+            // Session
+            //----------------------------------
+            HttpContext.Session.SetString(
+                "session_Guest",
+                "Guest_session"
+            );
 
-            TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
-    
-            string time24 = time.ToString();
-            DateTime parsedTime = DateTime.Parse(time24);
-            string amPmTime = parsedTime.ToString("hh:mm tt");
-            // Define the cutoff date, date only 
-            string cutoffTime = amPmTime;
-            Console.WriteLine("cutoffTime:"+cutoffTime);
-            //--------------------------------------------------
+            //----------------------------------
+            // Remove old rides (past date)
+            //----------------------------------
+            var cutoffDate =
+                todaysdate;
 
-            var todaysdate = DateOnly.FromDateTime(DateTime.Today);
+            Console.WriteLine(
+                "cutoffDate: " +
+                cutoffDate
+            );
 
-            //foreach (var list in _dbContext.Ride_DBTable)
-            //{
-                //if(DateTime.Parse(list.RideTime).ToString("HH:mm")time.ToString("HH:mm"))
-                //{
-                //    sortedRideModel.RideDatet
-                ////}
-                //List<string> times = new List<string> { "14:30", "09:15", "22:00", "05:45", "13:00" };
+            var oldRidesAsPerDate =
+                _dbContext
+                    .Ride_DBTable
+                    .Where(
+                        r =>
+                            r.RideDate
+                            < cutoffDate
+                    )
+                    .ToList();
 
-                //// Sort ascending using OrderBy
-                //var sortedTimes = times.OrderBy(t => DateTime.Parse(t)).ToList();
+            Console.WriteLine(
+                "oldRidesAsPerDate: " +
+                oldRidesAsPerDate.Count
+            );
 
-                //// Iterate through sorted list
-                //foreach (string ltime in sortedTimes)
-                //{
-                //    Console.WriteLine(ltime);
-                //}
-
-                //if (list != null)
-                //{
-                //    sortedListRideModel.Add(list);
-                //    if (list.RideDate == cutoffDate)
-                //    {
-                //        todaysRideList.Add(list);
-
-                //    }
-                //}
-            //}
-
-            //foreach (var newlist in todaysRideList)
-            //{
-            //    if (todaysRideList!=null) {
-
-            //        string pmTime = newlist.RideTime;
-            //        // Parse to DateTime, then format to 24-hour
-            //        string twentyFourHourTime = DateTime.Parse(pmTime).ToString("HH:mm");
-
-            //        Console.WriteLine("twentyFourHourTime:"+twentyFourHourTime);
-            //    }
-            //}
-                ///var sortTodayslist = todaysRideList.OrderBy(e=>e.RideTime.CompareTo(cutoffTime)>0).ToList();
-            //--------------------------------
-            // Finds the old entities(as per date) to remove, 
-            var oldRidesAsPerDate = _dbContext.Ride_DBTable.Where(r => r.RideDate < cutoffDate).ToList();
-            Console.WriteLine("oldRidesAsPerDate:"+oldRidesAsPerDate);
-
-            // Finds the old entities(as per time) to segregate List ,
-            foreach (var list in _dbContext.Ride_DBTable)
+            //----------------------------------
+            // Separate active vs expired rides
+            //----------------------------------
+            foreach (
+                var list in
+                _dbContext.Ride_DBTable
+            )
             {
-                if(list.RideDate == DateOnly.FromDateTime(DateTime.UtcNow))
+                // Today's rides
+                if (
+                    list.RideDate ==
+                    todaysdate
+                )
                 {
-                    if (list.RideTime < time)
+                    if (
+                        list.RideTime !=
+                        null
+                    )
                     {
-                        expiredRidesList.Add(list);
+                        var rideDateTime =
+
+                            list.RideDate
+                                .Value
+                                .ToDateTime(
+                                    list
+                                        .RideTime
+                                        .Value
+                                );
+
+                        // Ride expires
+                        // after 2 hours
+                        var rideExpiryTime =
+
+                            rideDateTime
+                                .AddHours(
+                                    2
+                                );
+
+                        // Expired ride
+                        if (
+                            rideExpiryTime
+                            < now
+                        )
+                        {
+                            expiredRidesList
+                                .Add(
+                                    list
+                                );
+                        }
+
+                        // Active ride
+                        else
+                        {
+                            List_SortedRideModel
+                                .Add(
+                                    list
+                                );
+                        }
                     }
-                    else if(list.RideTime >= time)
-                    {
-                        List_SortedRideModel.Add(list);
-                    }                    
                 }
-                else 
+
+                // Future rides
+                else
                 {
-                    {
-                        List_SortedRideModel.Add(list);
-                    }
+                    List_SortedRideModel
+                        .Add(
+                            list
+                        );
                 }
             }
 
-            //var oldRidesAsPerTime = _dbContext.Ride_DBTable.Where(r => r.RideTime.CompareTo(cutoffTime)<0).ToList();
-            //Console.WriteLine("oldRidesAsPerTime:"+oldRidesAsPerTime);
+            //----------------------------------
+            // Remove expired old date rides
+            //----------------------------------
+            _dbContext
+                .Ride_DBTable
+                .RemoveRange(
+                    oldRidesAsPerDate
+                );
 
-            // Make sure every time it Removes the old entities from the DbSet
-            _dbContext.Ride_DBTable.RemoveRange(oldRidesAsPerDate);
-            //_dbContext.RideDBTable.RemoveRange(oldRidesAsPerTime);
+            _dbContext
+                .SaveChanges();
 
-            _dbContext.SaveChanges();
-            //string time24 = "14:30";
-            //DateTime parsedTime = DateTime.Parse(time24);
-            //string amPmTime = parsedTime.ToString("hh:mm tt"); // Results in "02:30 PM"
+            //----------------------------------
+            // Final sorting
+            //----------------------------------
+            finalListRideModel =
 
-            //var sortedTimes = _dbContext.RideDBTable.OrderBy(t => t.RideTime).ToList();
-
-            //Finally Arrange list as per date and time 
-            //List_SortedRideModel = _dbContext.Ride_DBTable.OrderBy(x => x.RideDate).ThenBy(x => x.RideTime).ToList();
-            finalListRideModel =List_SortedRideModel.OrderBy(x => x.RideDate).ThenBy(x => x.RideTime).ToList();
+                List_SortedRideModel
+                    .OrderBy(
+                        x => x.RideDate
+                    )
+                    .ThenBy(
+                        x => x.RideTime
+                    )
+                    .ToList();
         }
 
-
-        public string GetWhatsAppShareText(ShriGo.Model.SortedRideModel item)
+        public string GetWhatsAppShareText(
+            SortedRideModel item
+        )
         {
-            string time24 = item.RideTime.ToString();
-            DateTime parsedTime = DateTime.Parse(time24);
-            string amPmTime = parsedTime.ToString("hh:mm tt");
-            string add2hourstoamPmTime = DateTime.Parse(time24).AddHours(2).ToString("hh:mm tt");
+            //----------------------------------
+            // Safe time handling
+            //----------------------------------
+            string time24 =
+
+                item.RideTime?
+                    .ToString()
+
+                ?? "00:00";
+
+            DateTime parsedTime =
+                DateTime.Parse(
+                    time24
+                );
+
+            string amPmTime =
+
+                parsedTime
+                    .ToString(
+                        "hh:mm tt"
+                    );
+
+            string add2hourstoamPmTime =
+
+                parsedTime
+                    .AddHours(2)
+                    .ToString(
+                        "hh:mm tt"
+                    );
+
+            //----------------------------------
+            // Today / Tomorrow
+            //----------------------------------
             string date = "";
 
-            if (item.RideDate == DateOnly.FromDateTime(DateTime.UtcNow))
+            var today =
+                TimeHelper
+                    .GetIndiaDate();
+
+            if (
+                item.RideDate ==
+                today
+            )
             {
-                date ="Today";
+                date = "Today";
             }
-            else if (item.RideDate == DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1))
+
+            else if (
+                item.RideDate ==
+                today.AddDays(1)
+            )
             {
-                date ="Tomorrow";
+                date = "Tomorrow";
             }
+
             else
             {
-                date =(item.RideDate).ToString();
+                date =
+                    item.RideDate
+                        .ToString();
             }
 
-
+            //----------------------------------
+            // WhatsApp Share Text
+            //----------------------------------
             string message =
+
                 "🚗 *Ride Available on ShriGo.in!* \n" +
                 "┌─────────────┐\n" +
-                "│ 📅 Date    : " + date +"("+(item.RideDate)+")" +"\n" +
-                "│ 📍 From     : " + item.RideSource + "\n" +
-                "│ 📍 To       : " + item.RideDesti + "\n" +                
-                "│ ⏰ Time    : " + amPmTime+"-"+add2hourstoamPmTime+ "\n" +
-                "│ 💺 Seats    : " + item.RideSeats + "\n" +
-                "│ 💰 Price    : ₹" + item.RidePrice+ "/p"+" \n" +
-                "│ 👤 Driver   : " + item.DriverFirstName + "\n" +
-                "│ 📞 Contact  : " + item.DriverContact + "\n" +
+                "│ 📅 Date    : " +
+                date +
+                " (" +
+                item.RideDate +
+                ")\n" +
+
+                "│ 📍 From     : " +
+                item.RideSource +
+                "\n" +
+
+                "│ 📍 To       : " +
+                item.RideDesti +
+                "\n" +
+
+                "│ ⏰ Time    : " +
+                amPmTime +
+                "-" +
+                add2hourstoamPmTime +
+                "\n" +
+
+                "│ 💺 Seats    : " +
+                item.RideSeats +
+                "\n" +
+
+                "│ 💰 Price    : ₹" +
+                item.RidePrice +
+                "/p\n" +
+
+                "│ 👤 Driver   : " +
+                item.DriverFirstName +
+                "\n" +
+
+                "│ 📞 Contact  : " +
+                item.DriverContact +
+                "\n" +
+
                 "└─────────────┘\n" +
+
                 "⚡ Book your seat now before it fills!\n" +
                 "🌐 Book now on https://shrigo.in";
 
-
-         
-            return Uri.EscapeDataString(message);
+            return Uri.EscapeDataString(
+                message
+            );
         }
     }
 }
