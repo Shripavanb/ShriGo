@@ -201,5 +201,46 @@ namespace ShriGo.Controllers
                 );
             }
         }
+
+
+        //--------------------------------------------------
+        // GET MY RIDES
+        //--------------------------------------------------
+
+        [HttpGet("myrides/{driverUniqueId}")]
+        public async Task<IActionResult>
+        GetMyRides(
+            string driverUniqueId
+        )
+        {
+            try
+            {
+                var rides =
+                    await _dbContext
+                        .Ride_DBTable
+                        .Where(r =>
+
+                            r.DriverUniqueId ==
+                            driverUniqueId
+                        )
+                        .OrderByDescending(
+                            r => r.RideDate
+                        )
+                        .ThenByDescending(
+                            r => r.RideTime
+                        )
+                        .ToListAsync();
+
+                return Ok(rides);
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(
+                    500,
+                    ex.Message
+                );
+            }
+        }
     }
 }
