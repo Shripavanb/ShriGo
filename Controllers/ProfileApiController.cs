@@ -38,8 +38,17 @@ namespace ShriGo.Controllers
             // ==================
 
             if (
+
                 role.Equals(
                     "Driver",
+                    StringComparison
+                        .OrdinalIgnoreCase
+                )
+
+                ||
+
+                role.Equals(
+                    "Admin",
                     StringComparison
                         .OrdinalIgnoreCase
                 )
