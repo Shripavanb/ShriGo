@@ -242,5 +242,76 @@ namespace ShriGo.Controllers
                 );
             }
         }
+
+
+
+        //--------------------------------------------------
+        // DELETE RIDE
+        //--------------------------------------------------
+        [HttpDelete("delete/{rideId}")]
+        public async Task<IActionResult>
+        DeleteRide(
+
+            int rideId
+        )
+        {
+            try
+            {
+                var ride =
+
+                    await _dbContext
+                        .Ride_DBTable
+                        .FirstOrDefaultAsync(
+
+                            x =>
+                            x.RideId ==
+                            rideId
+                        );
+
+                if (
+                    ride == null
+                )
+                {
+                    return NotFound(
+
+                        new
+                        {
+                            message =
+                                "Ride not found"
+                        }
+                    );
+                }
+
+                _dbContext
+                    .Ride_DBTable
+                    .Remove(
+                        ride
+                    );
+
+                await _dbContext
+                    .SaveChangesAsync();
+
+                return Ok(
+
+                    new
+                    {
+                        success = true,
+                        message =
+                            "Ride deleted successfully"
+                    }
+                );
+            }
+
+            catch (Exception ex)
+            {
+                return StatusCode(
+
+                    500,
+
+                    ex.InnerException?.Message
+                    ?? ex.Message
+                );
+            }
+        }
     }
 }
