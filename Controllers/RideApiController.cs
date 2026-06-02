@@ -340,7 +340,11 @@ namespace ShriGo.Controllers
             ride.RidePrice = request.RidePrice;
             await _dbContext.SaveChangesAsync();
 
-            return Ok("Ride Updated Successfully");
+            return Ok(new
+            {
+                success = true,
+                message = "Ride Updated Successfully"
+            });
         }
     }
 }
