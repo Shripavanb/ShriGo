@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Google.Api;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShriGo.Helpers;
 using ShriGo.Model;
@@ -312,6 +313,34 @@ namespace ShriGo.Controllers
                     ?? ex.Message
                 );
             }
+        }
+        //-------------------------------------
+        //Edit Rides
+        //-------------------------------------
+        [HttpPut("updateride/{rideId}")]
+        public async Task<IActionResult> UpdateRide(
+        int rideId,
+        [FromBody]
+        SortedRideModel request
+        )
+        {
+            var ride = await _dbContext.Ride_DBTable
+                .FirstOrDefaultAsync(r => r.RideId == rideId);
+
+            if (ride == null)
+            {
+                return NotFound();
+            }
+            ride.RideDate = request.RideDate;
+            ride.RideSource = request.RideSource;
+            ride.RideDesti = request.RideDesti;
+            ride.RideVia = request.RideVia;
+            ride.RideTime = request.RideTime;
+            ride.RideSeats = request.RideSeats;
+            ride.RidePrice = request.RidePrice;
+            await _dbContext.SaveChangesAsync();
+
+            return Ok("Ride Updated Successfully");
         }
     }
 }
