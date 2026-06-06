@@ -23,114 +23,24 @@ namespace ShriGo.Pages.Booking
         public void OnGet()
         {
             if (!string.IsNullOrEmpty(Pickup) &&
-                !string.IsNullOrEmpty(Drop))
+                 !string.IsNullOrEmpty(Drop))
             {
-                string[] local = {"RYKL", "KRTL", "MTPL","RYKL,KRTL,MTPL" };
-                string[] city = { "JBS", "HYD", "JBS,HYD"};
-                bool haslocalpickup = local.Any(any=> any == Pickup);
-                bool haslocaldrop = local.Any(any=>any == Drop);
-                bool hascitypickup = city.Any(any => any == Pickup);
-                bool hascitydrop = city.Any(any => any == Drop);
+                Pickup =
+                    NormalizeLocation(Pickup);
 
+                Drop =
+                    NormalizeLocation(Drop);
 
-                if ((haslocalpickup && hascitydrop)||
-                                   (hascitypickup  && haslocaldrop))
+                if (string.IsNullOrEmpty(Pickup) ||
+                    string.IsNullOrEmpty(Drop))
                 {
-                    DistanceKm = 214;
+                    TempData["RideError"] =
+                        "Sorry, no ride available";
 
-                    EstimatedFare =
-                        Convert.ToDecimal(DistanceKm * 12);
-
-                    MinEstimatedPricePP = 600;
-                    MaxEstimatedPricePP = 800;
-
-                    if (EstimatedFare < 50)
-                    {
-                        EstimatedFare = 50;
-                    }
+                    return;
                 }
-                else if((haslocalpickup && Drop.Contains("Airport"))||
-                                   (Pickup.Contains("Airport") && haslocaldrop))
-                {
-                    DistanceKm = 247;
-
-                    EstimatedFare =
-                        Convert.ToDecimal(DistanceKm * 12);
-
-                    if (EstimatedFare < 50)
-                    {
-                        EstimatedFare = 50;
-                    }
-                    MinEstimatedPricePP = 750;
-                    MaxEstimatedPricePP = 950;
-                }
-
-                else if ((Pickup.Contains("ARMR") && hascitydrop)||
-                         (hascitypickup && Drop.Contains("ARMR")))
-                {
-                    DistanceKm = 187;
-
-                    EstimatedFare =
-                        Convert.ToDecimal(DistanceKm * 12);
-
-                    if (EstimatedFare < 50)
-                    {
-                        EstimatedFare = 50;
-                    }
-                    MinEstimatedPricePP = 450;
-                    MaxEstimatedPricePP = 550;
-                }
-                else if ((Pickup.Contains("ARMR") && Drop.Contains("Airport"))||
-                (Pickup.Contains("Airport") && Drop.Contains("ARMR")))
-                {
-                    DistanceKm = 224;
-
-                    EstimatedFare =
-                        Convert.ToDecimal(DistanceKm * 12);
-
-                    if (EstimatedFare < 50)
-                    {
-                        EstimatedFare = 50;
-                    }
-                    MinEstimatedPricePP = 600;
-                    MaxEstimatedPricePP = 800;
-                }
-                else if ((Pickup.Contains("NZB") && hascitydrop)||
-                   (hascitypickup && Drop.Contains("NZB")))
-                {
-                    DistanceKm = 178;
-
-                    EstimatedFare =
-                        Convert.ToDecimal(DistanceKm * 12);
-
-                    if (EstimatedFare < 50)
-                    {
-                        EstimatedFare = 50;
-                    }
-                    MinEstimatedPricePP = 450;
-                    MaxEstimatedPricePP = 550;
-                }
-                else if ((Pickup.Contains("NZB") && Drop.Contains("Airport"))||
-                  (Pickup.Contains("Airport") && Drop.Contains("NZB")))
-                {
-                    DistanceKm = 217;
-
-                    EstimatedFare =
-                        Convert.ToDecimal(DistanceKm * 12);
-
-                    if (EstimatedFare < 50)
-                    {
-                        EstimatedFare = 50;
-                    }
-                    MinEstimatedPricePP = 600;
-                    MaxEstimatedPricePP = 800;
-                }
-
-                // later:
-                // fetch matching rides here
             }
         }
-
         public void OnPost()
         {
             // TEMP DEMO LOGIC
@@ -145,6 +55,62 @@ namespace ShriGo.Pages.Booking
             {
                 EstimatedFare = 50;
             }
+        }
+
+        private string NormalizeLocation(string location)
+        {
+            if (string.IsNullOrWhiteSpace(location))
+                return "";
+
+            location =
+                location.Trim().ToUpper();
+
+            // Hyderabad
+            if (location.Contains("HYD") ||
+                location.Contains("HYDERABAD"))
+                return "HYD";
+
+            // JBS
+            if (location.Contains("JBS") ||
+                location.Contains("SECUNDERABAD"))
+                return "JBS";
+
+            // Airport
+            if (location.Contains("AIRPORT") ||
+                location.Contains("RGIA"))
+                return "AIRPORT";
+
+            // Metpally
+            if (location.Contains("MTPL") ||
+                location.Contains("METPALLY"))
+                return "MTPL";
+
+            // Korutla
+            if (location.Contains("KRTL") ||
+                location.Contains("KORUTLA"))
+                return "KRTL";
+
+            // Ryakal
+            if (location.Contains("RYKL") ||
+                location.Contains("RYAKAL"))
+                return "RYKL";
+
+            // Armoor
+            if (location.Contains("ARMR") ||
+                location.Contains("ARMOOR"))
+                return "ARMR";
+
+            // Nizamabad
+            if (location.Contains("NZB") ||
+                location.Contains("NIZAMABAD"))
+                return "NZB";
+
+            //Jagtial/jagityal 
+            if (location.Contains("JGT") ||
+                 location.Contains("Jagtial"))
+                return "JGT";
+
+            return "";
         }
     }
 }

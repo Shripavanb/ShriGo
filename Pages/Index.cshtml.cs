@@ -21,6 +21,19 @@ namespace ShriGo.Pages
 
         public List<SortedRideModel> List_SortedRideModel =
             new List<SortedRideModel>();
+        [BindProperty(SupportsGet = true)]
+        public string Pickup
+        {
+            get;
+            set;
+        }
+
+        [BindProperty(SupportsGet = true)]
+        public string Drop
+        {
+            get;
+            set;
+        }
 
         [BindProperty]
         public SortedRideModel sortedRideModel
@@ -179,6 +192,96 @@ namespace ShriGo.Pages
                         x => x.RideTime
                     )
                     .ToList();
+
+            if (
+              !string.IsNullOrWhiteSpace(
+                  Pickup
+              )
+
+              &&
+
+              !string.IsNullOrWhiteSpace(
+                  Drop
+              )
+          )
+            {
+                Pickup =
+                    NormalizeLocation(
+                        Pickup
+                    );
+
+                Drop =
+                    NormalizeLocation(
+                        Drop
+                    );
+
+                Console.WriteLine(
+                    $"Normalized Pickup = {Pickup}"
+                );
+
+                Console.WriteLine(
+                    $"Normalized Drop = {Drop}"
+                );
+
+                foreach (
+                    var ride in
+                    finalListRideModel
+                )
+                {
+                    Console.WriteLine(
+                        $"RideId = {ride.RideId}"
+                    );
+
+                    Console.WriteLine(
+                        $"Source = {ride.RideSource}"
+                    );
+
+                    Console.WriteLine(
+                        $"Via = {ride.RideVia}"
+                    );
+
+                    Console.WriteLine(
+                        $"Destination = {ride.RideDesti}"
+                    );
+
+                    bool isMatch =
+
+                        IsRideMatching(
+
+                            ride,
+
+                            Pickup,
+
+                            Drop
+                        );
+
+                    Console.WriteLine(
+                        $"Match = {isMatch}"
+                    );
+                }
+
+                finalListRideModel =
+
+                    finalListRideModel
+                        .Where(
+
+                            ride =>
+
+                                IsRideMatching(
+
+                                    ride,
+
+                                    Pickup,
+
+                                    Drop
+                                )
+                        )
+                        .ToList();
+
+                Console.WriteLine(
+                    $"Final Count = {finalListRideModel.Count}"
+                );
+            }
         }
 
         public string GetWhatsAppShareText(
@@ -298,6 +401,240 @@ namespace ShriGo.Pages
             return Uri.EscapeDataString(
                 message
             );
+        }
+
+        private string NormalizeLocation(
+    string location
+)
+        {
+            if (
+                string.IsNullOrWhiteSpace(
+                    location
+                )
+            )
+                return "";
+
+            location =
+                location
+                    .Trim()
+                    .ToUpper();
+
+            if (
+                location.Contains(
+                    "HYD"
+                ) ||
+                location.Contains(
+                    "HYDERABAD"
+                )
+            )
+                return "HYD";
+
+            if (
+                location.Contains(
+                    "JBS"
+                ) ||
+                location.Contains(
+                    "SECUNDERABAD"
+                )
+            )
+                return "JBS";
+
+            if (
+                location.Contains(
+                    "AIRPORT"
+                ) ||
+                location.Contains(
+                    "RGIA"
+                )
+            )
+                return "AIRPORT";
+
+            if (
+                location.Contains(
+                    "MTPL"
+                ) ||
+                location.Contains(
+                    "METPALLY"
+                )
+            )
+                return "MTPL";
+
+            if (
+                location.Contains(
+                    "KRTL"
+                ) ||
+                location.Contains(
+                    "KORUTLA"
+                )
+            )
+                return "KRTL";
+
+            if (
+                location.Contains(
+                    "RYKL"
+                ) ||
+                location.Contains(
+                    "RYAKAL"
+                )
+            )
+                return "RYKL";
+
+            if (
+                location.Contains(
+                    "ARMR"
+                ) ||
+                location.Contains(
+                    "ARMOOR"
+                )
+            )
+                return "ARMR";
+
+            if (
+                location.Contains(
+                    "NZB"
+                ) ||
+                location.Contains(
+                    "NIZAMABAD"
+                )
+            )
+                return "NZB";
+
+            if (
+                location.Contains(
+                    "JGT"
+                ) ||
+                location.Contains(
+                    "JAGTIAL"
+                )
+            )
+                return "JGT";
+
+            return "";
+        }
+        private bool IsRideMatching(
+
+            SortedRideModel ride,
+
+            string pickup,
+
+            string drop
+        )
+        {
+            //----------------------------------
+            // Normalize search
+            //----------------------------------
+
+            pickup =
+                NormalizeLocation(
+                    pickup
+                );
+
+            drop =
+                NormalizeLocation(
+                    drop
+                );
+
+            //----------------------------------
+            // Source locations
+            //----------------------------------
+
+            var sourceLocations =
+
+                string.IsNullOrWhiteSpace(
+                    ride.RideSource
+                )
+
+                ?
+
+                new List<string>()
+
+                :
+
+                ride.RideSource
+                    .Split(',')
+
+                    .Select(
+
+                        x => NormalizeLocation(
+                            x.Trim()
+                        )
+                    )
+                    .ToList();
+
+            //----------------------------------
+            // Destination locations
+            //----------------------------------
+
+            var destinationLocations =
+
+                string.IsNullOrWhiteSpace(
+                    ride.RideDesti
+                )
+
+                ?
+
+                new List<string>()
+
+                :
+
+                ride.RideDesti
+                    .Split(',')
+
+                    .Select(
+
+                        x => NormalizeLocation(
+                            x.Trim()
+                        )
+                    )
+                    .ToList();
+
+            //----------------------------------
+            // Match
+            //----------------------------------
+
+            bool pickupMatch =
+
+                sourceLocations
+                    .Contains(
+                        pickup
+                    );
+
+            bool dropMatch =
+
+                destinationLocations
+                    .Contains(
+                        drop
+                    );
+
+            Console.WriteLine(
+                $"RideId={ride.RideId}"
+            );
+
+            Console.WriteLine(
+                $"Pickup={pickup}"
+            );
+
+            Console.WriteLine(
+                $"Drop={drop}"
+            );
+
+            Console.WriteLine(
+                $"Source={string.Join(",", sourceLocations)}"
+            );
+
+            Console.WriteLine(
+                $"Destination={string.Join(",", destinationLocations)}"
+            );
+
+            Console.WriteLine(
+                $"Match={pickupMatch && dropMatch}"
+            );
+
+            return
+
+                pickupMatch
+                &&
+                dropMatch;
         }
     }
 }
