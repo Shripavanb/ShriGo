@@ -56,76 +56,72 @@
         </h3>
 
         <div class="row g-3">
+            <div class="row g-3">
 
-            <div class="col-12 col-md-5">
+                <div class="col-12 col-md-5">
 
-                <label class="form-label booking-label">
-                    Pickup
-                </label>
+                    <label class="form-label booking-label">
 
-                <select name="pickup"
-                        class="form-select booking-select"
-                        id="pickup">
+                        Pickup
 
-                    <option hidden>Choose Pickup</option>
+                    </label>
 
-                    <option value="HYD">Hyd</option>
-                    <option value="JBS">JBS</option>
-                    <option value="Airport">Airport</option>
-                    <option value="MTPL">MTPL</option>
-                    <option value="KRTL">KRTL</option>
-                    <option value="KRTL">RYKL</option>
-                    <option value="ARMR">ARMR</option>
-                    <option value="NZB">NZB</option>
-                    <option value="JBS,HYD">JBS,HYD</option>
-                    <option value="JBS,Airport">JBS,Airport</option>
-                    <option value="JBS,HYD,Airport">JBS,HYD,Airport</option>
-                    <option value="KRTL,MTPL">KRTL,MTPL</option>
-                    <option value="RYKL,KRTL,MTPL">RYKL,KRTL,MTPL</option>
+                    <input type="text"
+                           id="pickup"
+                           class="form-control booking-select"
+                           placeholder="Enter Pickup"
+                           value="@Model.Pickup"
+                           autocomplete="off" />
 
-                </select>
+                </div>
 
-            </div>
+                <div class="col-12 col-md-5">
 
-            <div class="col-12 col-md-5">
+                    <label class="form-label booking-label">
 
-                <label class="form-label booking-label">
-                    Drop
-                </label>
+                        Drop
 
-                <select name="drop"
-                        class="form-select booking-select"
-                        id="drop">
+                    </label>
 
-                    <option hidden>Choose Drop</option>
+                    <input type="text"
+                           id="drop"
+                           class="form-control booking-select"
+                           placeholder="Enter Destination"
+                           value="@Model.Drop"
+                           autocomplete="off" />
 
-                    <option value="HYD">Hyd</option>
-                    <option value="JBS">JBS</option>
-                    <option value="Airport">Airport</option>
-                    <option value="MTPL">MTPL</option>
-                    <option value="KRTL">KRTL</option>
-                    <option value="KRTL">RYKL</option>
-                    <option value="ARMR">ARMR</option>
-                    <option value="NZB">NZB</option>
-                    <option value="JBS,HYD">JBS,HYD</option>
-                    <option value="JBS,Airport">JBS,Airport</option>
-                    <option value="JBS,HYD,Airport">JBS,HYD,Airport</option>
-                    <option value="KRTL,MTPL">KRTL,MTPL</option>
-                    <option value="RYKL,KRTL,MTPL">RYKL,KRTL,MTPL</option>
+                </div>
+                <div class="col-12 col-md-2 d-flex align-items-end">
 
-                </select>
+                    <div class="d-flex gap-2 w-100">
 
-            </div>
+                        <button type="button"
+                                onclick="searchRide()"
+                                class="btn btn-warning flex-grow-1 fw-bold">
 
-            <div class="col-12 col-md-2 d-flex align-items-end">
+                            Search Ride
 
-                <button type="button"
-                        onclick="goToBookRide()"
-                        class="btn booking-btn btn-warning w-100">
+                        </button>
 
-                    Check Price & Book
+                        @if (!string.IsNullOrWhiteSpace(
+                                Request.Query["pickup"]
+                            ) ||
+                            !string.IsNullOrWhiteSpace(
+                                Request.Query["drop"]
+                            ))
+                        {
+                            <button type="button"
+                                    onclick="clearSearch()"
+                                    class="btn btn-outline-secondary">
 
-                </button>
+                                Clear
+
+                            </button>
+                        }
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -645,7 +641,7 @@
 </script>
 
 <!-- BOOK RIDE -->
-<script>
+@* <script>
 
     function goToBookRide() {
 
@@ -665,5 +661,65 @@
         window.location.href =
             `/Booking/CheckAndBookRide?pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}`;
     }
+
+</script> *@
+<script>
+
+    function searchRide() {
+
+        const pickup =
+
+            document
+                .getElementById(
+                    "pickup"
+                )
+                .value
+                .trim();
+
+        const drop =
+
+            document
+                .getElementById(
+                    "drop"
+                )
+                .value
+                .trim();
+
+        if (
+            !pickup ||
+            !drop
+        ) {
+
+            alert(
+                "Please enter pickup and drop"
+            );
+
+            return;
+        }
+
+        window.location.href =
+
+            `/?pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}`;
+    }
+
+
+    function clearSearch() {
+
+        document
+            .getElementById(
+                "pickup"
+            )
+            .value = "";
+
+        document
+            .getElementById(
+                "drop"
+            )
+            .value = "";
+
+        window.location.href = "/";
+    }
+
+
 
 </script>

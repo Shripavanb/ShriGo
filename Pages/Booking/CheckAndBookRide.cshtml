@@ -194,3 +194,11 @@
     );
 
 </script>
+@if (TempData["RideError"] != null)
+{
+    <div class="alert alert-warning">
+
+        @TempData["RideError"]
+
+    </div>
+}
