@@ -107,8 +107,9 @@ namespace ShriGo.Pages.Booking
 
             //Jagtial/jagityal 
             if (location.Contains("JGT") ||
-                 location.Contains("Jagtial"))
-                return "JGT";
+                 location.Contains("Jagtial")||
+                 location.Contains("JGTL"))
+                return "JGTL";
 
             return "";
         }

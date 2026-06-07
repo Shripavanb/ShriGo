@@ -504,10 +504,13 @@ namespace ShriGo.Pages
                     "JGT"
                 ) ||
                 location.Contains(
+                    "JGTL"
+                )||
+                location.Contains(
                     "JAGTIAL"
                 )
             )
-                return "JGT";
+                return "JGTL";
 
             return "";
         }
