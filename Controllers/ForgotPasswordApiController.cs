@@ -20,14 +20,15 @@ namespace ShriGo.Controllers
         }
 
         [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> ForgotPassword(
-            [FromBody] string email
+        [FromBody] ForgotPasswordRequest request
         )
         {
+            var email = request?.Email;
+
             if (
-                string.IsNullOrWhiteSpace(
-                    email
-                )
+                string.IsNullOrWhiteSpace(email)
             )
             {
                 return BadRequest(new
@@ -152,6 +153,14 @@ namespace ShriGo.Controllers
                 message =
                     "Reset link sent to email"
             });
+        }
+        public class ForgotPasswordRequest
+        {
+            public string? Email
+            {
+                get;
+                set;
+            }
         }
     }
 }
