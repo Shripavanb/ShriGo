@@ -21,88 +21,146 @@ namespace ShriGo.Controllers
 
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(
-            [FromBody] ForgotPasswordRequest request)
+            [FromBody] ForgotPasswordRequest request
+        )
         {
-            try
+            if (
+                string.IsNullOrWhiteSpace(
+                    request.Email
+                )
+            )
             {
-                var user = _dbContext.UserTb
-                    .FirstOrDefault(x =>
-                        x.UserEmail == request.Email);
-
-                var passenger = _dbContext.PassengerTb
-                    .FirstOrDefault(x =>
-                        x.PassengerEmail == request.Email);
-
-                if (user == null &&
-                    passenger == null)
+                return BadRequest(new
                 {
-                    return Ok(new
-                    {
-                        success = true,
-                        message =
+                    success = false,
+                    message = "Email is required"
+                });
+            }
+
+            //-----------------------------------
+            // Find Driver
+            //-----------------------------------
+
+            var user =
+                _dbContext.UserTb
+                .FirstOrDefault(x =>
+
+                    x.UserEmail ==
+                    request.Email
+                );
+
+            //-----------------------------------
+            // Find Passenger
+            //-----------------------------------
+
+            var passenger =
+                _dbContext.PassengerTb
+                .FirstOrDefault(x =>
+
+                    x.PassengerEmail ==
+                    request.Email
+                );
+
+            //-----------------------------------
+            // Security response
+            //-----------------------------------
+
+            if (
+                user == null
+                &&
+                passenger == null
+            )
+            {
+                return Ok(new
+                {
+                    success = true,
+                    message =
                         "If account exists, reset link sent."
-                    });
-                }
+                });
+            }
 
-                var token =
-                    Guid.NewGuid().ToString();
+            //-----------------------------------
+            // Generate Token
+            //-----------------------------------
 
-                if (user != null)
-                {
-                    user.PasswordResetToken =
-                        token;
+            var token =
+                Guid.NewGuid()
+                .ToString();
 
-                    user.ResetTokenExpiry =
-                        DateTime.UtcNow
-                            .AddMinutes(30);
-                }
+            if (user != null)
+            {
+                user.PasswordResetToken =
+                    token;
 
-                if (passenger != null)
-                {
-                    passenger.PasswordResetToken =
-                        token;
+                user.ResetTokenExpiry =
+                    DateTime.UtcNow
+                    .AddMinutes(30);
+            }
 
-                    passenger.ResetTokenExpiry =
-                        DateTime.UtcNow
-                            .AddMinutes(30);
-                }
+            if (passenger != null)
+            {
+                passenger.PasswordResetToken =
+                    token;
 
-                await _dbContext
-                    .SaveChangesAsync();
+                passenger.ResetTokenExpiry =
+                    DateTime.UtcNow
+                    .AddMinutes(30);
+            }
 
-                var resetLink =
-                    $"{Request.Scheme}://{Request.Host}/Account/ResetPassword?token={token}";
+            await _dbContext
+                .SaveChangesAsync();
 
-                await _emailService.sendEmailAsync(
+            //-----------------------------------
+            // Reset Link
+            //-----------------------------------
+
+            var resetLink =
+                $"{Request.Scheme}://{Request.Host}/Account/ResetPassword?token={token}";
+
+            //-----------------------------------
+            // Send Email
+            //-----------------------------------
+
+            await _emailService
+                .sendEmailAsync(
+
                     request.Email,
+
                     "Reset Your ShriGo Password",
+
                     $@"
                     <h2>Password Reset</h2>
+
                     <p>Click below to reset your password:</p>
+
                     <p>
                         <a href='{resetLink}'>
                             Reset Password
                         </a>
                     </p>
-                    <p>
-                        Link expires in 30 minutes.
-                    </p>");
 
-                return Ok(new
-                {
-                    success = true,
-                    message =
-                    "Reset link sent to email"
-                });
-            }
-            catch (Exception ex)
+                    <p>
+                        Link expires in
+                        30 minutes.
+                    </p>
+                    "
+                );
+
+            return Ok(new
             {
-                return BadRequest(new
-                {
-                    success = false,
-                    message = ex.Message
-                });
-            }
+                success = true,
+                message =
+                    "Reset link sent to email"
+            });
+        }
+    }
+
+    public class ForgotPasswordRequest
+    {
+        public string? Email
+        {
+            get;
+            set;
         }
     }
 }
