@@ -21,12 +21,12 @@ namespace ShriGo.Controllers
 
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(
-            [FromBody] ForgotPasswordRequest request
+            [FromBody] string email
         )
         {
             if (
                 string.IsNullOrWhiteSpace(
-                    request.Email
+                    email
                 )
             )
             {
@@ -46,7 +46,7 @@ namespace ShriGo.Controllers
                 .FirstOrDefault(x =>
 
                     x.UserEmail ==
-                    request.Email
+                    email
                 );
 
             //-----------------------------------
@@ -58,7 +58,7 @@ namespace ShriGo.Controllers
                 .FirstOrDefault(x =>
 
                     x.PassengerEmail ==
-                    request.Email
+                    email
                 );
 
             //-----------------------------------
@@ -115,7 +115,7 @@ namespace ShriGo.Controllers
             //-----------------------------------
 
             var resetLink =
-                $"{Request.Scheme}://{Request.Host}/Account/ResetPassword?token={token}";
+              $"{Request.Scheme}://{Request.Host}/ResetPassword?token={token}";
 
             //-----------------------------------
             // Send Email
@@ -124,7 +124,7 @@ namespace ShriGo.Controllers
             await _emailService
                 .sendEmailAsync(
 
-                    request.Email,
+                    email,
 
                     "Reset Your ShriGo Password",
 
@@ -152,15 +152,6 @@ namespace ShriGo.Controllers
                 message =
                     "Reset link sent to email"
             });
-        }
-    }
-
-    public class ForgotPasswordRequest
-    {
-        public string? Email
-        {
-            get;
-            set;
         }
     }
 }
