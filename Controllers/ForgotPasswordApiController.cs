@@ -116,7 +116,7 @@ namespace ShriGo.Controllers
             //-----------------------------------
 
             var resetLink =
-              $"{Request.Scheme}://{Request.Host}/ResetPassword?token={token}";
+              $"{Request.Scheme}://{Request.Host}/Account/ResetPassword?token={token}";
 
             //-----------------------------------
             // Send Email
