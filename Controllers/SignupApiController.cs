@@ -25,14 +25,128 @@ namespace ShriGo.Controllers
         [HttpPost]
         public IActionResult Signup(
             [FromBody]
-            PassengerModel request
+            SignupRequest request
         )
         {
             try
             {
                 //----------------------------------
-                // Password Validation
+                // DRIVER SIGNUP
                 //----------------------------------
+
+                if (request.UserRole == "Driver")
+                {
+                    if (
+                        string.IsNullOrWhiteSpace(
+                            request.UserPswd
+                        )
+                        ||
+                        request.UserPswd.Length < 8
+                    )
+                    {
+                        return BadRequest(
+                            new
+                            {
+                                success = false,
+                                message =
+                                    "Password must be minimum 8 characters"
+                            }
+                        );
+                    }
+
+                    var existingDriver =
+                        _dbContext.UserTb
+                        .Any(x =>
+                            x.UserContact ==
+                            request.UserContact
+                        );
+
+                    if (existingDriver)
+                    {
+                        return BadRequest(
+                            new
+                            {
+                                success = false,
+                                message =
+                                    "Phone number already registered"
+                            }
+                        );
+                    }
+
+                    var passwordHelper =
+                        new PasswordHelper();
+
+                    var driver =
+                        new UserModel
+                        {
+                            UserFirstName =
+                                request.UserFirstName,
+
+                            UserLastName =
+                                request.UserLastName,
+
+                            UserAge =
+                                request.UserAge,
+
+                            UserEmail =
+                                request.UserEmail,
+
+                            UserContact =
+                                request.UserContact,
+
+                            UserPswd =
+                                passwordHelper
+                                .HashPassword(
+                                    request.UserPswd
+                                ),
+
+                            UserRole =
+                                "Driver",
+
+                            Subscription =
+                                request.Subscription,
+
+                            VehicleRegNo =
+                                request.VehicleRegNo,
+
+                            VehicleInsur =
+                                request.VehicleInsur,
+
+                            VehicleModel =
+                                request.VehicleModel,
+
+                            AcceptedTerms =
+                                true,
+
+                            UserUniqueId =
+                                _random.Next(
+                                    10000,
+                                    100000
+                                ).ToString(),
+
+                            UserRegDate =
+                                TimeHelper.GetIndiaDate()
+                        };
+
+                    _dbContext.UserTb
+                        .Add(driver);
+
+                    _dbContext.SaveChanges();
+
+                    return Ok(
+                        new
+                        {
+                            success = true,
+                            message =
+                                "Driver Signup Successful"
+                        }
+                    );
+                }
+
+                //----------------------------------
+                // PASSENGER SIGNUP
+                //----------------------------------
+
                 if (
                     string.IsNullOrWhiteSpace(
                         request.PassengerPswd
@@ -51,18 +165,14 @@ namespace ShriGo.Controllers
                     );
                 }
 
-                //----------------------------------
-                // Duplicate Phone Check
-                //----------------------------------
-                var existingUser =
+                var existingPassenger =
                     _dbContext.PassengerTb
                     .Any(x =>
-                        x.PassengerContact
-                        ==
+                        x.PassengerContact ==
                         request.PassengerContact
                     );
 
-                if (existingUser)
+                if (existingPassenger)
                 {
                     return BadRequest(
                         new
@@ -74,55 +184,51 @@ namespace ShriGo.Controllers
                     );
                 }
 
-                //----------------------------------
-                // Passenger Id
-                //----------------------------------
-                request.PassengerId =
-                    _dbContext.PassengerTb.Any()
-                    ?
-                    _dbContext.PassengerTb
-                    .Max(r => r.PassengerId) + 1
-                    :
-                    1;
-
-                //----------------------------------
-                // Password Hash
-                //----------------------------------
-                var passwordHelper =
+                var passengerPasswordHelper =
                     new PasswordHelper();
 
-                request.PassengerPswd =
-                    passwordHelper
-                    .HashPassword(
-                        request.PassengerPswd
-                    );
+                var passenger =
+                    new PassengerModel
+                    {
+                        PassengerFirstName =
+                            request.PassengerFirstName,
 
-                //----------------------------------
-                // Unique Id
-                //----------------------------------
-                request.PassengerUniqueId =
-                    _random.Next(
-                        10000,
-                        100000
-                    ).ToString();
+                        PassengerLastName =
+                            request.PassengerLastName,
 
-                //----------------------------------
-                // Registration Date
-                //----------------------------------
-                request.PassengerRegDate =
-                    TimeHelper.GetIndiaDate();
+                        PassengerAge =
+                            request.PassengerAge,
 
-                request.Role =
-                    "Passenger";
+                        PassengerEmail =
+                            request.PassengerEmail,
 
-                request.AcceptedTerms =
-                    true;
+                        PassengerContact =
+                            request.PassengerContact,
 
-                //----------------------------------
-                // Save
-                //----------------------------------
+                        PassengerPswd =
+                            passengerPasswordHelper
+                            .HashPassword(
+                                request.PassengerPswd
+                            ),
+
+                        Role =
+                            "Passenger",
+
+                        AcceptedTerms =
+                            true,
+
+                        PassengerUniqueId =
+                            _random.Next(
+                                10000,
+                                100000
+                            ).ToString(),
+
+                        PassengerRegDate =
+                            TimeHelper.GetIndiaDate()
+                    };
+
                 _dbContext.PassengerTb
-                    .Add(request);
+                    .Add(passenger);
 
                 _dbContext.SaveChanges();
 
@@ -131,7 +237,7 @@ namespace ShriGo.Controllers
                     {
                         success = true,
                         message =
-                            "Signup Successful"
+                            "Passenger Signup Successful"
                     }
                 );
             }
@@ -141,7 +247,8 @@ namespace ShriGo.Controllers
                     new
                     {
                         success = false,
-                        message = ex.Message
+                        message =
+                            ex.Message
                     }
                 );
             }
