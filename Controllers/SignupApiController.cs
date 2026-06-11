@@ -248,7 +248,8 @@ namespace ShriGo.Controllers
                     {
                         success = false,
                         message =
-                            ex.Message
+                            ex.InnerException?.Message
+                            ?? ex.Message
                     }
                 );
             }
