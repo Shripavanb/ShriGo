@@ -127,7 +127,21 @@ public class BookingApiController : ControllerBase
                     PassengerEmail =
                         request.PassengerEmail
                 };
+            var lastBooking =
 
+            await _dbContext
+                .Bookings_DBTable
+                .OrderByDescending(
+                    b => b.BookingId
+                )
+        .FirstOrDefaultAsync();
+
+            booking.BookingId =
+
+                lastBooking == null
+                    ? 1
+                    : lastBooking
+                        .BookingId + 1;
             _dbContext
                 .Bookings_DBTable
                 .Add(booking);
@@ -139,12 +153,13 @@ public class BookingApiController : ControllerBase
                 "Ride booked successfully"
             );
         }
-
         catch (Exception ex)
         {
             return StatusCode(
                 500,
-                ex.Message
+                ex.InnerException
+                    ?.Message
+                ?? ex.Message
             );
         }
     }
