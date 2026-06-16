@@ -53,8 +53,13 @@ public class BookingApiController : ControllerBase
             )
             {
                 return BadRequest(
-                    "Not enough seats"
-                );
+              new
+              {
+                  success = false,
+                  message =
+                      "Not enough seats"
+              }
+               );
             }
 
             //-----------------------------------
@@ -150,16 +155,26 @@ public class BookingApiController : ControllerBase
                 .SaveChangesAsync();
 
             return Ok(
-                "Ride booked successfully"
-            );
+            new
+            {
+                success = true,
+                message =
+                    "Ride booked successfully"
+            }
+             );
         }
         catch (Exception ex)
         {
             return StatusCode(
                 500,
-                ex.InnerException
-                    ?.Message
-                ?? ex.Message
+                new
+                {
+                    success = false,
+                    message =
+                        ex.InnerException
+                            ?.Message
+                        ?? ex.Message
+                }
             );
         }
     }
