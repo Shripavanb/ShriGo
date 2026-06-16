@@ -19,11 +19,7 @@ public class BookingApiController : ControllerBase
     // BOOK RIDE
     //--------------------------------------------------
     [HttpPost("bookride")]
-    public async Task<IActionResult>
-    BookRide(
-        [FromBody]
-        BookRideRequest request
-    )
+    public async Task<IActionResult> BookRide( [FromBody]   BookRideRequest request)
     {
         try
         {
@@ -175,6 +171,60 @@ public class BookingApiController : ControllerBase
                             ?.Message
                         ?? ex.Message
                 }
+            );
+        }
+    }
+
+
+    //--------------------------------------------------
+    // GET MY BOOKINGS
+    //--------------------------------------------------
+
+    [HttpGet("mybookings/{passengerUniqueId}")]
+    public async Task<IActionResult>
+    GetMyBookings(
+
+        string passengerUniqueId
+
+    )
+    {
+        try
+        {
+            var bookings =
+
+                await _dbContext
+                    .Bookings_DBTable
+                    .Where(
+
+                        b =>
+
+                        b.PassengerUniqueId
+                        == passengerUniqueId
+                    )
+                    .OrderByDescending(
+
+                        b => b.RideDate
+                    )
+                    .ThenByDescending(
+
+                        b => b.RideTime
+                    )
+                    .ToListAsync();
+
+            return Ok(
+                bookings
+            );
+        }
+
+        catch (
+            Exception ex
+        )
+        {
+            return StatusCode(
+
+                500,
+
+                ex.Message
             );
         }
     }
