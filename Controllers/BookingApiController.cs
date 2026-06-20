@@ -177,7 +177,7 @@ public class BookingApiController : ControllerBase
 
 
     //--------------------------------------------------
-    // GET MY BOOKINGS
+    // GET MY BOOKINGS-Passenger Side
     //--------------------------------------------------
 
     [HttpGet("mybookings/{passengerUniqueId}")]
@@ -228,4 +228,48 @@ public class BookingApiController : ControllerBase
             );
         }
     }
+
+
+    //--------------------------------------------------
+    // GET MY BOOKINGS- Driver Side
+    //--------------------------------------------------
+
+    [HttpGet("driverbookings/{driverUniqueId}")]
+    public async Task<IActionResult>
+    GetDriverBookings(
+    string driverUniqueId
+)
+    {
+        try
+        {
+            var bookings =
+
+                await _dbContext
+                    .Bookings_DBTable
+                    .Where(
+
+                        b =>
+
+                            b.DriverUniqueId ==
+                            driverUniqueId
+                    )
+                    .OrderByDescending(
+
+                        b => b.BookingId
+                    )
+                    .ToListAsync();
+
+            return Ok(bookings);
+        }
+
+        catch (Exception ex)
+        {
+            return StatusCode(
+                500,
+                ex.Message
+            );
+        }
+    }
+
+
 }
