@@ -107,12 +107,15 @@ namespace ShriGo.Pages.Booking
                         await _dbContext.SaveChangesAsync();
                     }
 
-                    var newBookingId = _dbContext.Bookings_DBTable.Max(r => r.BookingId);
+                    var newBookingId =
+                      _dbContext.Bookings_DBTable
+                          .Select(x => (int?)x.BookingId)
+                          .Max() ?? 0;
 
-                    if (newBookingId!=null)
-                    { 
-                        bookedRideModel.BookingId  = newBookingId+1;
-                    }
+                    //if (newBookingId!=null)
+                    //{ 
+                    //    bookedRideModel.BookingId  = newBookingId+1;
+                    //}
 
                     bookedRideModel.RideId =(rideSelected.RideId).ToString();
                     bookedRideModel.RideDate =rideSelected.RideDate;
@@ -135,8 +138,32 @@ namespace ShriGo.Pages.Booking
                     bookedRideModel.PassengerEmail = session_UserEmail;
                     //store booked ride into db further use
                     _dbContext.Bookings_DBTable.Add(bookedRideModel);
+
+
+                    NotificationModel notification =
+                        new NotificationModel
+                        {
+                            UserUniqueId = rideSelected.DriverUniqueId,
+
+                            Title = "New Booking",
+
+                            Message =
+                                bookedRideModel.PassengerFirstName +
+                                " booked " +
+                                bookedRideModel.BookedSeats +
+                                " seat(s)",
+
+                            NotificationType = "Booking",
+
+                            IsRead = false,
+
+                            CreatedDate = DateTime.Now
+                        };
+
+                    _dbContext.NotificationTb.Add(notification);
+
                     list_BookingsModel.Add(bookedRideModel);// For Email Body
-                    _dbContext.SaveChanges();
+                    await _dbContext.SaveChangesAsync();
 
                     //string emailBody = bookedRideModel.BookedSeats+bookedRideModel.RideSource;
 
