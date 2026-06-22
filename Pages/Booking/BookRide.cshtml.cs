@@ -112,10 +112,10 @@ namespace ShriGo.Pages.Booking
                           .Select(x => (int?)x.BookingId)
                           .Max() ?? 0;
 
-                    //if (newBookingId!=null)
-                    //{ 
-                    //    bookedRideModel.BookingId  = newBookingId+1;
-                    //}
+                    if (newBookingId!=null)
+                    {
+                        bookedRideModel.BookingId  = newBookingId+1;
+                    }
 
                     bookedRideModel.RideId =(rideSelected.RideId).ToString();
                     bookedRideModel.RideDate =rideSelected.RideDate;
@@ -143,6 +143,7 @@ namespace ShriGo.Pages.Booking
                     NotificationModel notification =
                         new NotificationModel
                         {
+
                             UserUniqueId = rideSelected.DriverUniqueId,
 
 
@@ -165,18 +166,6 @@ namespace ShriGo.Pages.Booking
                     Console.WriteLine("Notification added to EF context");
 
                     list_BookingsModel.Add(bookedRideModel);// For Email Body
-
-                    var testNotification = new NotificationModel
-                    {
-                        UserUniqueId = "74315",
-                        Title = "TEST",
-                        Message = "Booking Page Hit",
-                        NotificationType = "Test",
-                        IsRead = false,
-                        CreatedDate = DateTime.Now
-                    };
-
-                    _dbContext.NotificationTb.Add(testNotification);
                     await _dbContext.SaveChangesAsync();
 
                     //string emailBody = bookedRideModel.BookedSeats+bookedRideModel.RideSource;
