@@ -139,7 +139,10 @@ namespace ShriGo.Pages.Booking
                     //store booked ride into db further use
                     _dbContext.Bookings_DBTable.Add(bookedRideModel);
 
-
+                    //--------------------------------------------------------
+                    //Notification
+                    //-------------------------------------------------------
+                    string rideTime =DateTime.Parse(bookedRideModel.RideTime.ToString()).ToString("hh:mm tt");
                     NotificationModel notification =
                         new NotificationModel
                         {
@@ -147,13 +150,20 @@ namespace ShriGo.Pages.Booking
                             UserUniqueId = rideSelected.DriverUniqueId,
 
 
-                            Title = "Notification V1",
+                            Title = "New Ride Booking",
 
-                            Message =
+                           Message =
                                 bookedRideModel.PassengerFirstName +
                                 " booked " +
                                 bookedRideModel.BookedSeats +
-                                " seat(s)",
+                                " seat(s) for ride " +
+                                bookedRideModel.RideSource +
+                                " → " +
+                                bookedRideModel.RideDesti +
+                                " on " +
+                                bookedRideModel.RideDate +
+                                " at "+
+                                rideTime,
 
                             NotificationType = "Booking",
 
@@ -161,10 +171,9 @@ namespace ShriGo.Pages.Booking
 
                             CreatedDate = DateTime.Now
                         };
-                    Console.WriteLine("Adding notification for DriverId = " + rideSelected.DriverUniqueId);
+                
                     _dbContext.NotificationTb.Add(notification);
-                    Console.WriteLine("Notification added to EF context");
-
+     
                     list_BookingsModel.Add(bookedRideModel);// For Email Body
                     await _dbContext.SaveChangesAsync();
 
