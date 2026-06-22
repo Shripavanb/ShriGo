@@ -19,6 +19,9 @@ namespace ShriGo.Model
 
         public DbSet<PassengerModel> PassengerTb { get; set; }
 
+        //--Notification-------------
+        public DbSet<NotificationModel> NotificationTb { get; set; }
+
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    //Auto increment of ID 
