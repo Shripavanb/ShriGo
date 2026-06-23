@@ -146,7 +146,44 @@ public class BookingApiController : ControllerBase
             _dbContext
                 .Bookings_DBTable
                 .Add(booking);
+            //--------------------------------------------------------
+            // Notification
+            //--------------------------------------------------------
+            string rideTime =
+          booking.RideTime.HasValue
+              ? DateTime.Today
+                  .Add(booking.RideTime.Value.ToTimeSpan())
+                  .ToString("hh:mm tt")
+              : "";
 
+            NotificationModel notification =
+                new NotificationModel
+                {
+                    UserUniqueId = booking.DriverUniqueId,
+
+                    Title = "New Ride Booking",
+
+                    Message =
+                        booking.PassengerFirstName +
+                        " booked " +
+                        booking.BookedSeats +
+                        " seat(s) for ride " +
+                        booking.RideSource +
+                        " → " +
+                        booking.RideDesti +
+                        " on " +
+                        booking.RideDate +
+                        " at " +
+                        rideTime,
+
+                    NotificationType = "Booking",
+
+                    IsRead = false,
+
+                    CreatedDate = DateTime.Now
+                };
+
+            _dbContext.NotificationTb.Add(notification);
             await _dbContext
                 .SaveChangesAsync();
 
