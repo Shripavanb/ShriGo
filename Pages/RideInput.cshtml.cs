@@ -33,17 +33,17 @@ namespace ShriGo.Pages
         public void OnGet()
         {
             string session_userName = HttpContext.Session.GetString("session_UserName");
-            string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
+            string session_DriverUniqueId = HttpContext.Session.GetString("session_DriverUniqueId");
         }
 
         public IActionResult OnPost()
         {
             var now = TimeHelper.GetIndiaTime();
             string session_userName = HttpContext.Session.GetString("session_UserName");
-            string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
+            string session_DriverUniqueId = HttpContext.Session.GetString("session_DriverUniqueId");
 
             //Add user session UniqueId into Ride table to know whats he added 
-            NewRideModel.DriverUniqueId = session_UserUniqueId;
+            NewRideModel.DriverUniqueId = session_DriverUniqueId;
             
             // Define the cutoff date, date only 
             var cutoffDate = TimeHelper.GetIndiaDate(); 
@@ -81,7 +81,7 @@ namespace ShriGo.Pages
             _dbContext.Ride_DBTable.RemoveRange(oldRidesAsPerDate);
             //_dbContext.RideDBTable.RemoveRange(oldRidesAsPerTime);
     
-            NewRideModel.DriverUniqueId =session_UserUniqueId;
+            NewRideModel.DriverUniqueId =session_DriverUniqueId;
             NewRideModel.DriverFirstName =session_userName;
 
             _dbContext.Ride_DBTable.Add(NewRideModel);

@@ -44,9 +44,9 @@
                     <!-- Profile Image -->
                     <div class="col-lg-3 text-center mb-4 mb-lg-0">
 
-                        <img src="@(string.IsNullOrEmpty(activeuser.UserImagePath)
+                        <img src="@(string.IsNullOrEmpty(activeuser.DriverImagePath)
                                                                                      ? "/img/user.png"
-                                                                                     : activeuser.UserImagePath)"
+                                                                                     : activeuser.DriverImagePath)"
                              class="img-fluid rounded-circle shadow-sm mb-3"
                              style="width:180px;height:180px;object-fit:cover;"
                              alt="Driver Profile" />
@@ -79,7 +79,7 @@
                     <div class="col-lg-6">
 
                         <h2 class="fw-bold mb-1">
-                            Welcome, @activeuser.UserFirstName
+                            Welcome, @activeuser.DriverFirstName
                         </h2>
 
                         <p class="text-muted mb-3">
@@ -92,7 +92,7 @@
                             </div>
 
                             <div class="col-7">
-                                @activeuser.UserUniqueId
+                                @activeuser.DriverUniqueId
                             </div>
                         </div>
 
@@ -102,7 +102,7 @@
                             </div>
 
                             <div class="col-7">
-                                @activeuser.UserFirstName
+                                @activeuser.DriverFirstName
                             </div>
                         </div>
 
@@ -112,7 +112,7 @@
                             </div>
 
                             <div class="col-7 text-break">
-                                @activeuser.UserEmail
+                                @activeuser.DriverEmail
                             </div>
                         </div>
 
@@ -122,7 +122,7 @@
                             </div>
 
                             <div class="col-7">
-                                @activeuser.UserContact
+                                @activeuser.DriverContact
                             </div>
                         </div>
 
@@ -132,7 +132,7 @@
                             </div>
 
                             <div class="col-7">
-                                @activeuser.UserRole
+                                @activeuser.DriverRole
                             </div>
                         </div>
 

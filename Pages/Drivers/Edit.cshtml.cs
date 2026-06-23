@@ -59,9 +59,9 @@ namespace ShriGo.Pages.Drivers
         public async Task<IActionResult> OnPostAsync(int id)
         {
             string session_UserName = HttpContext.Session.GetString("session_UserName");
-            string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
+            string session_DriverUniqueId = HttpContext.Session.GetString("session_DriverUniqueId");
             Rides.RideId = id;
-            Rides.DriverUniqueId =session_UserUniqueId;
+            Rides.DriverUniqueId =session_DriverUniqueId;
             Rides.DriverFirstName =session_UserName;
             if (Rides != null)
             {

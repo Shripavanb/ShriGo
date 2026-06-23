@@ -26,7 +26,7 @@ namespace ShriGo.Pages
         public List<PassengerModel> listPassengerModel = new List<PassengerModel>();
 
         [BindProperty]
-        public UserModel NewUserModel { get; set; }
+        public DriverModel NewDriverModel { get; set; }
 
         [BindProperty]
         public PassengerModel NewPassengerModel { get; set; }
@@ -70,20 +70,15 @@ namespace ShriGo.Pages
         //Driver Signup
         public IActionResult OnPostDriver()
         {
-            if (NewUserModel.UserPswd.Length < 8)
+            if (NewDriverModel.DriverPswd.Length < 8)
             {
                 ViewData["Message"] = "Password must be minimum 8 characters";
                 return Page();
             }
 
-            //DriverId/Admin Id
-             NewUserModel.UserId =
-             _dBContext.UserTb.Any()
-             ? _dBContext.UserTb.Max(r => r.UserId) + 1
-             : 1;
-
+          
             var passwordHelper = new PasswordHelper();
-            NewUserModel.UserPswd = passwordHelper.HashPassword(NewUserModel.UserPswd);
+            NewDriverModel.DriverPswd = passwordHelper.HashPassword(NewDriverModel.DriverPswd);
 
             //DriverUniqueId
             //string driverLastName = _dBContext.DriversTb.Where(x=>x.DriverId == NewDriverModel.DriverId).Select(u => u.DriverLastName).FirstOrDefault();
@@ -94,17 +89,17 @@ namespace ShriGo.Pages
             //string uniqueId = Guid.NewGuid().ToString("N");
 
 
-            NewUserModel.UserUniqueId = UniqueNumber.ToString();
+            NewDriverModel.DriverUniqueId = UniqueNumber.ToString();
 
             // DriverReg Date only 
-            NewUserModel.UserRegDate = TimeHelper.GetIndiaDate();
+            NewDriverModel.DriverRegDate = TimeHelper.GetIndiaDate();
 
-            NewUserModel.AcceptedTerms = true;
-            //NewUserModel.AcceptedAt = DateTime.UtcNow;
-            //NewUserModel.TermsVersion = "v1.0";
-            //NewUserModel.IpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+            NewDriverModel.AcceptedTerms = true;
+            //NewDriverModel.AcceptedAt = DateTime.UtcNow;
+            //NewDriverModel.TermsVersion = "v1.0";
+            //NewDriverModel.IpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 
-            _dBContext.UserTb.Add(NewUserModel);
+            _dBContext.DriversTb.Add(NewDriverModel);
 
             if (_dBContext.SaveChanges() ==1)
             {
@@ -129,9 +124,9 @@ namespace ShriGo.Pages
             }
             //PassengerId
             NewPassengerModel.PassengerId =
-      _dBContext.PassengerTb.Any()
-      ? _dBContext.PassengerTb.Max(r => r.PassengerId) + 1
-      : 1;
+              _dBContext.PassengerTb.Any()
+              ? _dBContext.PassengerTb.Max(r => r.PassengerId) + 1
+              : 1;
 
             var passwordHelper = new PasswordHelper();
             NewPassengerModel.PassengerPswd = passwordHelper.HashPassword(NewPassengerModel.PassengerPswd);
@@ -152,9 +147,9 @@ namespace ShriGo.Pages
             NewPassengerModel.Role = "Passenger";
 
             NewPassengerModel.AcceptedTerms = true;
-            //NewUserModel.AcceptedAt = DateTime.UtcNow;
-            //NewUserModel.TermsVersion = "v1.0";
-            //NewUserModel.IpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
+            //NewDriverModel.AcceptedAt = DateTime.UtcNow;
+            //NewDriverModel.TermsVersion = "v1.0";
+            //NewDriverModel.IpAddress = HttpContext.Connection.RemoteIpAddress.ToString();
 
             _dBContext.PassengerTb.Add(NewPassengerModel);
 

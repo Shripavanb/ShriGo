@@ -61,7 +61,7 @@ namespace ShriGo.Pages
             // FIND USER OR PASSENGER
             // ======================================================
 
-            var user = _dbContext.UserTb
+            var user = _dbContext.DriversTb
                 .FirstOrDefault(x =>
                     x.PasswordResetToken == Token &&
                     x.ResetTokenExpiry > DateTime.UtcNow);
@@ -83,7 +83,7 @@ namespace ShriGo.Pages
 
             if (user != null)
             {
-                user.UserPswd = passwordHelper.HashPassword(NewPassword);
+                user.DriverPswd = passwordHelper.HashPassword(NewPassword);
 
                 user.PasswordResetToken = null;
                 user.ResetTokenExpiry = null;

@@ -141,50 +141,50 @@
     <h3>User Table</h3>
             <table>
                 <thead style="background-color:gold">
-                    <th>UserId</th>    
-                    <th>UserUniqueId</th>
-                    <th>UserRegDate</th>
-                    <th>UserFirstName</th>    
-                    <th>UserLastName</th> 
-                    <th>UserAge</th>
-                    <th>UserEmail</th>
-                    <th>UserContact</th>
-                    <th>UserRole</th>
+                    <th>DriverId</th>    
+                    <th>DriverUniqueId</th>
+                    <th>DriverRegDate</th>
+                    <th>DriverFirstName</th>    
+                    <th>DriverLastName</th> 
+                    <th>DriverAge</th>
+                    <th>DriverEmail</th>
+                    <th>DriverContact</th>
+                    <th>DriverRole</th>
                     <th>Subscription</th>
                   </thead>
               <tbody>
-                    @foreach (Model.UserModel userModel in Model.listUserModel)
+                    @foreach (Model.DriverModel driverModel in Model.listDriverModel)
                     {
                         <tr>
                             <td>
-                                @userModel.UserId
+                                @driverModel.DriverId
                             </td>
                             <td>
-                                @userModel.UserUniqueId
+                                @driverModel.DriverUniqueId
                             </td>                         
                             <td>
-                                @userModel.UserRegDate
+                                @driverModel.DriverRegDate
                             </td>
                             <td>
-                                @userModel.UserFirstName
+                                @driverModel.DriverFirstName
                             </td>
                             <td>
-                                @userModel.UserLastName
+                                @driverModel.DriverLastName
                             </td>
                             <td>
-                                @userModel.UserAge
+                                @driverModel.DriverAge
                             </td>
                             <td>
-                                @userModel.UserEmail
+                                @driverModel.DriverEmail
                             </td>
                             <td>
-                                @userModel.UserContact
+                                @driverModel.DriverContact
                             </td>
                             <td>
-                                @userModel.UserRole
+                                @driverModel.DriverRole
                             </td>
                             <td>
-                                @userModel.Subscription
+                                @driverModel.Subscription
                             </td>
                         </tr>
                     }

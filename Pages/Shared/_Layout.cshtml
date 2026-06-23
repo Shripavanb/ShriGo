@@ -176,7 +176,7 @@
 
                         @{
                             var username = Context.Session.GetString("session_UserName");
-                            var userRole = Context.Session.GetString("session_UserRole");
+                            var DriverRole = Context.Session.GetString("session_DriverRole");
                             var passengerRole = Context.Session.GetString("session_PassengerRole");
                         }
 
@@ -204,7 +204,7 @@
                                 </span>
                             </li>
 
-                            @if (userRole == "Driver")
+                            @if (DriverRole == "Driver")
                             {
                                 <li class="nav-item">
                                     <a class="nav-link"
@@ -213,7 +213,7 @@
                                     </a>
                                 </li>
                             }
-                            else if (userRole == "Admin")
+                            else if (DriverRole == "Admin")
                             {
                                 <li class="nav-item">
                                     <a class="nav-link"

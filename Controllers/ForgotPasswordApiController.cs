@@ -43,10 +43,10 @@ namespace ShriGo.Controllers
             //-----------------------------------
 
             var user =
-                _dbContext.UserTb
+                _dbContext.DriversTb
                 .FirstOrDefault(x =>
 
-                    x.UserEmail ==
+                    x.DriverEmail ==
                     email
                 );
 

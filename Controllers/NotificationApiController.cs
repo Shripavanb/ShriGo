@@ -15,12 +15,12 @@ namespace ShriGo.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpGet("{userUniqueId}")]
+        [HttpGet("{DriverUniqueId}")]
         public async Task<IActionResult> GetNotifications(
-            string userUniqueId)
+            string DriverUniqueId)
         {
             var notifications = await _dbContext.NotificationTb
-                .Where(x => x.UserUniqueId == userUniqueId)
+                .Where(x => x.DriverUniqueId == DriverUniqueId)
                 .OrderByDescending(x => x.CreatedDate)
                 .ToListAsync();
 

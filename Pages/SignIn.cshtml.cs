@@ -18,6 +18,9 @@ namespace ShriGo.Pages
         public UserModel NewUserModel { get; set; }
 
         [BindProperty]
+        public DriverModel NewDriverModel { get; set; }
+
+        [BindProperty]
         public PassengerModel NewPassengerModel { get; set; }
 
         public void OnGet()
@@ -33,34 +36,34 @@ namespace ShriGo.Pages
             // ======================================================
             // DRIVER / ADMIN LOGIN
             // ======================================================
-
-            var user = _dbContext.UserTb
+            var driver = _dbContext.DriversTb
                 .FirstOrDefault(x =>
-                    x.UserEmail == InputEmail);
+                    x.DriverEmail == InputEmail
+                    || x.DriverContact == InputEmail);
 
-            if (user != null)
+            if (driver != null)
             {
                 bool loginSuccess = false;
 
                 // HASHED PASSWORD
-                if (passwordHelper.IsHashed(user.UserPswd))
+                if (passwordHelper.IsHashed(driver.DriverPswd))
                 {
                     loginSuccess =
                         passwordHelper.VerifyPassword(
-                            user.UserPswd,
+                            driver.DriverPswd,
                             InputPswd);
                 }
                 else
                 {
                     // OLD PLAIN TEXT PASSWORD
 
-                    if (user.UserPswd == InputPswd)
+                    if (driver.DriverPswd == InputPswd)
                     {
                         loginSuccess = true;
 
                         // AUTO CONVERT TO HASH
 
-                        user.UserPswd =
+                        driver.DriverPswd =
                             passwordHelper.HashPassword(
                                 InputPswd);
 
@@ -74,31 +77,31 @@ namespace ShriGo.Pages
 
                     HttpContext.Session.SetString(
                         "session_UserName",
-                        user.UserFirstName);
+                        driver.DriverFirstName);
 
                     HttpContext.Session.SetString(
-                        "session_UserUniqueId",
-                        user.UserUniqueId);
+                        "session_DriverUniqueId",
+                        driver.DriverUniqueId);
 
                     HttpContext.Session.SetString(
-                        "session_UserContact",
-                        user.UserContact);
+                        "session_DriverContact",
+                        driver.DriverContact);
 
                     HttpContext.Session.SetString(
-                        "session_UserEmail",
-                        user.UserEmail);
+                        "session_DriverEmail",
+                        driver.DriverEmail);
 
                     HttpContext.Session.SetString(
-                        "session_UserRole",
-                        user.UserRole);
+                        "session_DriverRole",
+                        driver.DriverRole);
 
-                    if (user.UserRole == "Driver")
+                    if (driver.DriverRole == "Driver")
                     {
                         return RedirectToPage(
                             "/RiderProfile");
                     }
 
-                    if (user.UserRole == "Admin")
+                    if (driver.DriverRole == "Admin")
                     {
                         return RedirectToPage(
                             "/Admin/AdminDashboard");
@@ -160,15 +163,15 @@ namespace ShriGo.Pages
                         passenger.PassengerFirstName);
 
                     HttpContext.Session.SetString(
-                        "session_UserUniqueId",
+                        "session_DriverUniqueId",
                         passenger.PassengerUniqueId);
 
                     HttpContext.Session.SetString(
-                        "session_UserContact",
+                        "session_DriverContact",
                         passenger.PassengerContact);
 
                     HttpContext.Session.SetString(
-                        "session_UserEmail",
+                        "session_DriverEmail",
                         passenger.PassengerEmail);
 
                     HttpContext.Session.SetString(

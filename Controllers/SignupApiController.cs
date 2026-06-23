@@ -34,14 +34,14 @@ namespace ShriGo.Controllers
                 // DRIVER SIGNUP
                 //----------------------------------
 
-                if (request.UserRole == "Driver")
+                if (request.DriverRole == "Driver")
                 {
                     if (
                         string.IsNullOrWhiteSpace(
-                            request.UserPswd
+                            request.DriverPswd
                         )
                         ||
-                        request.UserPswd.Length < 8
+                        request.DriverPswd.Length < 8
                     )
                     {
                         return BadRequest(
@@ -55,10 +55,10 @@ namespace ShriGo.Controllers
                     }
 
                     var existingDriver =
-                        _dbContext.UserTb
+                        _dbContext.DriversTb
                         .Any(x =>
-                            x.UserContact ==
-                            request.UserContact
+                            x.DriverContact ==
+                            request.DriverContact
                         );
 
                     if (existingDriver)
@@ -75,39 +75,39 @@ namespace ShriGo.Controllers
 
                     var passwordHelper =
                         new PasswordHelper();
-                    var nextUserId =
-                            _dbContext.UserTb.Any()
+                    var nextDriverId =
+                            _dbContext.DriversTb.Any()
                             ?
-                            _dbContext.UserTb
-                                .Max(x => x.UserId) + 1
+                            _dbContext.DriversTb
+                                .Max(x => x.DriverId) + 1
                             :
                             1;
                     var driver =
-                        new UserModel
+                        new DriverModel
                         {
-                            UserId = nextUserId,
-                            UserFirstName =
-                                request.UserFirstName,
+                            DriverId = nextDriverId,
+                            DriverFirstName =
+                                request.DriverFirstName,
 
-                            UserLastName =
-                                request.UserLastName,
+                            DriverLastName =
+                                request.DriverLastName,
 
-                            UserAge =
-                                request.UserAge,
+                            DriverAge =
+                                request.DriverAge,
 
-                            UserEmail =
-                                request.UserEmail,
+                            DriverEmail =
+                                request.DriverEmail,
 
-                            UserContact =
-                                request.UserContact,
+                            DriverContact =
+                                request.DriverContact,
 
-                            UserPswd =
+                            DriverPswd =
                                 passwordHelper
                                 .HashPassword(
-                                    request.UserPswd
+                                    request.DriverPswd
                                 ),
 
-                            UserRole =
+                            DriverRole =
                                 "Driver",
 
                             Subscription =
@@ -125,17 +125,17 @@ namespace ShriGo.Controllers
                             AcceptedTerms =
                                 true,
 
-                            UserUniqueId =
+                            DriverUniqueId =
                                 _random.Next(
                                     10000,
                                     100000
                                 ).ToString(),
 
-                            UserRegDate =
+                            DriverRegDate =
                                 TimeHelper.GetIndiaDate()
                         };
 
-                    _dbContext.UserTb
+                    _dbContext.DriversTb
                         .Add(driver);
 
                     _dbContext.SaveChanges();
