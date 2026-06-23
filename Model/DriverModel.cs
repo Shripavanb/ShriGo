@@ -26,6 +26,8 @@ namespace ShriGo.Model
 
         public string? DriverPswd { get; set; }
 
+        public string? DriverAadharNo { get; set; }
+
         public string? DriverRole { get; set; }
 
         public string? Subscription { get; set; }
