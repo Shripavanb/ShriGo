@@ -22,13 +22,13 @@ namespace ShriGo.Controllers
         }
 
         [HttpGet(
-            "{userId}/{role}"
+            "{DriverId}/{role}"
         )]
 
         public async Task<IActionResult>
             GetProfile(
 
-            int userId,
+            int DriverId,
             string role
         )
         {
@@ -57,12 +57,12 @@ namespace ShriGo.Controllers
 
                 var driver =
                     await _context
-                    .UserTb
+                    .DriversTb
                     .FirstOrDefaultAsync(
 
                         x =>
-                        x.UserId ==
-                        userId
+                        x.DriverId ==
+                        DriverId
                     );
 
                 if (
@@ -82,32 +82,32 @@ namespace ShriGo.Controllers
                     new
                     {
                         userId =
-                            driver.UserId,
+                            driver.DriverId,
 
                         uniqueId =
-                            driver.UserUniqueId,
+                            driver.DriverUniqueId,
 
                         firstName =
-                            driver.UserFirstName,
+                            driver.DriverFirstName,
 
                         lastName =
-                            driver.UserLastName,
+                            driver.DriverLastName,
 
                         age =
-                            driver.UserAge,
+                            driver.DriverAge,
 
                         email =
-                            driver.UserEmail,
+                            driver.DriverEmail,
 
                         phone =
-                            driver.UserContact,
+                            driver.DriverContact,
 
                         role =
-                            driver.UserRole,
+                            driver.DriverRole,
 
                         imagePath =
                             driver
-                                .UserImagePath,
+                                .DriverImagePath,
 
                         vehicleModel =
                             driver
@@ -149,7 +149,7 @@ namespace ShriGo.Controllers
 
                         x =>
                         x.PassengerId ==
-                        userId
+                        DriverId
                     );
 
                 if (

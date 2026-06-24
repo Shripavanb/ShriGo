@@ -24,19 +24,19 @@
         // Driver
         //----------------------------------
 
-        public string? UserFirstName { get; set; }
+        public string? DriverFirstName { get; set; }
 
-        public string? UserLastName { get; set; }
+        public string? DriverLastName { get; set; }
 
-        public string? UserAge { get; set; }
+        public string? DriverAge { get; set; }
 
-        public string? UserEmail { get; set; }
+        public string? DriverEmail { get; set; }
 
-        public string? UserContact { get; set; }
+        public string? DriverContact { get; set; }
 
-        public string? UserPswd { get; set; }
+        public string? DriverPswd { get; set; }
 
-        public string? UserRole { get; set; }
+        public string? DriverRole { get; set; }
 
         public string? Subscription { get; set; }
 

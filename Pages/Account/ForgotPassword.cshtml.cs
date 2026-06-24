@@ -31,8 +31,8 @@ namespace ShriGo.Pages
             // FIND USER OR PASSENGER
             // ======================================================
 
-            var user = _dbContext.UserTb
-                .FirstOrDefault(x => x.UserEmail == Email);
+            var user = _dbContext.DriversTb
+                .FirstOrDefault(x => x.DriverEmail == Email);
 
             var passenger = _dbContext.PassengerTb
                 .FirstOrDefault(x => x.PassengerEmail == Email);

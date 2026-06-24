@@ -159,7 +159,7 @@ public class BookingApiController : ControllerBase
             NotificationModel notification =
                 new NotificationModel
                 {
-                    UserUniqueId = booking.DriverUniqueId,
+                    DriverUniqueId = booking.DriverUniqueId,
 
                     Title = "New Ride Booking",
 

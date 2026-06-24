@@ -30,15 +30,15 @@ namespace ShriGo.Controllers
             // DRIVER LOGIN
             // ==========================
 
-            var user = await _context.UserTb
+            var user = await _context.DriversTb
                 .FirstOrDefaultAsync(x =>
 
-                    x.UserEmail ==
+                    x.DriverEmail ==
                     request.EmailOrPhone
 
                     ||
 
-                    x.UserContact ==
+                    x.DriverContact ==
                     request.EmailOrPhone
                 );
 
@@ -49,14 +49,14 @@ namespace ShriGo.Controllers
                 // HASHED PASSWORD
                 if (
                     passwordHelper.IsHashed(
-                        user.UserPswd
+                        user.DriverPswd
                     )
                 )
                 {
                     loginSuccess =
                         passwordHelper
                         .VerifyPassword(
-                            user.UserPswd,
+                            user.DriverPswd,
                             request.Password
                         );
                 }
@@ -64,7 +64,7 @@ namespace ShriGo.Controllers
                 {
                     // OLD PASSWORD SUPPORT
                     loginSuccess =
-                        user.UserPswd ==
+                        user.DriverPswd ==
                         request.Password;
                 }
 
@@ -76,25 +76,25 @@ namespace ShriGo.Controllers
                         loginType = "Driver",
 
                         userId =
-                            user.UserId,
+                            user.DriverId,
 
                         uniqueId =
-                            user.UserUniqueId,
+                            user.DriverUniqueId,
 
                         firstName =
-                            user.UserFirstName,
+                            user.DriverFirstName,
 
                         lastName =
-                            user.UserLastName,
+                            user.DriverLastName,
 
                         phone =
-                            user.UserContact,
+                            user.DriverContact,
 
                         email =
-                            user.UserEmail,
+                            user.DriverEmail,
 
                         role =
-                            user.UserRole
+                            user.DriverRole
                     });
                 }
             }

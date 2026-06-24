@@ -36,11 +36,11 @@ namespace ShriGo.Pages.Passengers
             string? session_UserName =
                 HttpContext.Session.GetString("session_UserName");
 
-            string? session_UserUniqueId =
-                HttpContext.Session.GetString("session_UserUniqueId");
+            string? session_DriverUniqueId =
+                HttpContext.Session.GetString("session_DriverUniqueId");
 
             if (string.IsNullOrEmpty(session_UserName) ||
-                string.IsNullOrEmpty(session_UserUniqueId))
+                string.IsNullOrEmpty(session_DriverUniqueId))
             {
                 return;
             }
@@ -52,7 +52,7 @@ namespace ShriGo.Pages.Passengers
 
             // Passenger Bookings
             only_PassengerBookings = await _dbContext.Bookings_DBTable
-                .Where(b => b.PassengerUniqueId == session_UserUniqueId)
+                .Where(b => b.PassengerUniqueId == session_DriverUniqueId)
                 .OrderByDescending(b => b.BookingId)
                 .ToListAsync();
         }
@@ -60,10 +60,10 @@ namespace ShriGo.Pages.Passengers
         // Upload Passenger Profile Photo
         public async Task<IActionResult> OnPostUploadPhotoAsync()
         {
-            string? session_UserUniqueId =
-                HttpContext.Session.GetString("session_UserUniqueId");
+            string? session_DriverUniqueId =
+                HttpContext.Session.GetString("session_DriverUniqueId");
 
-            if (string.IsNullOrEmpty(session_UserUniqueId))
+            if (string.IsNullOrEmpty(session_DriverUniqueId))
             {
                 TempData["Error"] = "Session expired.";
                 return RedirectToPage();
@@ -106,7 +106,7 @@ namespace ShriGo.Pages.Passengers
             // Find Passenger
             var passenger = await _dbContext.PassengerTb
                 .FirstOrDefaultAsync(p =>
-                    p.PassengerUniqueId == session_UserUniqueId);
+                    p.PassengerUniqueId == session_DriverUniqueId);
 
             if (passenger == null)
             {
@@ -168,10 +168,10 @@ namespace ShriGo.Pages.Passengers
         // Allows Passenger To Delete Booking
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
-            string? session_UserUniqueId =
-                HttpContext.Session.GetString("session_UserUniqueId");
+            string? session_DriverUniqueId =
+                HttpContext.Session.GetString("session_DriverUniqueId");
 
-            if (string.IsNullOrEmpty(session_UserUniqueId))
+            if (string.IsNullOrEmpty(session_DriverUniqueId))
             {
                 TempData["Error"] = "Session expired.";
                 return RedirectToPage();
@@ -181,7 +181,7 @@ namespace ShriGo.Pages.Passengers
             var rowToDelete = await _dbContext.Bookings_DBTable
                 .FirstOrDefaultAsync(b =>
                     b.BookingId == id &&
-                    b.PassengerUniqueId == session_UserUniqueId);
+                    b.PassengerUniqueId == session_DriverUniqueId);
 
             if (rowToDelete == null)
             {

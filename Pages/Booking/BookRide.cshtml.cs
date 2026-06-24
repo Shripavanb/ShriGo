@@ -44,7 +44,7 @@ namespace ShriGo.Pages.Booking
         private readonly EmailService _emailService;
 
         [BindProperty]
-        public string UserEmail { get; set; }
+        public string DriverEmail { get; set; }
         [BindProperty]
         public string Message { get; set; }
 
@@ -79,9 +79,9 @@ namespace ShriGo.Pages.Booking
             var rideSelected = await _dbContext.Ride_DBTable.FirstOrDefaultAsync(e => e.RideId==id);
 
             string session_userName = HttpContext.Session.GetString("session_UserName");
-            string session_UserUniqueId = HttpContext.Session.GetString("session_UserUniqueId");
-            string session_UserContact = HttpContext.Session.GetString("session_UserContact");
-            string session_UserEmail = HttpContext.Session.GetString("session_UserEmail");
+            string session_DriverUniqueId = HttpContext.Session.GetString("session_DriverUniqueId");
+            string session_DriverContact = HttpContext.Session.GetString("session_DriverContact");
+            string session_DriverEmail = HttpContext.Session.GetString("session_DriverEmail");
 
             if (session_userName == "Guest"||session_userName ==null)
             {
@@ -133,9 +133,9 @@ namespace ShriGo.Pages.Booking
                     bookedRideModel.DriverFirstName =rideSelected.DriverFirstName;
 
                     bookedRideModel.PassengerFirstName=session_userName;
-                    bookedRideModel.PassengerUniqueId =session_UserUniqueId;
-                    bookedRideModel.PassengerContact =session_UserContact;
-                    bookedRideModel.PassengerEmail = session_UserEmail;
+                    bookedRideModel.PassengerUniqueId =session_DriverUniqueId;
+                    bookedRideModel.PassengerContact =session_DriverContact;
+                    bookedRideModel.PassengerEmail = session_DriverEmail;
                     //store booked ride into db further use
                     _dbContext.Bookings_DBTable.Add(bookedRideModel);
 
@@ -147,7 +147,7 @@ namespace ShriGo.Pages.Booking
                         new NotificationModel
                         {
 
-                            UserUniqueId = rideSelected.DriverUniqueId,
+                            DriverUniqueId = rideSelected.DriverUniqueId,
 
 
                             Title = "New Ride Booking",
@@ -199,7 +199,7 @@ namespace ShriGo.Pages.Booking
                     sb.Append("</ul>");
                     string emailBody = sb.ToString();
                     OnPostSendMailAsync(bookedRideModel.PassengerEmail,"ShriGo Booking Confirmation", emailBody);
-                    //SendSms(bookedRideModel.UserContact, "RideBooked Sucessfully");
+                    //SendSms(bookedRideModel.DriverContact, "RideBooked Sucessfully");
 
                     return RedirectToPage("/Passengers/PassengerProfile");
                 }

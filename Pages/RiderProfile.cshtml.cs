@@ -11,7 +11,7 @@ namespace ShriGo.Pages
         private readonly IWebHostEnvironment _environment;
 
         // Active User
-        public List<UserModel> activeUser { get; set; } = new();
+        public List<DriverModel> activeUser { get; set; } = new();
 
         // Driver Rides
         public List<SortedRideModel> only_DriverRides { get; set; } = new();
@@ -37,23 +37,23 @@ namespace ShriGo.Pages
             string? session_UserName =
                 HttpContext.Session.GetString("session_UserName");
 
-            string? session_UserUniqueId =
-                HttpContext.Session.GetString("session_UserUniqueId");
+            string? session_DriverUniqueId =
+                HttpContext.Session.GetString("session_DriverUniqueId");
 
             if (string.IsNullOrEmpty(session_UserName) ||
-                string.IsNullOrEmpty(session_UserUniqueId))
+                string.IsNullOrEmpty(session_DriverUniqueId))
             {
                 return;
             }
 
             // Active User
-            activeUser = await _dbContext.UserTb
-                .Where(u => u.UserFirstName == session_UserName)
+            activeUser = await _dbContext.DriversTb
+                .Where(u => u.DriverFirstName == session_UserName)
                 .ToListAsync();
 
             // Driver Rides
             only_DriverRides = await _dbContext.Ride_DBTable
-                .Where(r => r.DriverUniqueId == session_UserUniqueId)
+                .Where(r => r.DriverUniqueId == session_DriverUniqueId)
                 .OrderByDescending(r => r.RideId)
                 .ToListAsync();
         }
@@ -61,10 +61,10 @@ namespace ShriGo.Pages
         // Upload Profile Photo
         public async Task<IActionResult> OnPostUploadPhotoAsync()
         {
-            string? session_UserUniqueId =
-                HttpContext.Session.GetString("session_UserUniqueId");
+            string? session_DriverUniqueId =
+                HttpContext.Session.GetString("session_DriverUniqueId");
 
-            if (string.IsNullOrEmpty(session_UserUniqueId))
+            if (string.IsNullOrEmpty(session_DriverUniqueId))
             {
                 TempData["Error"] = "Session expired.";
                 return RedirectToPage();
@@ -105,9 +105,9 @@ namespace ShriGo.Pages
             }
 
             // Find User
-            var user = await _dbContext.UserTb
+            var user = await _dbContext.DriversTb
                 .FirstOrDefaultAsync(u =>
-                    u.UserUniqueId == session_UserUniqueId);
+                    u.DriverUniqueId == session_DriverUniqueId);
 
             if (user == null)
             {
@@ -142,11 +142,11 @@ namespace ShriGo.Pages
             }
 
             // Delete Old Image
-            if (!string.IsNullOrEmpty(user.UserImagePath))
+            if (!string.IsNullOrEmpty(user.DriverImagePath))
             {
                 var oldImagePath = Path.Combine(
                     _environment.WebRootPath,
-                    user.UserImagePath.TrimStart('/'));
+                    user.DriverImagePath.TrimStart('/'));
 
                 if (System.IO.File.Exists(oldImagePath))
                 {
@@ -155,7 +155,7 @@ namespace ShriGo.Pages
             }
 
             // Save Path To Database
-            user.UserImagePath =
+            user.DriverImagePath =
                 $"/img/drivers/{uniqueFileName}";
 
             await _dbContext.SaveChangesAsync();
@@ -169,10 +169,10 @@ namespace ShriGo.Pages
         // Delete Driver Ride
         public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
-            string? session_UserUniqueId =
-                HttpContext.Session.GetString("session_UserUniqueId");
+            string? session_DriverUniqueId =
+                HttpContext.Session.GetString("session_DriverUniqueId");
 
-            if (string.IsNullOrEmpty(session_UserUniqueId))
+            if (string.IsNullOrEmpty(session_DriverUniqueId))
             {
                 TempData["Error"] = "Session expired.";
                 return RedirectToPage();
@@ -182,7 +182,7 @@ namespace ShriGo.Pages
             var rowToDelete = await _dbContext.Ride_DBTable
                 .FirstOrDefaultAsync(r =>
                     r.RideId == id &&
-                    r.DriverUniqueId == session_UserUniqueId);
+                    r.DriverUniqueId == session_DriverUniqueId);
 
             if (rowToDelete == null)
             {
