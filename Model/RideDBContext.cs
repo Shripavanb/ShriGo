@@ -13,8 +13,7 @@ namespace ShriGo.Model
 
         public DbSet<UserModel> UserTb { get; set; }
         public DbSet<DriverModel> DriversTb { get; set; }
-        public DbSet<BookedRideModel> BookedRide_DBTable { get; set; }
-
+       
         public DbSet<BookingsModel> Bookings_DBTable { get; set; }
 
         public DbSet<PassengerModel> PassengerTb { get; set; }
