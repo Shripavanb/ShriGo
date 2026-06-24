@@ -81,7 +81,7 @@ namespace ShriGo.Controllers
                 return Ok(
                     new
                     {
-                        DriverId =
+                        userId =
                             driver.DriverId,
 
                         uniqueId =
@@ -169,7 +169,7 @@ namespace ShriGo.Controllers
                 return Ok(
                     new
                     {
-                        DriverId =
+                        userId =
                             passenger
                                 .PassengerId,
 

@@ -75,7 +75,7 @@ namespace ShriGo.Controllers
                         success = true,
                         loginType = "Driver",
 
-                        DriverId =
+                        userId =
                             user.DriverId,
 
                         uniqueId =
@@ -148,7 +148,7 @@ namespace ShriGo.Controllers
                         loginType =
                             "Passenger",
 
-                        DriverId =
+                        userId =
                             passenger.PassengerId,
 
                         uniqueId =
