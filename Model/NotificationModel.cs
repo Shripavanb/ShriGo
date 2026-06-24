@@ -9,7 +9,7 @@ namespace ShriGo.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int NotificationId { get; set; }
 
-        public string? DriverUniqueId { get; set; }
+        public string? UserUniqueId { get; set; }
 
         public string? Title { get; set; }
 
