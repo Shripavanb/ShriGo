@@ -147,7 +147,7 @@ namespace ShriGo.Pages.Booking
                         new NotificationModel
                         {
 
-                            DriverUniqueId = rideSelected.DriverUniqueId,
+                            UserUniqueId = rideSelected.DriverUniqueId,
 
 
                             Title = "New Ride Booking",
@@ -173,7 +173,42 @@ namespace ShriGo.Pages.Booking
                         };
                 
                     _dbContext.NotificationTb.Add(notification);
-     
+
+                    //-----------------------------------------
+                    //passengerNotification
+                    //-----------------------------------------
+                    NotificationModel passengerNotification =
+                        new NotificationModel
+                        {
+                            UserUniqueId =
+                                bookedRideModel.PassengerUniqueId,
+
+                            Title =
+                                "Booking Confirmed",
+
+                            Message =
+                                "Your booking for "
+                                + bookedRideModel.RideSource
+                                + " → "
+                                + bookedRideModel.RideDesti
+                                + " on "
+                                + bookedRideModel.RideDate
+                                + " at "
+                                + rideTime
+                                + " has been confirmed.",
+
+                            NotificationType =
+                                "Booking",
+
+                            IsRead =
+                                false,
+
+                            CreatedDate =
+                                DateTime.Now
+                        };
+
+                    _dbContext.NotificationTb.Add(passengerNotification);
+
                     list_BookingsModel.Add(bookedRideModel);// For Email Body
                     await _dbContext.SaveChangesAsync();
 

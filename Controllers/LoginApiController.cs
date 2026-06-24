@@ -70,6 +70,8 @@ namespace ShriGo.Controllers
 
                 if (loginSuccess)
                 {
+                    Console.WriteLine(
+                          $"DRIVER LOGIN SUCCESS: {user.DriverEmail}");
                     return Ok(new
                     {
                         success = true,
@@ -142,6 +144,8 @@ namespace ShriGo.Controllers
 
                 if (loginSuccess)
                 {
+                    Console.WriteLine(
+                        $"PASSENGER LOGIN SUCCESS: {passenger.PassengerEmail}");
                     return Ok(new
                     {
                         success = true,
@@ -171,7 +175,8 @@ namespace ShriGo.Controllers
                     });
                 }
             }
-
+            Console.WriteLine(
+                $"LOGIN FAILED: {request.EmailOrPhone}");
             return Unauthorized(new
             {
                 success = false,
