@@ -15,6 +15,10 @@ namespace ShriGo.Controllers
             _dbContext = dbContext;
         }
 
+
+        //---------------------------------
+        //Get Notifications
+        //---------------------------------
         [HttpGet("{UserUniqueId}")]
         public async Task<IActionResult> GetNotifications(
     string UserUniqueId)
@@ -26,7 +30,9 @@ namespace ShriGo.Controllers
 
             return Ok(notifications);
         }
-
+        //---------------------------------
+        //Get Notification Count
+        //---------------------------------
         [HttpGet("count/{UserUniqueId}")]
         public async Task<IActionResult> GetNotificationCount(
             string UserUniqueId)
@@ -39,6 +45,43 @@ namespace ShriGo.Controllers
             return Ok(new
             {
                 count
+            });
+        }
+
+        //---------------------------------
+        //Mark all as Read 
+        //---------------------------------
+        [HttpPost("markallread/{UserUniqueId}")]
+
+        public async Task<IActionResult> MarkAllRead(
+    string UserUniqueId)
+        {
+            var notifications = await _dbContext.NotificationTb
+                .Where(x =>
+                    x.UserUniqueId == UserUniqueId &&
+                    !x.IsRead)
+                .ToListAsync();
+
+            if (!notifications.Any())
+            {
+                return Ok(new
+                {
+                    success = true,
+                    message = "No unread notifications."
+                });
+            }
+
+            foreach (var notification in notifications)
+            {
+                notification.IsRead = true;
+            }
+
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(new
+            {
+                success = true,
+                message = "Notifications marked as read."
             });
         }
     }
