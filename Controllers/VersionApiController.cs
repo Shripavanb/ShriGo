@@ -7,19 +7,29 @@ namespace ShriGo.Controllers
     [Route("api/[controller]")]
     public class VersionApiController : ControllerBase
     {
+        private readonly RideDBContext _dBContext;
+
+        public VersionApiController(
+            RideDBContext context
+        )
+        {
+            _dBContext = context;
+        }
+
         [HttpGet("Latest")]
         public IActionResult GetLatestVersion()
         {
-            VersionModel version = new VersionModel
-            {
-                LatestVersion = "20.3.0",
-                MinimumVersion = "20.2.9",
-                ForceUpdate = false,
-                Message = "A new version of ShriGo is available.",
-                PlayStoreUrl = "https://play.google.com/store/apps/details?id=in.shrigo.app"
-            };
+            var configuration = _dBContext.AppConfigurationTb
+                .FirstOrDefault(x => x.IsActive);
 
-            return Ok(version);
+            if (configuration == null)
+                return NotFound(new
+                {
+                    Success = false,
+                    Message = "Application configuration not found."
+                });
+
+            return Ok(configuration);
         }
     }
 }

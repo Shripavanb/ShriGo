@@ -21,6 +21,10 @@ namespace ShriGo.Model
         //--Notification-------------
         public DbSet<NotificationModel> NotificationTb { get; set; }
 
+
+        //--AppConfiguration Tanle and Model-------------
+        public DbSet<AppConfigurationModel> AppConfigurationTb { get; set; }
+
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    //Auto increment of ID 
