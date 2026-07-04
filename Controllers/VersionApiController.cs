@@ -7,15 +7,29 @@ namespace ShriGo.Controllers
     [Route("api/[controller]")]
     public class VersionApiController : ControllerBase
     {
-     [HttpGet("Latest")]
-		public IActionResult GetLatestVersion()
-		{
-			var version = _context.VersionTb.FirstOrDefault();
+        private readonly RideDBContext _dBContext;
 
-			if (version == null)
-				return NotFound();
+        public VersionApiController(
+            RideDBContext context
+        )
+        {
+            _dBContext = context;
+        }
 
-			return Ok(version);
-		}
+        [HttpGet("Latest")]
+        public IActionResult GetLatestVersion()
+        {
+            var configuration = _dBContext.AppConfigurationTb
+                .FirstOrDefault(x => x.IsActive);
+
+            if (configuration == null)
+                return NotFound(new
+                {
+                    Success = false,
+                    Message = "Application configuration not found."
+                });
+
+            return Ok(configuration);
+        }
     }
 }
