@@ -85,18 +85,11 @@ namespace ShriGo.Controllers
 
                     var passwordHelper =
                         new PasswordHelper();
-                    var nextDriverId =
-                            _dbContext.DriversTb.Any()
-                            ?
-                            _dbContext.DriversTb
-                                .Max(x => x.DriverId) + 1
-                            :
-                            1;
+
                     var driver =
                         new DriverModel
                         {
-                            DriverId = nextDriverId,
-                            DriverFirstName =
+                           DriverFirstName =
                                 request.DriverFirstName,
 
                             DriverLastName =
@@ -203,18 +196,11 @@ namespace ShriGo.Controllers
 
                 var passengerPasswordHelper =
                     new PasswordHelper();
-                var nextPassengerId =
-                        _dbContext.PassengerTb.Any()
-                        ?
-                        _dbContext.PassengerTb
-                            .Max(x => x.PassengerId) + 1
-                        :
-                        1;
+
                 var passenger =
                     new PassengerModel
                     {
-                        PassengerId =
-                            nextPassengerId,
+       
                         PassengerFirstName =
                             request.PassengerFirstName,
 
