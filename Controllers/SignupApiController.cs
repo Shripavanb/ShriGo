@@ -28,6 +28,16 @@ namespace ShriGo.Controllers
             SignupRequest request
         )
         {
+            Console.WriteLine("===== DRIVER REQUEST =====");
+            Console.WriteLine($"DriverRole      : {request.DriverRole}");
+            Console.WriteLine($"DriverFirstName : {request.DriverFirstName}");
+            Console.WriteLine($"DriverContact   : {request.DriverContact}");
+            Console.WriteLine($"DriverPswd      : {request.DriverPswd}");
+
+            Console.WriteLine("===== PASSENGER REQUEST =====");
+            Console.WriteLine($"Role            : {request.Role}");
+            Console.WriteLine($"PassengerContact: {request.PassengerContact}");
+            Console.WriteLine($"PassengerPswd   : {request.PassengerPswd}");
             try
             {
                 //----------------------------------
