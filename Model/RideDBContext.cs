@@ -25,6 +25,11 @@ namespace ShriGo.Model
         //--AppConfiguration Tanle and Model-------------
         public DbSet<AppConfigurationModel> AppConfigurationTb { get; set; }
 
+
+        public DbSet<FavoriteRouteModel> FavoriteRoutesTb { get; set; }
+
+
+
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    //Auto increment of ID 
