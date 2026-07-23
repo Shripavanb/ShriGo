@@ -34,22 +34,32 @@ namespace ShriGo.Controllers
                         message = "Favorite Route already exists."
                     });
                 }
-                FavoriteRouteModel favorite =
-                        new FavoriteRouteModel
-                        {
-                            DriverUniqueId = request.DriverUniqueId,
-                            RouteName = request.RouteName,
-                            RideFrom = request.RideFrom,
-                            RideVia = request.RideVia,
-                            RideTo = request.RideTo,
-                            RideTime = request.RideTime,
-                            RidePrice = request.RidePrice,
-                            RideSeats = request.RideSeats,
-                            IsActive = true,
-                            CreatedDate = DateTime.Now
-                        };
+                FavoriteRouteModel favorite = new FavoriteRouteModel
+                {
+                    FavoriteName = request.FavoriteName,
 
-                    _dBContext.FavoriteRoutesTb.Add(favorite);
+                    DriverUniqueId = request.DriverUniqueId,
+
+                    RouteName = request.RouteName,
+
+                    RideFrom = request.RideFrom,
+
+                    RideVia = request.RideVia,
+
+                    RideTo = request.RideTo,
+
+                    RideTime = request.RideTime,
+
+                    RidePrice = request.RidePrice,
+
+                    RideSeats = request.RideSeats,
+
+                    IsActive = true,
+
+                    CreatedDate = DateTime.Now
+                };
+
+                _dBContext.FavoriteRoutesTb.Add(favorite);
 
                     await _dBContext.SaveChangesAsync();
 
@@ -65,7 +75,8 @@ namespace ShriGo.Controllers
                 return BadRequest(new
                 {
                     success = false,
-                    message = ex.Message
+                    message = ex.Message,
+                    inner = ex.InnerException?.Message
                 });
             }
         }
