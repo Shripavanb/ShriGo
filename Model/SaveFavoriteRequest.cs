@@ -4,6 +4,8 @@
     {
         public string DriverUniqueId { get; set; }
 
+        public string FavoriteName { get; set; }   // <-- Add this
+
         public string RouteName { get; set; }
 
         public string RideFrom { get; set; }
