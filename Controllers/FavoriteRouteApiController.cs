@@ -221,5 +221,36 @@ namespace ShriGo.Controllers
                 });
             
         }
+
+        // Get Favorite By Id
+        [HttpGet("GetFavoriteById/{id}")]
+        public async Task<IActionResult> GetFavoriteById(int id)
+        {
+            try
+            {
+                var favorite = await _dBContext.FavoriteRoutesTb
+                    .FirstOrDefaultAsync(x =>
+                        x.Id == id &&
+                        x.IsActive);
+
+                if (favorite == null)
+                {
+                    return NotFound(new
+                    {
+                        success = false,
+                        message = "Favorite Route not found."
+                    });
+                }
+
+                return Ok(favorite);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(
+                    500,
+                    ex.InnerException?.Message ?? ex.Message
+                );
+            }
+        }
     }
 }
